@@ -3,22 +3,19 @@ package com.odian.moviesearch.model;
 import jakarta.persistence.*;
 
 import java.time.Instant;
-import java.util.List;
 
 @Entity
-@Table(name = "countries")
-public class Country {
+@Table(name = "movie_scores")
+public class MovieScore {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String name;
-    @ManyToMany(mappedBy = "filmedAt")
-    private List<Movie> movies;
-    @OneToMany(mappedBy = "country")
-    private List<Person> persons;
+    private Long id;
+    private Float score;
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "updated_at")
     private Instant updatedAt;
-
 }

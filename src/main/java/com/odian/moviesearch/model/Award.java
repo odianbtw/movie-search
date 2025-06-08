@@ -15,6 +15,11 @@ public class Award {
     private String description;
     @Column(name = "awarded_at")
     private LocalDate awardedAt;
+    @ManyToOne
+    @JoinTable(name = "movie_award",
+            joinColumns = @JoinColumn(name = "award_id"),
+            inverseJoinColumns = @JoinColumn(name = "movie_id"))
+    private Movie movie;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "updated_at")

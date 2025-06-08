@@ -12,11 +12,10 @@ create table if not exists movies (
     slogan varchar(1024) default '',
     description varchar(2048) default '',
     release_date date,
-    score float default 0.0,
     duration_time int,
     budget decimal(15,2) default 0.00,
     revenue decimal(15,2) default 0.00,
-    rating varchar(32) not null default '',
+    rating enum('G', 'PG', 'PG-13', 'R', 'NC-17', 'UNRATED') not null default 'UNRATED',
     created_at timestamp not null default current_timestamp,
     updated_at timestamp not null default current_timestamp,
     index idx_movies_name (name)
@@ -57,7 +56,7 @@ create table if not exists medias (
     id bigint auto_increment primary key,
     name varchar(255) not null,
     url varchar(255) not null unique,
-    media_type varchar(64) not null,
+    media_type enum('POSTER', 'AVATAR', 'THUMBNAIL', 'TRAILER', 'TEASER', 'LOGO', 'PHOTO') not null,
     created_at timestamp not null default current_timestamp,
     updated_at timestamp not null default current_timestamp
 );
@@ -69,6 +68,38 @@ create table if not exists awards (
     awarded_at date not null,
     created_at timestamp not null default current_timestamp,
     updated_at timestamp not null default current_timestamp
+);
+
+create table if not exists users (
+    id bigint auto_increment primary key,
+    name varchar(64) not null,
+    username varchar(64) not null unique,
+    password varchar(64) not null
+);
+
+create table if not exists reviews (
+    id bigint auto_increment primary key,
+    score float not null default 0.0,
+    message varchar(2048) default '',
+    user_id bigint not null,
+    movie_id bigint not null,
+    status ENUM('NEW', 'OLD') not null default 'NEW',
+    created_at timestamp not null default current_timestamp,
+    updated_at timestamp not null default current_timestamp,
+    foreign key (user_id) references users(id) on delete cascade,
+    foreign key (movie_id) references movies(id) on delete cascade,
+    index idx_reviews_movie (movie_id),
+    index idx_reviews_user (user_id)
+);
+
+create table if not exists movie_scores (
+    id bigint auto_increment primary key,
+    movie_id bigint not null,
+    score float not null default 0.0,
+    created_at timestamp not null default current_timestamp,
+    updated_at timestamp not null default current_timestamp,
+    foreign key (movie_id) references movies(id),
+    index idx_movie_scores_movie (movie_id)
 );
 
 create table if not exists movie_genre (
@@ -101,11 +132,11 @@ create table if not exists country_movie (
     foreign key (country_id) references countries(id) on delete cascade
 );
 
-create table if not exists movie_credit (
+create table if not exists movie_credits (
+    id bigint auto_increment primary key,
     person_id bigint not null,
     movie_id bigint not null,
-    role varchar(64) not null,
-    primary key (movie_id, person_id),
+    role enum('ACTOR', 'DIRECTOR', 'WRITER', 'COMPOSER', 'PRODUCER', 'CINEMATOGRAPHER', 'EDITOR') not null,
     index idx_mc_movie (movie_id),
     index idx_mc_person (person_id),
     foreign key (person_id) references persons(id) on delete cascade,
@@ -149,5 +180,6 @@ create table if not exists movie_award (
     foreign key (movie_id) references movies(id) on delete cascade,
     foreign key (award_id) references awards(id) on delete cascade
 );
+
 
 -- todo: reviews table
