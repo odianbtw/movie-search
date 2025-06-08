@@ -1,6 +1,5 @@
 package com.odian.moviesearch.model.enums;
 
-import com.odian.moviesearch.model.Genre;
 
 public enum GenreName {
     ACTION("Action"),
@@ -34,9 +33,9 @@ public enum GenreName {
         return name;
     }
 
-    public Genre toEntity() {
-        Genre genre = new Genre();
-        genre.setName(this.name);
-        return genre;
-    }
+//    public Genre toEntity() {
+//        Genre genre = new Genre();
+//        genre.setName(this.name);
+//        return genre;
+//    }
 }

@@ -1,3 +1,11 @@
+create table if not exists countries (
+    id int auto_increment primary key,
+    name varchar(255) not null unique,
+    index idx_countries_name (name),
+    created_at timestamp not null default current_timestamp,
+    updated_at timestamp not null default current_timestamp
+);
+
 create table if not exists movies (
     id bigint auto_increment primary key,
     name varchar(512) not null,
@@ -17,6 +25,7 @@ create table if not exists movies (
 create table if not exists genres (
     id int auto_increment primary key,
     name varchar(255) not null unique,
+    index idx_genres_name (name),
     created_at timestamp not null default current_timestamp,
     updated_at timestamp not null default current_timestamp
 );
@@ -29,6 +38,37 @@ create table if not exists production_studios (
     updated_at timestamp not null default current_timestamp,
     foreign key (country_id) references countries(id) on delete set null,
     index idx_studios_country (country_id)
+);
+
+create table if not exists persons (
+    id bigint auto_increment primary key,
+    name varchar(255) not null,
+    country_id int,
+    birth_date date,
+    biography varchar(2048) default '',
+    created_at timestamp not null default current_timestamp,
+    updated_at timestamp not null default current_timestamp,
+    foreign key (country_id) references countries(id) on delete set null,
+    index idx_persons_name (name),
+    index idx_persons_country (country_id)
+);
+
+create table if not exists medias (
+    id bigint auto_increment primary key,
+    name varchar(255) not null,
+    url varchar(255) not null unique,
+    media_type varchar(64) not null,
+    created_at timestamp not null default current_timestamp,
+    updated_at timestamp not null default current_timestamp
+);
+
+create table if not exists awards (
+    id int auto_increment primary key,
+    name varchar(64) not null unique,
+    description varchar(255) default '',
+    awarded_at date not null,
+    created_at timestamp not null default current_timestamp,
+    updated_at timestamp not null default current_timestamp
 );
 
 create table if not exists movie_genre (
@@ -47,15 +87,8 @@ create table if not exists production_studio_movie (
     primary key (movie_id, production_studio_id),
     index idx_psm_movie (movie_id),
     index idx_psm_studio (production_studio_id),
-    foreign key (movie_id)references movies(id) on delete cascade,
+    foreign key (movie_id) references movies(id) on delete cascade,
     foreign key (production_studio_id) references production_studios(id) on delete cascade
-);
-
-create table if not exists countries (
-    id int auto_increment primary key,
-    name varchar(255) not null unique,
-    created_at timestamp not null default current_timestamp,
-    updated_at timestamp not null default current_timestamp
 );
 
 create table if not exists country_movie (
@@ -64,22 +97,8 @@ create table if not exists country_movie (
     primary key (movie_id, country_id),
     index idx_cm_movie (movie_id),
     index idx_cm_country (country_id),
-    foreign key (movie_id)references movies(id) on delete cascade,
+    foreign key (movie_id) references movies(id) on delete cascade,
     foreign key (country_id) references countries(id) on delete cascade
-);
-
-
-create table if not exists persons (
-    id bigint auto_increment primary key,
-    name varchar(255) not null,
-    country_id int,
-    birth_date date,
-    biography varchar(2048) default '',
-    created_at timestamp not null default current_timestamp,
-    updated_at timestamp not null default current_timestamp,
-    foreign key (country_id) references countries(id) on delete set null,
-    index idx_persons_name (name),
-    index idx_persons_county (country_id)
 );
 
 create table if not exists movie_credit (
@@ -91,15 +110,6 @@ create table if not exists movie_credit (
     index idx_mc_person (person_id),
     foreign key (person_id) references persons(id) on delete cascade,
     foreign key (movie_id) references movies(id) on delete cascade
-);
-
-create table if not exists medias (
-    id bigint auto_increment primary key,
-    name varchar(255) not null,
-    url varchar(255) not null unique,
-    media_type varchar(64) not null,
-    created_at timestamp not null default current_timestamp,
-    updated_at timestamp not null default current_timestamp
 );
 
 create table if not exists movie_media (
@@ -117,32 +127,27 @@ create table if not exists person_media (
     media_id bigint not null,
     primary key (person_id, media_id),
     index idx_pm_person (person_id),
-    index idx_pm_media  (media_id),
+    index idx_pm_media (media_id),
     foreign key (person_id) references persons(id) on delete cascade,
     foreign key (media_id) references medias(id) on delete cascade
 );
 
-
 create table if not exists person_role (
     person_id bigint not null,
     role varchar(64) not null,
-    primary key (person_id),
+    primary key (person_id, role),
     index idx_pr_personid (person_id),
     foreign key (person_id) references persons(id) on delete cascade
 );
 
-create table if not exists awards (
-    id int auto_increment primary key,
-    name varchar(64) not null unique,
-    description varchar(255) default '',
-    awarded_at date not null,
-    created_at timestamp not null default current_timestamp,
-    updated_at timestamp not null default current_timestamp
-);
-
 create table if not exists movie_award (
     movie_id bigint not null,
-    award_id bigint not null,
+    award_id int not null,
+    primary key (movie_id, award_id),
+    index idx_ma_movie (movie_id),
+    index idx_ma_award (award_id),
     foreign key (movie_id) references movies(id) on delete cascade,
     foreign key (award_id) references awards(id) on delete cascade
 );
+
+-- todo: reviews table
