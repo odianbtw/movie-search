@@ -1,12 +1,18 @@
 package com.odian.moviesearch.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "awards")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Award {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,9 +22,7 @@ public class Award {
     @Column(name = "awarded_at")
     private LocalDate awardedAt;
     @ManyToOne
-    @JoinTable(name = "movie_award",
-            joinColumns = @JoinColumn(name = "award_id"),
-            inverseJoinColumns = @JoinColumn(name = "movie_id"))
+    @JoinColumn(name = "movie_id")
     private Movie movie;
     @Column(name = "created_at")
     private Instant createdAt;

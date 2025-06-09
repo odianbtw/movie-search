@@ -1,6 +1,9 @@
 package com.odian.moviesearch.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -8,6 +11,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "persons")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +21,7 @@ public class Person {
     private String name;
     @ManyToOne
     @JoinColumn(name = "country_id")
-    private Country birthPlace;
+    private Country country;
     @Column(name = "birth_date")
     private LocalDate birthDate;
     @ManyToMany

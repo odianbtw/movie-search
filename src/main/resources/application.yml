@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: movie-search
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/servlet_project
+    username: root
+    password: Test1234_
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true

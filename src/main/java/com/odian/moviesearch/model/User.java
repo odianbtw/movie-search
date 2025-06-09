@@ -9,17 +9,20 @@ import java.time.Instant;
 import java.util.List;
 
 @Entity
-@Table(name = "production_studios")
+@Table(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductionStudio {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String name;
-    @ManyToMany(mappedBy = "productionStudios")
-    private List<Movie> movies;
+    private String username;
+    private String email;
+    private String password;
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "updated_at")
