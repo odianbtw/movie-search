@@ -386,6 +386,27 @@ paths:
             type: integer
             format: int64
       responses:
+        '200':
+          description: Successfully operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MovieCredit'
+        '404':
+          description: Movie with this id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 
 
 
@@ -922,8 +943,40 @@ components:
           example: https://moviesearch.media/photos/brad_pitt.jpg
 
 
+    MovieCredit:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 432
+        person:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 242
+            name:
+              type: string
+              example: Brad Pitt
+            photoUrl:
+              type: string
+              format: uri
+              example: https://moviesearch.media/photos/brad_pitt.jpg
 
-
+        role:
+          type: string
+          default: ACTOR
+          enum:
+            - ACTOR
+            - DIRECTOR
+            - PRODUCER
+            - WRITER
+            - CINEMATOGRAPHER
+            - EDITOR
+            - COMPOSER
+          example: ACTOR
     PaginatedResponseBase:
       type: object
       properties:
