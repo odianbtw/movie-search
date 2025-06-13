@@ -1,4 +1,5 @@
 openapi: 3.1.0
+
 info:
   title: Movie Search
   description: This is OpenAPI specification for the Movie Search Project
@@ -14,7 +15,7 @@ tags:
     description: Access to all existing production studios
   - name: Movies
     description: Access to all existing movies
-  - name: Persons
+  - name: People
     description: Access to all people connected with movie industry
 
 paths:
@@ -62,7 +63,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /production-studios:
+  /studios:
     get:
       tags:
         - Production Studios
@@ -132,7 +133,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /production-studios/{studioId}:
+  /studios/{studioId}:
     get:
       tags:
         - Production Studios
@@ -201,6 +202,57 @@ paths:
                 $ref: '#/components/schemas/Error'
         '409':
           description: Production studio with this name already exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /studios/{studioId}/movies:
+    get:
+      tags:
+        - Production Studios
+      summary: Get all movies filmed by production studio.
+      description: Get all movies filmed by production studio.
+      operationId: getPStudioMovies
+      parameters:
+        - name: studioId
+          in: path
+          description: ID of studio to be searching for movies
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - $ref: '#/components/parameters/SizeParam'
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/SortParam'
+        - $ref: '#/components/parameters/OrderParam'
+        - $ref: '#/components/parameters/NameParam'
+        - $ref: '#/components/parameters/GenreParam'
+        - $ref: '#/components/parameters/ScoreFromParam'
+        - $ref: '#/components/parameters/ScoreToParam'
+        - $ref: '#/components/parameters/YearFromParam'
+        - $ref: '#/components/parameters/YearToParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginatedResponseBase'
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Movie'
+        '404':
+          description: Production studio with this id not found
           content:
             application/json:
               schema:
@@ -370,13 +422,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /movies/{movieId}/staff:
+  /movies/{movieId}/crew:
     get:
       tags:
         - Movies
-      summary: Get existing persons that participated in movie creation.
-      description: Get existing persons that participated in movie creation.
-      operationId: getMovieStuff
+      summary: Get existing people that participated in movie creation.
+      description: Get existing people that participated in movie creation.
+      operationId: getMovieCrew
       parameters:
         - name: movieId
           in: path
@@ -406,17 +458,144 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-
-
-
-
-  /persons:
+    post:
+      tags:
+        - Movies
+      summary: Add people to the crew of the movie.
+      description: Add people to the crew of the movie.
+      operationId: addCrewMember
+      parameters:
+        - name: movieId
+          in: path
+          description: ID of movie to add people
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/MovieCreditRequest'
+      responses:
+        '201':
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MovieCredit'
+        '404':
+          description: Movie with id not found or the person that suppose to be add to the movie crew doesn't exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Person with same role in the crew already exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /movies/{movieId}/awards:
     get:
       tags:
-        - Persons
-      summary: Get existing persons that connected to the movie industry.
-      description: Get existing persons that connected to the movie industry.
-      operationId: getAllPersons
+        - Movies
+      summary: Get existing awards that movie was awarded with.
+      description: Get existing awards that movie was awarded with.
+      operationId: getMovieAwards
+      parameters:
+        - name: movieId
+          in: path
+          description: ID of movie to find awards
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Award'
+        '404':
+          description: Movie with this id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - Movies
+      summary: Add new award to the movie.
+      description: Add new award to the movie.
+      operationId: addNewAwardToMovie
+      parameters:
+        - name: movieId
+          in: path
+          description: ID of movie to add award
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AwardRequest'
+      responses:
+        '201':
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Award'
+        '404':
+          description: Movie with id not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: The same award already exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /people:
+    get:
+      tags:
+        - People
+      summary: Get existing people that connected to the movie industry.
+      description: Get existing people that connected to the movie industry.
+      operationId: getAllPeople
       parameters:
         - $ref: '#/components/parameters/SizeParam'
         - $ref: '#/components/parameters/PageParam'
@@ -446,7 +625,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       tags:
-        - Persons
+        - People
       summary: Add new person.
       description: Add new person.
       operationId: addNewPerson
@@ -483,10 +662,10 @@ paths:
                 $ref: '#/components/schemas/Error'
 
 
-  /persons/{personId}:
+  /people/{personId}:
     get:
       tags:
-        - Persons
+        - People
       summary: Get person by it's id.
       description: Get person by it's id.
       operationId: getPersonById
@@ -519,7 +698,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     put:
       tags:
-        - Persons
+        - People
       summary: Update information about person.
       description: Update information about person.
       operationId: updatePerson
@@ -562,6 +741,126 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /people/{personId}/movies:
+    get:
+      tags:
+        - People
+      summary: Get all movies where person participated.
+      description: Get all movies where person participated.
+      operationId: getPersonMovies
+      parameters:
+        - name: personId
+          in: path
+          description: ID of person to be searching for movies
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonMovie'
+        '404':
+          description: Person with this id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /people/{personId}/awards:
+    get:
+      tags:
+        - People
+      summary: Get existing awards that person was awarded with.
+      description: Get existing awards that person was awarded with.
+      operationId: getPersonAwards
+      parameters:
+        - name: personId
+          in: path
+          description: ID of person to find awards
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Award'
+        '404':
+          description: Person with this id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - People
+      summary: Add new award to the person.
+      description: Add new award to the person.
+      operationId: addNewAwardToPerson
+      parameters:
+        - name: personId
+          in: path
+          description: ID of person to add award
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AwardRequest'
+      responses:
+        '201':
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Award'
+        '404':
+          description: Person with id not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: The same award already exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
 
 components:
   schemas:
@@ -964,7 +1263,6 @@ components:
               type: string
               format: uri
               example: https://moviesearch.media/photos/brad_pitt.jpg
-
         role:
           type: string
           default: ACTOR
@@ -977,6 +1275,117 @@ components:
             - EDITOR
             - COMPOSER
           example: ACTOR
+
+    MovieCreditRequest:
+      type: object
+      properties:
+        personId:
+          type: integer
+          format: int64
+          example: 232
+        role:
+          type: string
+          default: ACTOR
+          enum:
+            - ACTOR
+            - DIRECTOR
+            - PRODUCER
+            - WRITER
+            - CINEMATOGRAPHER
+            - EDITOR
+            - COMPOSER
+          example: ACTOR
+
+    PersonMovie:
+      type: object
+      properties:
+        movieId:
+          type: integer
+          format: int64
+          example: 142
+        movieName:
+          type: string
+          example: Fight Club
+        movieScore:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 10.0
+          example: 7.8
+        movieCoverUrl:
+          type: string
+          format: uri
+          example: https://moviesearch.media/cover/fight_club.jpg
+        roles:
+          type: array
+          description: The type of activity that the person does in the movie. For example, Brad Pitt is an actor in movie Fight Club.
+          items:
+            type: string
+            enum:
+              - ACTOR
+              - DIRECTOR
+              - PRODUCER
+              - WRITER
+              - CINEMATOGRAPHER
+              - EDITOR
+              - COMPOSER
+          example: ["ACTOR"]
+
+
+    Award:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 142
+        name:
+          type: string
+          example: Oscar
+        description:
+          type: string
+          example: Best visual effects
+        awardedAt:
+          type: string
+          format: date
+          example: "2025-06-11"
+        result:
+          type: string
+          default: WINNER
+          enum:
+            - WINNER
+            - NOMINEE
+          example: WINNER
+        logoUrl:
+          type: string
+          format: uri
+          example: https://moviesearch.media/logo/oscar_logo.jpg
+
+    AwardRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Oscar
+        description:
+          type: string
+          example: Best visual effects
+        awardedAt:
+          type: string
+          format: date
+          example: "2025-06-11"
+        result:
+          type: string
+          default: WINNER
+          enum:
+            - WINNER
+            - NOMINEE
+          example: WINNER
+        logoUrl:
+          type: string
+          format: uri
+          example: https://moviesearch.media/logo/oscar_logo.jpg
+
     PaginatedResponseBase:
       type: object
       properties:
@@ -1110,4 +1519,3 @@ components:
         type: integer
         minimum: 1900
         example: 1999
-# 156 864
