@@ -3,11 +3,12 @@ spring:
     name: movie-search
 
   datasource:
-    url: jdbc:mysql://localhost:3306/servlet_project
-    username: root
+    url: jdbc:postgresql://localhost:5432/movie_search_db
+    username: admin
     password: Test1234_
   jpa:
     open-in-view: false
     hibernate:
       ddl-auto: update
     show-sql: true
+

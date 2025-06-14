@@ -1,16 +1,20 @@
 package com.odian.moviesearch.core.model;
 
-import com.odian.moviesearch.core.model.enums.MediaType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Media {
+public class Company {
     private Long id;
     private String name;
-    private String url;
-    private MediaType mediaType;
+    private String description;
+    private Country country;
+    private Media media;
 }

@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.0
 
 info:
   title: Movie Search
@@ -63,7 +63,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /studios:
+  /companies:
     get:
       tags:
         - Production Studios
@@ -133,7 +133,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /studios/{studioId}:
+  /companies/{companyId}:
     get:
       tags:
         - Production Studios
@@ -141,7 +141,7 @@ paths:
       description: Get information about production studio by id.
       operationId: getProductionStudioById
       parameters:
-        - name: studioId
+        - name: companyId
           in: path
           description: ID of production studio to return
           required: true
@@ -174,7 +174,7 @@ paths:
       description: Update information about production studio.
       operationId:  updateProductionStudio
       parameters:
-        - name: studioId
+        - name: companyId
           in: path
           description: ID of production studio to update
           required: true
@@ -422,7 +422,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /movies/{movieId}/crew:
+  /movies/{movieId}/people:
     get:
       tags:
         - Movies
@@ -1010,6 +1010,15 @@ components:
             - NC_17
             - UNRATED
           example: NC_17
+        budget:
+          type: integer
+          format: int64
+          example: 150000000
+        revenue:
+          type: integer
+          format: int64
+          example: 200000000
+
 
     MovieRequest:
       type: object
@@ -1080,6 +1089,14 @@ components:
             - NC_17
             - UNRATED
           example: NC_17
+        budget:
+          type: integer
+          format: int64
+          example: 150000000
+        revenue:
+          type: integer
+          format: int64
+          example: 200000000
 
     MovieUpdateRequest:
       type: object
@@ -1154,6 +1171,14 @@ components:
             - NC_17
             - UNRATED
           example: NC_17
+        budget:
+          type: integer
+          format: int64
+          example: 150000000
+        revenue:
+          type: integer
+          format: int64
+          example: 200000000
 
     Person:
       type: object
