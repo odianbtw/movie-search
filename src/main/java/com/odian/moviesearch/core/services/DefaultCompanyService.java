@@ -7,9 +7,11 @@ import com.odian.moviesearch.core.exceptions.NotFoundException;
 import com.odian.moviesearch.core.model.Company;
 import com.odian.moviesearch.core.model.Country;
 import com.odian.moviesearch.core.model.Media;
+import com.odian.moviesearch.core.model.enums.MediaType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 
 @Service
@@ -25,9 +27,17 @@ public class DefaultCompanyService implements CompanyService{
     public Company create(Company company) {
         Country country = countryDao.findById(company.getCountry().getId())
                 .orElseThrow(() -> new NotFoundException("Country with this id not found"));
-        Media media = mediaDao.create(company.getMedia());
+        Media media = company.getMedia();
+        media.setMediaType(MediaType.LOGO);
+        media.setName(company.getName() + "_logo");
         company.setCountry(country);
-        company.setMedia(media);
+        company.setMedia(mediaDao.create(media));
         return companyDao.create(company);
+    }
+
+    @Override
+    public Company findById(Long id) {
+        return companyDao.findById(id)
+                .orElseThrow(() -> new NotFoundException("Company with this id not found"));
     }
 }

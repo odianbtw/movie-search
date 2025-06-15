@@ -7,8 +7,8 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", implementationName = "ApiGenreMapper")
-public interface GenreMapper {
+@Mapper(componentModel = "spring")
+public interface GenreDTOMapper {
     GenreDTO to(Genre source);
     List<GenreDTO> to(List<Genre> genres);
 }

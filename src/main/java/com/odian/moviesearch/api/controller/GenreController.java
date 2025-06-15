@@ -1,7 +1,7 @@
 package com.odian.moviesearch.api.controller;
 
 
-import com.odian.moviesearch.api.mapper.GenreMapper;
+import com.odian.moviesearch.api.mapper.GenreDTOMapper;
 import com.odian.moviesearch.api.model.GenreDTO;
 import com.odian.moviesearch.core.services.GenreService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GenreController {
     private final GenreService genreService;
-    private final GenreMapper mapper;
+    private final GenreDTOMapper mapper;
     @GetMapping
     public List<GenreDTO> findAll () {
         return mapper.to(genreService.findAll());

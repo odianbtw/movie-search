@@ -6,8 +6,8 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", implementationName = "DaoCountryMapper")
-public interface CountryMapper {
+@Mapper(componentModel = "spring")
+public interface CountryEntityMapper {
     Country to (CountryEntity country);
     List<Country> to (List<CountryEntity> countries);
 }

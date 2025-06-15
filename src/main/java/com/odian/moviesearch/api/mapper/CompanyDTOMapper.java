@@ -8,8 +8,12 @@ import com.odian.moviesearch.core.model.Company;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", implementationName = "ApiCompanyMapper")
-public interface CompanyMapper {
+@Mapper(componentModel = "spring",
+        uses = CountryDTOMapper.class)
+public interface CompanyDTOMapper {
+    @Mapping(target = "country.id", source = "countryId")
+    @Mapping(target = "media.url", source = "logoUrl")
     Company to (CompanyRequest company);
+    @Mapping(target = "logoUrl", source = "media.url")
     CompanyDTO to (Company company);
 }

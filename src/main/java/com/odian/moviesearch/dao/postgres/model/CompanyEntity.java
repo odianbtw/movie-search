@@ -5,10 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
-import java.util.List;
 
 @Entity
 @Table(name = "companies")
@@ -24,11 +22,9 @@ public class CompanyEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private CountryEntity country;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "company_media",
-        joinColumns = @JoinColumn(name = "company_id"),
-        inverseJoinColumns = @JoinColumn(name = "media_id"))
-    private List<MediaEntity> medias;
+    @OneToOne
+    @JoinColumn(name = "logo_id")
+    private MediaEntity logo;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "updated_at")

@@ -1,0 +1,17 @@
+package com.odian.moviesearch.dao.postgres.mapper;
+
+
+import com.odian.moviesearch.core.model.Company;
+import com.odian.moviesearch.dao.postgres.model.CompanyEntity;
+import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+@Mapper(componentModel = "spring",
+        uses = {CountryEntityMapper.class, MediaEntityMapper.class})
+public interface CompanyEntityMapper {
+    @Mapping(target = "logo", source = "media")
+    CompanyEntity to (Company company);
+    @InheritInverseConfiguration
+    Company to (CompanyEntity company);
+}

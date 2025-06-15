@@ -1,8 +1,9 @@
 package com.odian.moviesearch.dao.postgres.repository.implementations;
 
 import com.odian.moviesearch.core.dao.CountryDao;
+import com.odian.moviesearch.core.exceptions.DaoException;
 import com.odian.moviesearch.core.model.Country;
-import com.odian.moviesearch.dao.postgres.mapper.CountryMapper;
+import com.odian.moviesearch.dao.postgres.mapper.CountryEntityMapper;
 import com.odian.moviesearch.dao.postgres.repository.interfaces.spring.repositories.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -15,15 +16,23 @@ import java.util.Optional;
 public class DefaultCountryDao implements CountryDao {
 
     private final CountryRepository repository;
-    private final CountryMapper mapper;
+    private final CountryEntityMapper mapper;
     @Override
     public List<Country> findAll() {
-        return mapper.to(repository.findAll());
+        try {
+            return mapper.to(repository.findAll());
+        } catch (Exception e) {
+            throw new DaoException("Unexpected error occurred during connection to the database");
+        }
     }
 
     @Override
     public Optional<Country> findById(Integer id) {
-        var country = repository.findById(id).orElse(null);
-        return Optional.ofNullable(mapper.to(country));
+        try {
+            var country = repository.findById(id).orElse(null);
+            return Optional.ofNullable(mapper.to(country));
+        } catch (Exception e) {
+            throw new DaoException("Unexpected error occurred during connection to the database");
+        }
     }
 }

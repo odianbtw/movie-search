@@ -6,8 +6,8 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", implementationName = "ApiCountryMapper")
-public interface CountryMapper {
+@Mapper(componentModel = "spring")
+public interface CountryDTOMapper {
     CountryDTO to (Country country);
     List<CountryDTO> to (List<Country> countries);
 }

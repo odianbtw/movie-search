@@ -36,10 +36,12 @@ CREATE TABLE IF NOT EXISTS companies (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(64) NOT NULL UNIQUE,
     country_id INT NOT NULL,
+    logo_id BIGINT NOT NULL,
     description TEXT DEFAULT '',
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_company_country FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE
+    CONSTRAINT fk_company_country FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE,
+    CONSTRAINT fk_company_media FOREIGN KEY (logo_id) REFERENCES medias(id) ON DELETE CASCADE
 );
 
 
@@ -54,13 +56,6 @@ CREATE TABLE IF NOT EXISTS medias (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS company_media (
-    company_id BIGINT NOT NULL,
-    media_id BIGINT NOT NULL,
-    PRIMARY KEY (company_id, media_id),
-    CONSTRAINT fk_media_comp_company FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE,
-    CONSTRAINT fk_media_comp_media FOREIGN KEY (media_id) REFERENCES medias(id) ON DELETE CASCADE
-);
 
 --
 -- create table if not exists persons (

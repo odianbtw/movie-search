@@ -1,9 +1,11 @@
 package com.odian.moviesearch.api.model;
 
+import jakarta.validation.constraints.NotNull;
+
 public record CompanyRequest (
-        String name,
-        String logoUrl,
-        Integer countryId,
-        String description
+        @NotNull String name,
+        @NotNull String logoUrl,
+        @NotNull Integer countryId,
+        @NotNull String description
 ) {
 }
