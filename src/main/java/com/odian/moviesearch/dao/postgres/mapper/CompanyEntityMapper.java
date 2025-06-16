@@ -7,6 +7,8 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
         uses = {CountryEntityMapper.class, MediaEntityMapper.class})
 public interface CompanyEntityMapper {
@@ -14,4 +16,5 @@ public interface CompanyEntityMapper {
     CompanyEntity to (Company company);
     @InheritInverseConfiguration
     Company to (CompanyEntity company);
+    List<Company> to (List<CompanyEntity> companies);
 }

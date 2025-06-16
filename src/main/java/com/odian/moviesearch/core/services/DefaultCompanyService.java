@@ -4,10 +4,10 @@ import com.odian.moviesearch.core.dao.CompanyDao;
 import com.odian.moviesearch.core.dao.CountryDao;
 import com.odian.moviesearch.core.dao.MediaDao;
 import com.odian.moviesearch.core.exceptions.NotFoundException;
-import com.odian.moviesearch.core.model.Company;
-import com.odian.moviesearch.core.model.Country;
-import com.odian.moviesearch.core.model.Media;
+import com.odian.moviesearch.core.model.*;
 import com.odian.moviesearch.core.model.enums.MediaType;
+import com.odian.moviesearch.core.model.utils.PageableResponse;
+import com.odian.moviesearch.core.model.utils.SearchCriteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +33,11 @@ public class DefaultCompanyService implements CompanyService{
         company.setCountry(country);
         company.setMedia(mediaDao.create(media));
         return companyDao.create(company);
+    }
+
+
+    public PageableResponse<Company> findAll (SearchCriteria criteria) {
+        companyDao.findAll(criteria);
     }
 
     @Override
