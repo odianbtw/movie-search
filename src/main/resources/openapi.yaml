@@ -11,8 +11,8 @@ tags:
     description: Access to all existing genres
   - name: Countries
     description: Access to all existing countries
-  - name: Production Studios
-    description: Access to all existing production studios
+  - name: Companies
+    description: Access to all existing companies
   - name: Movies
     description: Access to all existing movies
   - name: People
@@ -66,16 +66,16 @@ paths:
   /companies:
     get:
       tags:
-        - Production Studios
-      summary: Get all production studios.
-      description: Get all production studios. Production Studios - studios that film movies. For example (Warner Brothers, Universal and etc.)
+        - Companies
+      summary: Get all companies.
+      description: Get all companies. Company - studios that film movies. For example (Warner Brothers, Universal and etc.)
       parameters:
         - $ref: '#/components/parameters/SizeParam'
         - $ref: '#/components/parameters/PageParam'
         - $ref: '#/components/parameters/SortParam'
         - $ref: '#/components/parameters/OrderParam'
         - $ref: '#/components/parameters/NameParam'
-      operationId: getProductionStudios
+      operationId: getCompanies
       responses:
         '200':
           description: Successful operation
@@ -89,7 +89,7 @@ paths:
                       items:
                         type: array
                         items:
-                          $ref: '#/components/schemas/ProductionStudio'
+                          $ref: '#/components/schemas/Company'
         default:
           description: Unexpected error
           content:
@@ -98,23 +98,23 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       tags:
-        - Production Studios
-      summary: Add new production studio.
-      description: Add new production studio.
-      operationId: addProductionStudio
+        - Companies
+      summary: Add new company.
+      description: Add new company.
+      operationId: addCompany
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProductionStudioRequest'
+              $ref: '#/components/schemas/CompanyRequest'
       responses:
         '201':
           description: Successfully created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProductionStudio'
+                $ref: '#/components/schemas/Company'
         '400':
           description: Invalid request body
           content:
@@ -122,7 +122,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '409':
-          description: Production studio with this name already exist
+          description: Company with this name already exist
           content:
             application/json:
               schema:
@@ -136,14 +136,14 @@ paths:
   /companies/{companyId}:
     get:
       tags:
-        - Production Studios
-      summary: Get information about production studio by id.
-      description: Get information about production studio by id.
-      operationId: getProductionStudioById
+        - Companies
+      summary: Get information about company by id.
+      description: Get information about company by id.
+      operationId: getCompanyById
       parameters:
         - name: companyId
           in: path
-          description: ID of production studio to return
+          description: ID of company to return
           required: true
           schema:
             type: integer
@@ -154,9 +154,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProductionStudio'
+                $ref: '#/components/schemas/Company'
         '404':
-          description: Production studio with this id not found
+          description: Company with this id not found
           content:
             application/json:
               schema:
@@ -169,14 +169,14 @@ paths:
                 $ref: '#/components/schemas/Error'
     put:
       tags:
-        - Production Studios
-      summary: Update information about production studio.
-      description: Update information about production studio.
-      operationId:  updateProductionStudio
+        - Companies
+      summary: Update information about companies.
+      description: Update information about companies.
+      operationId:  updateCompanies
       parameters:
         - name: companyId
           in: path
-          description: ID of production studio to update
+          description: ID of companies to update
           required: true
           schema:
             type: integer
@@ -186,22 +186,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProductionStudio'
+              $ref: '#/components/schemas/Company'
       responses:
         '202':
           description: Successfully updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProductionStudio'
+                $ref: '#/components/schemas/Company'
         '404':
-          description: Production Studio with id not found
+          description: Company with id not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         '409':
-          description: Production studio with this name already exist
+          description: Company with this name already exist
           content:
             application/json:
               schema:
@@ -212,17 +212,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /studios/{studioId}/movies:
+  /companies/{companyId}/movies:
     get:
       tags:
-        - Production Studios
-      summary: Get all movies filmed by production studio.
-      description: Get all movies filmed by production studio.
-      operationId: getPStudioMovies
+        - Companies
+      summary: Get all movies filmed by company.
+      description: Get all movies filmed by company.
+      operationId: getCompanyMovies
       parameters:
-        - name: studioId
+        - name: companyId
           in: path
-          description: ID of studio to be searching for movies
+          description: ID of company to be searching for movies
           required: true
           schema:
             type: integer
@@ -252,7 +252,7 @@ paths:
                         items:
                           $ref: '#/components/schemas/Movie'
         '404':
-          description: Production studio with this id not found
+          description: Company with this id not found
           content:
             application/json:
               schema:
@@ -899,7 +899,7 @@ components:
           type: string
           format: date-time
           example: "2025-06-11T10:15:30Z"
-    ProductionStudio:
+    Company:
       type: object
       properties:
         id:
@@ -918,7 +918,7 @@ components:
         description:
           type: string
           example: Paramount Pictures is an American film production and distribution company and the flagship namesake subsidiary of Paramount Global. It is the sixth-oldest film studio in the world, the second-oldest film studio in the United States.
-    ProductionStudioRequest:
+    CompanyRequest:
       type: object
       required:
         - name
@@ -964,10 +964,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Country'
-        productionStudios:
+        companies:
           type: array
           items:
-            $ref: '#/components/schemas/ProductionStudio'
+            $ref: '#/components/schemas/Company'
         score:
           type: number
           format: float
@@ -1046,9 +1046,9 @@ components:
             type: integer
             format: int64
           example: [ 2, 5 ]
-        productionStudioIds:
+        companyIds:
           type: array
-          description: List of production studio IDs involved in the movie
+          description: List of companies IDs involved in the movie
           items:
             type: integer
             format: int64
@@ -1128,9 +1128,9 @@ components:
             type: integer
             format: int64
           example: [ 2, 5 ]
-        productionStudioIds:
+        companyIds:
           type: array
-          description: List of production studio IDs involved in the movie
+          description: List of companies IDs involved in the movie
           items:
             type: integer
             format: int64
@@ -1450,8 +1450,8 @@ components:
       required: false
       schema:
         type: integer
-        minimum: 1
-        default: 1
+        minimum: 0
+        default: 0
     SortParam:
       name: sort
       in: query

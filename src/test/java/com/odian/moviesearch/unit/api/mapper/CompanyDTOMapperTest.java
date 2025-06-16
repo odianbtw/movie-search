@@ -1,5 +1,7 @@
 package com.odian.moviesearch.unit.api.mapper;
 
+import com.odian.moviesearch.api.mapper.CompanyDTOMapper;
+import com.odian.moviesearch.api.mapper.CountryDTOMapper;
 import com.odian.moviesearch.api.model.CompanyDTO;
 import com.odian.moviesearch.api.model.CompanyRequest;
 import com.odian.moviesearch.api.model.CountryDTO;

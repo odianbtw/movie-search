@@ -2,10 +2,12 @@ package com.odian.moviesearch.core.model.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class PageCriteria {
-    private int size = 20;
-    private int page = 1;
+@NoArgsConstructor
+public class Sortable {
+    private Order order;
+    private String sortBy;
 }

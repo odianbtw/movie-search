@@ -1,6 +1,5 @@
 package com.odian.moviesearch.dao.postgres.repository.implementations.utils;
 
-import com.odian.moviesearch.core.model.utils.FilterCriteria;
 import com.odian.moviesearch.dao.postgres.model.CompanyEntity;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;

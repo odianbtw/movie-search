@@ -1,8 +1,9 @@
 package com.odian.moviesearch.core.dao;
 
+import com.odian.moviesearch.core.CompanyPageableValidator;
 import com.odian.moviesearch.core.model.Company;
-import com.odian.moviesearch.core.model.utils.PageableResponse;
-import com.odian.moviesearch.core.model.utils.SearchCriteria;
+import com.odian.moviesearch.core.model.PagedResponse;
+import com.odian.moviesearch.core.model.utils.Pageable;
 
 import java.util.Optional;
 
@@ -11,5 +12,7 @@ public interface CompanyDao {
 
     Optional<Company> findById(Long id);
 
-    PageableResponse<Company> findAll(SearchCriteria criteria);
+    PagedResponse<Company> findAll (Pageable pageable);
+
+    Company update(Company company);
 }

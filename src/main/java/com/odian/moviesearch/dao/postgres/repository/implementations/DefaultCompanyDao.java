@@ -4,8 +4,6 @@ import com.odian.moviesearch.core.dao.CompanyDao;
 import com.odian.moviesearch.core.exceptions.DaoException;
 import com.odian.moviesearch.core.exceptions.ValidationException;
 import com.odian.moviesearch.core.model.Company;
-import com.odian.moviesearch.core.model.utils.PageableResponse;
-import com.odian.moviesearch.core.model.utils.SearchCriteria;
 import com.odian.moviesearch.dao.postgres.mapper.CompanyEntityMapper;
 import com.odian.moviesearch.dao.postgres.model.CompanyEntity;
 import com.odian.moviesearch.dao.postgres.repository.implementations.utils.CompanySpecification;

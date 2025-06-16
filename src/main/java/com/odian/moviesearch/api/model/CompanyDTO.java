@@ -1,10 +1,12 @@
 package com.odian.moviesearch.api.model;
 
+import jakarta.validation.constraints.NotNull;
+
 public record CompanyDTO(
-        Long id,
-        String name,
-        String logoUrl,
-        CountryDTO country,
-        String description
+        @NotNull Long id,
+        @NotNull String name,
+        @NotNull String logoUrl,
+        @NotNull CountryDTO country,
+        @NotNull String description
 ) {
 }
