@@ -28,11 +28,8 @@ public class DefaultCompanyService implements CompanyService{
     public Company create(Company company) {
         Country country = countryDao.findById(company.getCountry().getId())
                 .orElseThrow(() -> new NotFoundException("Country with this id not found"));
-        Media media = company.getMedia();
-        media.setMediaType(MediaType.LOGO);
-        media.setName(company.getName() + "_logo");
         company.setCountry(country);
-        company.setMedia(mediaDao.create(media));
+        company.setMedia(mediaDao.create(company.getMedia()));
         return companyDao.create(company);
     }
 

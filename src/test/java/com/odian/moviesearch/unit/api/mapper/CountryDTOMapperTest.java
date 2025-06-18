@@ -1,6 +1,8 @@
 package com.odian.moviesearch.unit.api.mapper;
 
 
+import com.odian.moviesearch.api.mapper.CountryDTOMapper;
+import com.odian.moviesearch.api.mapper.CountryDTOMapperImpl;
 import com.odian.moviesearch.api.model.CountryDTO;
 import com.odian.moviesearch.core.model.Country;
 import org.junit.jupiter.api.Test;

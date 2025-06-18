@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "countries")
@@ -20,8 +21,10 @@ public class CountryEntity {
     private Integer id;
     private String name;
     @OneToMany(mappedBy = "country")
-    private List<CompanyEntity> companies;
-
+    private Set<CompanyEntity> companies;
+    @ManyToMany(mappedBy = "countries")
+    private Set<MovieEntity> movies;
+    private
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "updated_at")

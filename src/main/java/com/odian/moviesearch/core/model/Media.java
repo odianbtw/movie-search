@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Media {
     private Long id;
-    private String name;
     private String url;
     private MediaType mediaType;
 }

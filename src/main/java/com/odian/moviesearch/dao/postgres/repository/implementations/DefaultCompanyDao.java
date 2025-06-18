@@ -4,6 +4,8 @@ import com.odian.moviesearch.core.dao.CompanyDao;
 import com.odian.moviesearch.core.exceptions.DaoException;
 import com.odian.moviesearch.core.exceptions.ValidationException;
 import com.odian.moviesearch.core.model.Company;
+import com.odian.moviesearch.core.model.PagedResponse;
+import com.odian.moviesearch.core.model.utils.Pageable;
 import com.odian.moviesearch.dao.postgres.mapper.CompanyEntityMapper;
 import com.odian.moviesearch.dao.postgres.model.CompanyEntity;
 import com.odian.moviesearch.dao.postgres.repository.implementations.utils.CompanySpecification;
@@ -16,6 +18,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.Set;
 
 
 @Repository
@@ -46,6 +49,21 @@ public class DefaultCompanyDao implements CompanyDao {
         } catch (Exception e) {
             throw new DaoException("Unexpected error occurred during connection to the database");
         }
+    }
+
+    @Override
+    public PagedResponse<Company> findAll(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Company update(Company company) {
+        return null;
+    }
+
+    @Override
+    public Set<Company> findAllByIds(Set<Long> companies) {
+        return Set.of();
     }
 
     @Override

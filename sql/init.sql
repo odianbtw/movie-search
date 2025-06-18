@@ -12,8 +12,8 @@ CREATE TYPE movie_type_enum AS ENUM ('MOVIE', 'SERIES');
 CREATE TABLE IF NOT EXISTS movies (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(128) NOT NULL,
-    slogan VARCHAR(255) DEFAULT '',
-    description VARCHAR(1028) DEFAULT '',
+    slogan text DEFAULT '',
+    description text DEFAULT '',
     release_date DATE,
     duration_time INT,
     budget BIGINT,
@@ -49,38 +49,112 @@ CREATE TYPE media_type_enum AS ENUM ('LOGO', 'COVER', 'PHOTO', 'TRAILER');
 
 CREATE TABLE IF NOT EXISTS medias (
     id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(64) NOT NULL,
     url VARCHAR(255) NOT NULL,
     media_type media_type_enum NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+create table if not exists people (
+    id bigserial primary key,
+    name varchar(64) not null,
+    biography text default '',
+    country_id int not null,
+    birth_date date,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    foreign key (country_id) references countries(id)
+);
 
---
--- create table if not exists persons (
---     id bigint auto_increment primary key,
---     name varchar(64) not null,
---     country_id int not null,
---     birth_date date,
---     biography varchar(512) default '',
---     created_at timestamp not null default current_timestamp,
---     updated_at timestamp not null default current_timestamp,
---     foreign key (country_id) references countries(id) on delete cascade,
---     index idx_persons_name (name),
---     index idx_persons_country (country_id),
---     unique key unique_person (name, biography, country_id, birth_date)
--- );
---
--- create table if not exists medias (
---     id bigint auto_increment primary key,
---     name varchar(128) not null,
---     url varchar(255) not null unique,
---     media_type enum('POSTER', 'AVATAR', 'THUMBNAIL', 'TRAILER', 'TEASER', 'LOGO', 'PHOTO', 'COVER') not null,
---     created_at timestamp not null default current_timestamp,
---     updated_at timestamp not null default current_timestamp
--- );
---
+create table if not exists movie_genre (
+    movie_id bigint not null,
+    genre_id int not null,
+    primary key (movie_id, genre_id),
+    foreign key (movie_id) references movies(id),
+    foreign key (genre_id) references genres(id)
+);
+
+create table if not exists movie_country (
+    movie_id bigint not null,
+    country_id int not null,
+    primary key (movie_id, country_id),
+    foreign key (movie_id) references movies(id),
+    foreign key (country_id) references countries(id)
+);
+
+create table if not exists movie_company(
+    movie_id bigint not null,
+    company_id bigint not null,
+    primary key (movie_id, company_id),
+    foreign key (movie_id) references movies(id),
+    foreign key (company_id) references companies(id)
+);
+
+create table if not exists movie_score (
+    id bigserial primary key,
+    movie_id bigint not null,
+    score float default 0.0,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    foreign key (movie_id) references movies (id)
+);
+
+CREATE TYPE movie_role AS ENUM ('ACTOR', 'DIRECTOR', 'WRITER', 'COMPOSER', 'PRODUCER', 'CINEMATOGRAPHER', 'EDITOR');
+
+create table if not exists movie_credits (
+    id bigint primary key,
+    person_id bigint not null,
+    movie_id bigint not null,
+    role movie_role not null default 'ACTOR'
+);
+
+create table if not exists movie_media (
+    movie_id bigint not null,
+    media_id bigint not null,
+    primary key (movie_id, media_id),
+    foreign key (movie_id) references movies(id),
+    foreign key (media_id) references medias(id)
+);
+
+create table if not exists people_medias (
+    person_id bigint not null,
+    media_id bigint not null,
+    primary key (person_id, media_id),
+    foreign key (person_id) references people(id),
+    foreign key (media_id) references medias(id)
+);
+
+
+CREATE TYPE award_status AS ENUM ('WINNER', 'NOMINEE');
+
+
+create table if not exists movie_awards (
+    id bigserial primary key,
+    name varchar(128) not null,
+    description text default '',
+    movie_id bigint not null,
+    result award_status not null default 'WINNER',
+    awarded_at date not null,
+    logo_id bigint,
+    foreign key (movie_id) references movies(id),
+    foreign key (logo_id) references medias(id)
+);
+
+create table if not exists people_awards (
+    id bigserial primary key,
+    name varchar(128) not null,
+    description text default '',
+    person_id bigint not null,
+    result award_status not null default 'WINNER',
+    awarded_at date not null,
+    logo_id bigint,
+    foreign key (person_id) references people(id),
+    foreign key (logo_id) references medias(id)
+);
+
+
+
+
+
 -- create table if not exists awards (
 --     id int auto_increment primary key,
 --     name varchar(64) not null unique,
