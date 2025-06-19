@@ -7,5 +7,4 @@ import java.util.Set;
 
 public interface GenreDao {
     List<Genre> findAll();
-    Set<Genre> findAllByIds(Set<Integer> ids);
 }

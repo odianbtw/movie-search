@@ -17,6 +17,7 @@ import java.util.List;
 public class GenreController {
     private final GenreService genreService;
     private final GenreDTOMapper mapper;
+
     @GetMapping
     public List<GenreDTO> findAll () {
         return mapper.to(genreService.findAll());

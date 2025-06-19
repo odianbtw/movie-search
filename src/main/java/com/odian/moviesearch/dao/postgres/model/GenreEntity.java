@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,7 +22,7 @@ public class GenreEntity {
     private Integer id;
     private String name;
     @ManyToMany(mappedBy = "genres")
-    private Set<MovieEntity> movies;
+    private List<MovieEntity> movies;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "updated_at")

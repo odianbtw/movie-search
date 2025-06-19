@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -40,26 +41,26 @@ public class MovieEntity {
     @JoinTable(name = "movie_genre",
         joinColumns = @JoinColumn(name = "movie_id"),
         inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private Set<GenreEntity> genres;
+    private List<GenreEntity> genres;
     @ManyToMany
     @JoinTable(name = "movie_country",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "country_id"))
-    private Set<CountryEntity> countries;
+    private List<CountryEntity> countries;
     @ManyToMany
     @JoinTable(name = "movie_company",
         joinColumns = @JoinColumn(name = "movie_id"),
         inverseJoinColumns = @JoinColumn(name = "company_id"))
-    private Set<CompanyEntity> companies;
+    private List<CompanyEntity> companies;
     @OneToOne(mappedBy = "movie")
     private MovieScoreEntity score;
     @OneToMany(mappedBy = "movie")
-    private Set<MovieCreditEntity> movieCredits;
+    private List<MovieCreditEntity> movieCredits;
     @ManyToMany
     @JoinTable(name = "movie_media",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "media_id"))
-    private Set<MediaEntity> medias;
+    private List<MediaEntity> medias;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "updated_at")

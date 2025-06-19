@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,7 +28,7 @@ public class CompanyEntity {
     @JoinColumn(name = "logo_id")
     private MediaEntity logo;
     @ManyToMany(mappedBy = "companies")
-    private Set<MovieEntity> movies;
+    private List<MovieEntity> movies;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "updated_at")

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 
@@ -22,12 +23,12 @@ public class PersonEntity {
     @Column(name = "birth_date")
     private LocalDate birthDate;
     @OneToMany(mappedBy = "person")
-    private Set<MovieCreditEntity> movieCredits;
+    private List<MovieCreditEntity> movieCredits;
     @ManyToMany
     @JoinTable(name = "people_medias",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "media_id"))
-    private Set<MediaEntity> medias;
+    private List<MediaEntity> medias;
 
     @Column(name = "created_at")
     private Instant createdAt;

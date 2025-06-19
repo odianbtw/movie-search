@@ -13,14 +13,4 @@ public interface CountryDTOMapper {
     CountryDTO to (Country country);
     List<CountryDTO> to (List<Country> countries);
 
-    default Set<Country> map (List<Integer> ids) {
-        if (ids == null) return null;
-        return ids.stream()
-                .map(id -> {
-                    var country = new Country();
-                    country.setId(id);
-                    return country;
-                })
-                .collect(Collectors.toSet());
-    }
 }

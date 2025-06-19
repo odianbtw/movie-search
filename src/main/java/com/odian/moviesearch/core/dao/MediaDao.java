@@ -7,5 +7,4 @@ import java.util.Set;
 
 public interface MediaDao {
     Media create (Media media);
-    Set<Media> saveAll(Set<Media> medias);
 }

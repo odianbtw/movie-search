@@ -25,26 +25,5 @@ public interface CompanyDTOMapper {
     @Mapping(target = "media.url", source = "logoUrl")
     Company to (CompanyRequest company);
     CompanyDTO to (Company company);
-    @InheritInverseConfiguration
-    Company to (CompanyDTO company);
-    List<CompanyDTO> to (List<Company> companies);
-    PagedResponseDTO<CompanyDTO> to (PagedResponse<Company> response);
 
-    default Set<Company> map (List<Long> ids) {
-        if (ids == null) return null;
-        return ids.stream()
-                .map(id -> {
-                    var company = new Company();
-                    company.setId(id);
-                    return company;
-                })
-                .collect(Collectors.toSet());
-    }
-
-    default Media map (String logoUrl) {
-        Media media = new Media();
-        media.setUrl(logoUrl);
-        media.setMediaType(MediaType.LOGO);
-        return media;
-    }
 }

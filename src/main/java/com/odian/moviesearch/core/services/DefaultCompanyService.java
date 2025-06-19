@@ -19,35 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class DefaultCompanyService implements CompanyService{
 
     private final CompanyDao companyDao;
-    private final CountryDao countryDao;
     private final MediaDao mediaDao;
     private final CompanyPageableValidator validator;
 
     @Transactional
     @Override
     public Company create(Company company) {
-        Country country = countryDao.findById(company.getCountry().getId())
-                .orElseThrow(() -> new NotFoundException("Country with this id not found"));
-        company.setCountry(country);
-        company.setMedia(mediaDao.create(company.getMedia()));
         return companyDao.create(company);
     }
 
 
-    public PagedResponse<Company> findAll (Pageable pageable) {
-        validator.validate(pageable);
-        return companyDao.findAll(pageable);
-    }
-
-    @Override
-    public Company findById(Long id) {
-        return companyDao.findById(id)
-                .orElseThrow(() -> new NotFoundException("Company with this id not found"));
-    }
-
-    @Transactional
-    @Override
-    public Company update(Company company) {
-        return companyDao.update(company);
-    }
 }

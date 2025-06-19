@@ -9,8 +9,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface GenreEntityMapper {
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "name", target = "name")
     Genre to (GenreEntity genre);
     List<Genre> to(List<GenreEntity> genres);
 }

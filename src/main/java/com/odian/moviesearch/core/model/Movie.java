@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -19,11 +20,11 @@ public class Movie {
     private String name;
     private String slogan;
     private String description;
-    private Set<Genre> genres;
-    private Set<Country> countries;
-    private Set<Company> companies;
+    private List<Genre> genres;
+    private List<Country> countries;
+    private List<Company> companies;
     private Float score;
-    private Set<Media> medias;
+    private List<Media> medias;
     private LocalDate releaseDate;
     private Integer durationTime;
     private MovieType movieType;

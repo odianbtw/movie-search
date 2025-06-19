@@ -25,10 +25,7 @@ public class CompanyController {
     private final CompanyDTOMapper mapper;
     private final PageableBinder binder;
 
-    @GetMapping("/{id}")
-    public CompanyDTO findById (@PathVariable Long id) {
-        return mapper.to(service.findById(id));
-    }
+
 
     @PostMapping
     public ResponseEntity<CompanyDTO> create (@Valid @RequestBody CompanyRequest companyRequest) {
@@ -38,23 +35,6 @@ public class CompanyController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(company);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<CompanyDTO> update (@PathVariable Long id, @Valid @RequestBody CompanyDTO company) {
-        if (!Objects.equals(id, company.id())) {
-            throw new IllegalArgumentException("Path id variable must be equal to request body id");
-        }
-        var updatedCompany = mapper.to(service.update(mapper.to(company)));
-        return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
-                .body(updatedCompany);
-    }
-
-    @GetMapping
-    public PagedResponseDTO<CompanyDTO> findAll (HttpServletRequest request) {
-        var pageable = binder.pageableFromRequest(request);
-        return mapper.to(service.findAll(pageable));
     }
 
 }

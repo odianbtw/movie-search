@@ -11,11 +11,4 @@ import java.util.Set;
 public interface CompanyDao {
     Company create (Company company);
 
-    Optional<Company> findById(Long id);
-
-    PagedResponse<Company> findAll (Pageable pageable);
-
-    Company update(Company company);
-
-    Set<Company> findAllByIds(Set<Long> companies);
 }

@@ -21,11 +21,11 @@ public class CountryEntity {
     private Integer id;
     private String name;
     @OneToMany(mappedBy = "country")
-    private Set<CompanyEntity> companies;
+    private List<CompanyEntity> companies;
     @ManyToMany(mappedBy = "countries")
-    private Set<MovieEntity> movies;
+    private List<MovieEntity> movies;
     @OneToMany(mappedBy = "country")
-    private Set<PersonEntity> people;
+    private List<PersonEntity> people;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "updated_at")
