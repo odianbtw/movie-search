@@ -1,6 +1,5 @@
 package com.odian.moviesearch.api.controller;
 
-import com.odian.moviesearch.api.mapper.MovieDTOMapper;
 import com.odian.moviesearch.api.model.MovieRequest;
 import com.odian.moviesearch.core.services.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MovieController {
 
-    private final MovieDTOMapper mapper;
+//    private final MovieDTOMapper mapper;
     private final MovieService service;
 
     @PutMapping
     public ResponseEntity<?> create (@RequestBody MovieRequest movieRequest) {
-
+        return null;
     }
 
 }

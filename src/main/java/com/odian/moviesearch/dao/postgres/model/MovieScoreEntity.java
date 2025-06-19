@@ -1,26 +1,20 @@
 package com.odian.moviesearch.dao.postgres.model;
 
 
-import com.odian.moviesearch.dao.postgres.model.enums.MediaTypeEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
 @Entity
-@Table(name = "medias")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class MediaEntity {
+@Table(name = "movie_scores")
+public class MovieScoreEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String url;
-    @Enumerated(EnumType.STRING)
-    private MediaTypeEntity mediaType;
+    @OneToOne
+    @JoinColumn(name = "movie_id")
+    private MovieEntity movie;
+    private Float score;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "updated_at")

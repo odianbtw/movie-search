@@ -5,15 +5,14 @@ CREATE TABLE IF NOT EXISTS countries (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TYPE rating_enum AS ENUM ('G', 'PG', 'PG-13', 'R', 'NC-17', 'UNRATED');
-CREATE TYPE movie_type_enum AS ENUM ('MOVIE', 'SERIES');
+CREATE TYPE movie_type_enum AS ENUM ('movie', 'series');
 
 CREATE TABLE IF NOT EXISTS movies (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(128) NOT NULL,
-    slogan text DEFAULT '',
-    description text DEFAULT '',
+    slogan TEXT DEFAULT '',
+    description TEXT DEFAULT '',
     release_date DATE,
     duration_time INT,
     budget BIGINT,
@@ -32,6 +31,16 @@ CREATE TABLE IF NOT EXISTS genres (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TYPE media_type_enum AS ENUM ('logo', 'cover', 'photo', 'trailer');
+
+CREATE TABLE IF NOT EXISTS medias (
+    id BIGSERIAL PRIMARY KEY,
+    url VARCHAR(255) NOT NULL,
+    media_type media_type_enum NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS companies (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(64) NOT NULL UNIQUE,
@@ -44,111 +53,107 @@ CREATE TABLE IF NOT EXISTS companies (
     CONSTRAINT fk_company_media FOREIGN KEY (logo_id) REFERENCES medias(id) ON DELETE CASCADE
 );
 
-
-CREATE TYPE media_type_enum AS ENUM ('LOGO', 'COVER', 'PHOTO', 'TRAILER');
-
-CREATE TABLE IF NOT EXISTS medias (
+CREATE TABLE IF NOT EXISTS people (
     id BIGSERIAL PRIMARY KEY,
-    url VARCHAR(255) NOT NULL,
-    media_type media_type_enum NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-create table if not exists people (
-    id bigserial primary key,
-    name varchar(64) not null,
-    biography text default '',
-    country_id int not null,
-    birth_date date,
+    name VARCHAR(64) NOT NULL,
+    biography TEXT DEFAULT '',
+    country_id INT NOT NULL,
+    birth_date DATE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    foreign key (country_id) references countries(id)
+    FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE
 );
 
-create table if not exists movie_genre (
-    movie_id bigint not null,
-    genre_id int not null,
-    primary key (movie_id, genre_id),
-    foreign key (movie_id) references movies(id),
-    foreign key (genre_id) references genres(id)
+CREATE TABLE IF NOT EXISTS movie_genre (
+    movie_id BIGINT NOT NULL,
+    genre_id INT NOT NULL,
+    PRIMARY KEY (movie_id, genre_id),
+    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
+    FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
 );
 
-create table if not exists movie_country (
-    movie_id bigint not null,
-    country_id int not null,
-    primary key (movie_id, country_id),
-    foreign key (movie_id) references movies(id),
-    foreign key (country_id) references countries(id)
+CREATE TABLE IF NOT EXISTS movie_country (
+    movie_id BIGINT NOT NULL,
+    country_id INT NOT NULL,
+    PRIMARY KEY (movie_id, country_id),
+    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
+    FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE
 );
 
-create table if not exists movie_company(
-    movie_id bigint not null,
-    company_id bigint not null,
-    primary key (movie_id, company_id),
-    foreign key (movie_id) references movies(id),
-    foreign key (company_id) references companies(id)
+CREATE TABLE IF NOT EXISTS movie_company (
+    movie_id BIGINT NOT NULL,
+    company_id BIGINT NOT NULL,
+    PRIMARY KEY (movie_id, company_id),
+    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
+    FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE
 );
 
-create table if not exists movie_score (
-    id bigserial primary key,
-    movie_id bigint not null,
-    score float default 0.0,
+CREATE TABLE IF NOT EXISTS movie_scores (
+    id BIGSERIAL PRIMARY KEY,
+    movie_id BIGINT NOT NULL,
+    score FLOAT DEFAULT 0.0,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    foreign key (movie_id) references movies (id)
+    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE
 );
 
-CREATE TYPE movie_role AS ENUM ('ACTOR', 'DIRECTOR', 'WRITER', 'COMPOSER', 'PRODUCER', 'CINEMATOGRAPHER', 'EDITOR');
+CREATE TYPE movie_role AS ENUM ('actor', 'director', 'writer', 'composer', 'producer', 'cinematographer', 'editor');
 
-create table if not exists movie_credits (
-    id bigint primary key,
-    person_id bigint not null,
-    movie_id bigint not null,
-    role movie_role not null default 'ACTOR'
+CREATE TABLE IF NOT EXISTS movie_credits (
+    id BIGINT PRIMARY KEY,
+    person_id BIGINT NOT NULL,
+    movie_id BIGINT NOT NULL,
+    role movie_role NOT NULL DEFAULT 'actor',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
+    FOREIGN KEY (person_id) REFERENCES people(id) ON DELETE CASCADE
 );
 
-create table if not exists movie_media (
-    movie_id bigint not null,
-    media_id bigint not null,
-    primary key (movie_id, media_id),
-    foreign key (movie_id) references movies(id),
-    foreign key (media_id) references medias(id)
+CREATE TABLE IF NOT EXISTS movie_media (
+    movie_id BIGINT NOT NULL,
+    media_id BIGINT NOT NULL,
+    PRIMARY KEY (movie_id, media_id),
+    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
+    FOREIGN KEY (media_id) REFERENCES medias(id) ON DELETE CASCADE
 );
 
-create table if not exists people_medias (
-    person_id bigint not null,
-    media_id bigint not null,
-    primary key (person_id, media_id),
-    foreign key (person_id) references people(id),
-    foreign key (media_id) references medias(id)
+CREATE TABLE IF NOT EXISTS people_medias (
+    person_id BIGINT NOT NULL,
+    media_id BIGINT NOT NULL,
+    PRIMARY KEY (person_id, media_id),
+    FOREIGN KEY (person_id) REFERENCES people(id) ON DELETE CASCADE,
+    FOREIGN KEY (media_id) REFERENCES medias(id) ON DELETE CASCADE
 );
 
+CREATE TYPE award_status AS ENUM ('winner', 'nominee');
 
-CREATE TYPE award_status AS ENUM ('WINNER', 'NOMINEE');
-
-
-create table if not exists movie_awards (
-    id bigserial primary key,
-    name varchar(128) not null,
-    description text default '',
-    movie_id bigint not null,
-    result award_status not null default 'WINNER',
-    awarded_at date not null,
-    logo_id bigint,
-    foreign key (movie_id) references movies(id),
-    foreign key (logo_id) references medias(id)
+CREATE TABLE IF NOT EXISTS movie_awards (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(128) NOT NULL,
+    description TEXT DEFAULT '',
+    movie_id BIGINT NOT NULL,
+    result award_status NOT NULL DEFAULT 'winner',
+    awarded_at DATE NOT NULL,
+    logo_id BIGINT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
+    FOREIGN KEY (logo_id) REFERENCES medias(id) ON DELETE SET NULL
 );
 
-create table if not exists people_awards (
-    id bigserial primary key,
-    name varchar(128) not null,
-    description text default '',
-    person_id bigint not null,
-    result award_status not null default 'WINNER',
-    awarded_at date not null,
-    logo_id bigint,
-    foreign key (person_id) references people(id),
-    foreign key (logo_id) references medias(id)
+CREATE TABLE IF NOT EXISTS people_awards (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(128) NOT NULL,
+    description TEXT DEFAULT '',
+    person_id BIGINT NOT NULL,
+    result award_status NOT NULL DEFAULT 'winner',
+    awarded_at DATE NOT NULL,
+    logo_id BIGINT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (person_id) REFERENCES people(id) ON DELETE CASCADE,
+    FOREIGN KEY (logo_id) REFERENCES medias(id) ON DELETE SET NULL
 );
 
 

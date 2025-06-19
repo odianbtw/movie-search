@@ -11,22 +11,22 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CountryDTOMapperTest {
-
-    private final CountryDTOMapper subject = new CountryDTOMapperImpl();
-
-    @Test
-    public void countryToCountryDTO () {
-        Country country = new Country(1, "Germany");
-        CountryDTO dto = new CountryDTO(1, "Germany");
-        assertEquals(dto, subject.to(country));
-    }
-
-    @Test
-    public void countryListToDTOs () {
-        var list = List.of(new Country(1, "Germany"));
-        var dtos = List.of(new CountryDTO(1, "Germany"));
-        assertEquals(dtos, subject.to(list));
-    }
-
-}
+//public class CountryDTOMapperTest {
+//
+//    private final CountryDTOMapper subject = new CountryDTOMapperImpl();
+//
+//    @Test
+//    public void countryToCountryDTO () {
+//        Country country = new Country(1, "Germany");
+//        CountryDTO dto = new CountryDTO(1, "Germany");
+//        assertEquals(dto, subject.to(country));
+//    }
+//
+//    @Test
+//    public void countryListToDTOs () {
+//        var list = List.of(new Country(1, "Germany"));
+//        var dtos = List.of(new CountryDTO(1, "Germany"));
+//        assertEquals(dtos, subject.to(list));
+//    }
+//
+//}

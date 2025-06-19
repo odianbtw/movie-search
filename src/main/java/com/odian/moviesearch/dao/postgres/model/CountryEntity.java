@@ -24,7 +24,8 @@ public class CountryEntity {
     private Set<CompanyEntity> companies;
     @ManyToMany(mappedBy = "countries")
     private Set<MovieEntity> movies;
-    private
+    @OneToMany(mappedBy = "country")
+    private Set<PersonEntity> people;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "updated_at")

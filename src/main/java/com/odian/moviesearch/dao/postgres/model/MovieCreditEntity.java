@@ -1,26 +1,25 @@
 package com.odian.moviesearch.dao.postgres.model;
 
-
-import com.odian.moviesearch.dao.postgres.model.enums.MediaTypeEntity;
+import com.odian.moviesearch.dao.postgres.model.enums.MovieRoleEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
 @Entity
-@Table(name = "medias")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class MediaEntity {
+@Table(name = "movie_credits")
+public class MovieCreditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String url;
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private MovieEntity movie;
+    @ManyToOne
+    @JoinColumn(name = "person_id")
+    private PersonEntity person;
     @Enumerated(EnumType.STRING)
-    private MediaTypeEntity mediaType;
+    private MovieRoleEntity role;
+
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "updated_at")
@@ -34,4 +33,5 @@ public class MediaEntity {
     private void setUpdateTime () {
         this.updatedAt = Instant.now();
     }
+
 }
