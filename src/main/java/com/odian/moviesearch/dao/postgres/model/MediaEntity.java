@@ -1,7 +1,7 @@
 package com.odian.moviesearch.dao.postgres.model;
 
 
-import com.odian.moviesearch.dao.postgres.model.enums.MediaTypeEntity;
+import com.odian.moviesearch.core.model.enums.MediaType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +20,7 @@ public class MediaEntity {
     private Long id;
     private String url;
     @Enumerated(EnumType.STRING)
-    private MediaTypeEntity mediaType;
+    private MediaType mediaType;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "updated_at")

@@ -1,4 +1,4 @@
-package com.odian.moviesearch.core;
+package com.odian.moviesearch.core.services.validators;
 
 import com.odian.moviesearch.core.model.utils.Pageable;
 import org.springframework.stereotype.Component;

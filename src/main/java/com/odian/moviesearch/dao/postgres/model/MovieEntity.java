@@ -1,8 +1,8 @@
 package com.odian.moviesearch.dao.postgres.model;
 
 
-import com.odian.moviesearch.dao.postgres.model.enums.MovieRatingEntity;
-import com.odian.moviesearch.dao.postgres.model.enums.MovieTypeEntity;
+import com.odian.moviesearch.core.model.enums.MovieRating;
+import com.odian.moviesearch.core.model.enums.MovieType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "movies")
@@ -34,9 +33,9 @@ public class MovieEntity {
     private Integer budget;
     private Integer revenue;
     @Enumerated(EnumType.STRING)
-    private MovieRatingEntity movieRating;
+    private MovieRating movieRating;
     @Enumerated(EnumType.STRING)
-    private MovieTypeEntity movieType;
+    private MovieType movieType;
     @ManyToMany
     @JoinTable(name = "movie_genre",
         joinColumns = @JoinColumn(name = "movie_id"),

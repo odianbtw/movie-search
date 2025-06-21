@@ -1,12 +1,10 @@
 package com.odian.moviesearch.core.services;
 
-import com.odian.moviesearch.core.CompanyPageableValidator;
+import com.odian.moviesearch.core.services.validators.CompanyPageableValidator;
 import com.odian.moviesearch.core.dao.CompanyDao;
-import com.odian.moviesearch.core.dao.CountryDao;
 import com.odian.moviesearch.core.dao.MediaDao;
 import com.odian.moviesearch.core.exceptions.NotFoundException;
 import com.odian.moviesearch.core.model.*;
-import com.odian.moviesearch.core.model.enums.MediaType;
 import com.odian.moviesearch.core.model.utils.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +24,22 @@ public class DefaultCompanyService implements CompanyService{
     @Override
     public Company create(Company company) {
         return companyDao.create(company);
+    }
+
+    @Override
+    public Company findById(Long id) {
+        return companyDao.findById(id)
+                .orElseThrow(() -> new NotFoundException("Company with this id not found"));
+    }
+
+    @Override
+    public Company update(Company company) {
+
+    }
+
+    @Override
+    public PagedResponse<Company> findAll(Pageable pageable) {
+        return companyDao.findAll(pageable);
     }
 
 

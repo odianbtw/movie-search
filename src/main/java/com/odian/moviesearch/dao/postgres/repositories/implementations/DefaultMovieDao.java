@@ -13,6 +13,8 @@ import com.odian.moviesearch.dao.postgres.repositories.spring.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class DefaultMovieDao implements MovieDao {
@@ -35,5 +37,11 @@ public class DefaultMovieDao implements MovieDao {
         return mapper.to(
                 movieRepository.save(movieEntity)
         );
+    }
+
+    @Override
+    public Optional<Movie> findById(Long id) {
+        var movie = movieRepository.findById(id).orElse(null);
+        return Optional.ofNullable(mapper.to(movie));
     }
 }

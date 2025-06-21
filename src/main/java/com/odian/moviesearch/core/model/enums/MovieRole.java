@@ -1,6 +1,6 @@
-package com.odian.moviesearch.dao.postgres.model.enums;
+package com.odian.moviesearch.core.model.enums;
 
-public enum MovieRoleEntity {
+public enum MovieRole {
     ACTOR,
     DIRECTOR,
     WRITER,

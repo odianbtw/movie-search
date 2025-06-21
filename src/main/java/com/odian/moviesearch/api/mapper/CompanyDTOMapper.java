@@ -10,6 +10,7 @@ import com.odian.moviesearch.core.model.Country;
 import com.odian.moviesearch.core.model.Media;
 import com.odian.moviesearch.core.model.PagedResponse;
 import com.odian.moviesearch.core.model.enums.MediaType;
+import com.odian.moviesearch.dao.postgres.mapper.CompanySpecificationMapper;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -25,5 +26,7 @@ public interface CompanyDTOMapper {
     @Mapping(target = "media.url", source = "logoUrl")
     Company to (CompanyRequest company);
     CompanyDTO to (Company company);
+    Company to (CompanyDTO companyDTO);
+    PagedResponseDTO<CompanyDTO> to (PagedResponse<Company> company);
 
 }

@@ -26,7 +26,6 @@ public class CompanyController {
     private final PageableBinder binder;
 
 
-
     @PostMapping
     public ResponseEntity<CompanyDTO> create (@Valid @RequestBody CompanyRequest companyRequest) {
         var company = mapper.to(
@@ -35,6 +34,27 @@ public class CompanyController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(company);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CompanyDTO> update (@PathVariable Long id, @Valid @RequestBody CompanyDTO companyDTO) {
+        if (!Objects.equals(id, companyDTO.id()))
+            throw new IllegalArgumentException("Id in the path should be equal to id in the request body");
+        var updatedCompany = service.update(mapper.to(companyDTO));
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .body(mapper.to(updatedCompany));
+    }
+
+    @GetMapping("/{id}")
+    public CompanyDTO findById (Long id) {
+        return mapper.to(service.findById(id));
+    }
+
+    @GetMapping
+    public PagedResponseDTO<CompanyDTO> findAll (HttpServletRequest request) {
+        var pageable = binder.pageableFromRequest(request);
+        return mapper.to(service.findAll(pageable));
     }
 
 }

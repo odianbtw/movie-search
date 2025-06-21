@@ -6,4 +6,10 @@ import com.odian.moviesearch.core.model.utils.Pageable;
 
 public interface CompanyService {
     Company create (Company company);
+
+    Company findById(Long id);
+
+    Company update (Company company);
+
+    PagedResponse<Company> findAll (Pageable pageable);
 }

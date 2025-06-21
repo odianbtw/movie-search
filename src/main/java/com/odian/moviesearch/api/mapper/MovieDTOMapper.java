@@ -1,6 +1,7 @@
 package com.odian.moviesearch.api.mapper;
 
 
+import com.odian.moviesearch.api.model.MovieDTO;
 import com.odian.moviesearch.api.model.MovieRequest;
 import com.odian.moviesearch.core.model.Media;
 import com.odian.moviesearch.core.model.Movie;
@@ -22,20 +23,5 @@ public interface MovieDTOMapper {
     @Mapping(target = "medias", expression = "java(mapMedia(request.coverUrl(), request.trailerUrl()))")
     Movie to (MovieRequest movie);
 
-    default Set<Media> mapMedia(String coverUrl, String trailerUrl) {
-        Set<Media> mediaSet = new HashSet<>();
-        if (coverUrl != null) {
-            Media cover = new Media();
-            cover.setMediaType(MediaType.COVER);
-            cover.setUrl(coverUrl);
-            mediaSet.add(cover);
-        }
-        if (trailerUrl != null) {
-            Media trailer = new Media();
-            trailer.setMediaType(MediaType.TRAILER);
-            trailer.setUrl(trailerUrl);
-            mediaSet.add(trailer);
-        }
-        return mediaSet;
-    }
+    MovieDTO to (Movie movie);
 }

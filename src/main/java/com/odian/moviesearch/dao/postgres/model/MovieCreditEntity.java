@@ -1,6 +1,6 @@
 package com.odian.moviesearch.dao.postgres.model;
 
-import com.odian.moviesearch.dao.postgres.model.enums.MovieRoleEntity;
+import com.odian.moviesearch.core.model.enums.MovieRole;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -18,7 +18,7 @@ public class MovieCreditEntity {
     @JoinColumn(name = "person_id")
     private PersonEntity person;
     @Enumerated(EnumType.STRING)
-    private MovieRoleEntity role;
+    private MovieRole role;
 
     @Column(name = "created_at")
     private Instant createdAt;
