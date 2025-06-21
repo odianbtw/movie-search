@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class PageableBinder {
@@ -40,7 +41,11 @@ public class PageableBinder {
                     sortable.setOrder(order);
                 }
                 case "sort" -> {
-                    sortable.setSortBy(entry.getKey());
+                    if (Objects.equals(entry.getValue()[0], "score"))
+                        sortable.setSortBy(entry.getValue()[0] + ".score");
+                    else
+                        sortable.setSortBy(entry.getValue()[0]);
+
                 }
                 default -> {
                     for (var value: entry.getValue()) {

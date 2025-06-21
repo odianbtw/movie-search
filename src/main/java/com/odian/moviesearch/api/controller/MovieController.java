@@ -36,6 +36,6 @@ public class MovieController {
     @GetMapping
     public void findAll (HttpServletRequest request) {
         var pageable = binder.pageableFromRequest(request);
-
+        service.findAll(pageable);
     }
 }

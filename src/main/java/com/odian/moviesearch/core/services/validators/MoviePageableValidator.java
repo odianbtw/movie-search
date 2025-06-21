@@ -1,10 +1,18 @@
 package com.odian.moviesearch.core.services.validators;
 
-import com.odian.moviesearch.core.model.utils.Pageable;
 
-public class MoviePageableValidator implements PageableValidator{
+import java.util.Set;
+
+public class MoviePageableValidator extends PageableValidator {
+
     @Override
-    public void validate(Pageable pageable) {
-
+    public Set<String> getValidSortBy() {
+        return Set.of("name", "score", "releaseDate");
     }
+
+    @Override
+    public Set<String> getValidParameterNames() {
+        return Set.of("name");
+    }
+
 }
