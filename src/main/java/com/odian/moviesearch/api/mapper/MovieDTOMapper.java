@@ -3,8 +3,10 @@ package com.odian.moviesearch.api.mapper;
 
 import com.odian.moviesearch.api.model.MovieDTO;
 import com.odian.moviesearch.api.model.MovieRequest;
+import com.odian.moviesearch.api.model.PagedResponseDTO;
 import com.odian.moviesearch.core.model.Media;
 import com.odian.moviesearch.core.model.Movie;
+import com.odian.moviesearch.core.model.PagedResponse;
 import com.odian.moviesearch.core.model.enums.MediaType;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -24,4 +26,6 @@ public interface MovieDTOMapper {
     Movie to (MovieRequest movie);
 
     MovieDTO to (Movie movie);
+
+    PagedResponseDTO<MovieDTO> to (PagedResponse<Movie> movie);
 }

@@ -2,7 +2,11 @@ package com.odian.moviesearch.dao.postgres.repositories.implementations;
 
 import com.odian.moviesearch.core.dao.MovieDao;
 import com.odian.moviesearch.core.model.Movie;
-import com.odian.moviesearch.dao.postgres.mapper.MovieEntityMapper;
+import com.odian.moviesearch.core.model.PagedResponse;
+import com.odian.moviesearch.core.model.utils.Pageable;
+import com.odian.moviesearch.dao.postgres.mapper.movie.MovieEntityMapper;
+import com.odian.moviesearch.dao.postgres.mapper.PageableMapper;
+import com.odian.moviesearch.dao.postgres.mapper.movie.MovieSpecificationMapper;
 import com.odian.moviesearch.dao.postgres.model.CompanyEntity;
 import com.odian.moviesearch.dao.postgres.model.CountryEntity;
 import com.odian.moviesearch.dao.postgres.model.GenreEntity;
@@ -24,6 +28,8 @@ public class DefaultMovieDao implements MovieDao {
     private final CountryRepository countryRepository;
     private final CompanyRepository companyRepository;
     private final MovieRepository movieRepository;
+    private final PageableMapper pageableMapper;
+    private final MovieSpecificationMapper specificationMapper;
 
     @Override
     public Movie create(Movie movie) {
@@ -43,5 +49,19 @@ public class DefaultMovieDao implements MovieDao {
     public Optional<Movie> findById(Long id) {
         var movie = movieRepository.findById(id).orElse(null);
         return Optional.ofNullable(mapper.to(movie));
+    }
+
+    @Override
+    public PagedResponse<Movie> findAll(Pageable pageable) {
+        var page = pageableMapper.to(pageable);
+        var specification = specificationMapper.to(pageable.getParameters());
+        var result = movieRepository.findAll(specification, page);
+        return new PagedResponse<Movie>(
+                result.getTotalElements(),
+                result.getTotalPages(),
+                pageable.getCurrentPage(),
+                pageable.getPageSize(),
+                result.get().map(mapper::to).toList()
+        );
     }
 }

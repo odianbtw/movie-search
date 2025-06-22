@@ -1,4 +1,4 @@
-package com.odian.moviesearch.dao.postgres.mapper;
+package com.odian.moviesearch.dao.postgres.mapper.company;
 
 
 import com.odian.moviesearch.core.model.utils.Parameter;
