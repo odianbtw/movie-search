@@ -2,6 +2,9 @@ package com.odian.moviesearch.dao.postgres.model;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -11,6 +14,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "people")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PersonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +28,11 @@ public class PersonEntity {
     private CountryEntity country;
     @Column(name = "birth_date")
     private LocalDate birthDate;
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     private List<MovieCreditEntity> movieCredits;
-    @ManyToMany
-    @JoinTable(name = "people_medias",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "media_id"))
-    private List<MediaEntity> medias;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "photo_id")
+    private MediaEntity photo;
 
     @Column(name = "created_at")
     private Instant createdAt;

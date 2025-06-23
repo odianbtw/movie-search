@@ -89,7 +89,7 @@ paths:
                       items:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Company'
+                          $ref: '#/components/schemas/CompanyItem'
         default:
           description: Unexpected error
           content:
@@ -186,7 +186,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Company'
+              $ref: '#/components/schemas/CompanyUpdate'
       responses:
         '202':
           description: Successfully updated
@@ -295,7 +295,7 @@ paths:
                       items:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Movie'
+                          $ref: '#/components/schemas/MovieItem'
         default:
           description: Unexpected error
           content:
@@ -616,7 +616,7 @@ paths:
                       items:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Person'
+                          $ref: '#/components/schemas/PersonItem'
         default:
           description: Unexpected error
           content:
@@ -918,6 +918,33 @@ components:
         description:
           type: string
           example: Paramount Pictures is an American film production and distribution company and the flagship namesake subsidiary of Paramount Global. It is the sixth-oldest film studio in the world, the second-oldest film studio in the United States.
+    CompanyUpdate:
+      type: object
+      required:
+        - name
+        - logoUrl
+        - countryId
+        - description
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 32
+        name:
+          type: string
+          example: Paramount Pictures
+        logoUrl:
+          type: string
+          format: uri
+          example: https://moviesearch.media/logos/paramount_pictures_logo.jpg
+        countryId:
+          type: integer
+          format: int 32
+          example: 1
+        description:
+          type: string
+          example: Paramount Pictures is an American film production and distribution company and the flagship namesake subsidiary of Paramount Global. It is the sixth-oldest film studio in the world, the second-oldest film studio in the United States.
+
     CompanyRequest:
       type: object
       required:
@@ -940,6 +967,20 @@ components:
         description:
           type: string
           example: Paramount Pictures is an American film production and distribution company and the flagship namesake subsidiary of Paramount Global. It is the sixth-oldest film studio in the world, the second-oldest film studio in the United States.
+    CompanyItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 32
+        name:
+          type: string
+          example: Warner Brothers
+        logoUrl:
+          type: string
+          format: uri
+          example: https://moviesearch.media/logos/paramount_pictures_logo.jpg
     Movie:
       type: object
       properties:
@@ -1018,6 +1059,47 @@ components:
           type: integer
           format: int64
           example: 200000000
+
+    MovieItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 213
+        name:
+          type: string
+          example: The Shawshank Redemption
+        coverUrl:
+          type: string
+          format: uri
+          example: https://moviesearch.media/cover/shawshank_redemption.jpg
+        releaseDate:
+          type: string
+          format: date
+          example: "1994-06-11"
+        score:
+          type: number
+          format: float
+          minimum: 0.0
+          maximum: 10.0
+          example: 9.3
+        durationTime:
+          type: integer
+          format: int32
+          example: 146
+        movieRating:
+          type: string
+          default: UNRATED
+          enum:
+            - G
+            - PG
+            - PG-13
+            - R
+            - NC_17
+            - UNRATED
+          example: R
+
 
 
     MovieRequest:
@@ -1217,6 +1299,21 @@ components:
               - EDITOR
               - COMPOSER
           example: ["ACTOR", "PRODUCER"]
+
+    PersonItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 64
+        name:
+          type: string
+          example: Brad Pitt
+        photoUrl:
+          type: string
+          format: uri
+          example: https://moviesearch.media/photos/brad_pitt.jpg
 
     PersonRequest:
       type: object

@@ -58,9 +58,11 @@ CREATE TABLE IF NOT EXISTS people (
     name VARCHAR(64) NOT NULL,
     biography TEXT DEFAULT '',
     country_id INT NOT NULL,
+    photo_id BIGINT,
     birth_date DATE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (photo_id) REFERENCES medias(id) ON DELETE SET NULL,
     FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE
 );
 
@@ -118,13 +120,6 @@ CREATE TABLE IF NOT EXISTS movie_media (
     FOREIGN KEY (media_id) REFERENCES medias(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS people_medias (
-    person_id BIGINT NOT NULL,
-    media_id BIGINT NOT NULL,
-    PRIMARY KEY (person_id, media_id),
-    FOREIGN KEY (person_id) REFERENCES people(id) ON DELETE CASCADE,
-    FOREIGN KEY (media_id) REFERENCES medias(id) ON DELETE CASCADE
-);
 
 CREATE TYPE award_status AS ENUM ('winner', 'nominee');
 

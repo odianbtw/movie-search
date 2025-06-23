@@ -56,7 +56,7 @@ public class DefaultMovieDao implements MovieDao {
         var page = pageableMapper.to(pageable);
         var specification = specificationMapper.to(pageable.getParameters());
         var result = movieRepository.findAll(specification, page);
-        return new PagedResponse<Movie>(
+        return new PagedResponse<>(
                 result.getTotalElements(),
                 result.getTotalPages(),
                 pageable.getCurrentPage(),
