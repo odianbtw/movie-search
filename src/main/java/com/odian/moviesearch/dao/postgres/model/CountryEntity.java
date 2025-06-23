@@ -20,11 +20,11 @@ public class CountryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
     private List<CompanyEntity> companies;
-    @ManyToMany(mappedBy = "countries")
+    @ManyToMany(mappedBy = "countries", fetch = FetchType.LAZY)
     private List<MovieEntity> movies;
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
     private List<PersonEntity> people;
     @Column(name = "created_at")
     private Instant createdAt;

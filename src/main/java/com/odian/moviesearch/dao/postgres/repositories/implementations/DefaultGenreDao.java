@@ -19,4 +19,10 @@ public class DefaultGenreDao implements GenreDao {
     public List<Genre> findAll() {
         return mapper.to(genreRepository.findAll());
     }
+
+    @Override
+    public Genre create(Genre genre) {
+        var entity = mapper.to(genre);
+        return mapper.to(genreRepository.save(entity));
+    }
 }

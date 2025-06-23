@@ -23,7 +23,7 @@ public class PersonEntity {
     private Long id;
     private String name;
     private String biography;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private CountryEntity country;
     @Column(name = "birth_date")

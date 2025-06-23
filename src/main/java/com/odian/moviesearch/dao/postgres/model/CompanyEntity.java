@@ -24,10 +24,10 @@ public class CompanyEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private CountryEntity country;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "logo_id")
     private MediaEntity logo;
-    @ManyToMany(mappedBy = "companies")
+    @ManyToMany(mappedBy = "companies", fetch = FetchType.LAZY)
     private List<MovieEntity> movies;
     @Column(name = "created_at")
     private Instant createdAt;

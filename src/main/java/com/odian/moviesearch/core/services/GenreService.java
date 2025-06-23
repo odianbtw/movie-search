@@ -7,4 +7,5 @@ import java.util.Set;
 
 public interface GenreService {
     List<Genre> findAll();
+    Genre create (Genre genre);
 }

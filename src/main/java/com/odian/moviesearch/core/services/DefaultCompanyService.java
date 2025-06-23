@@ -34,7 +34,7 @@ public class DefaultCompanyService implements CompanyService{
 
     @Override
     public Company update(Company company) {
-
+        return null;
     }
 
     @Override

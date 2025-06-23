@@ -19,5 +19,4 @@ public class Person {
     private Country country;
     private LocalDate birthDate;
     private Media photo;
-    private List<MovieRole> roles;
 }

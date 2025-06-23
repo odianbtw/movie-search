@@ -41,6 +41,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - Genres
+      summary: Add new genre.
+      description: Add new genre.
+      operationId: addGenre
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenreRequest'
+      responses:
+        '201':
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Genre'
+        '400':
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Genre with this name already exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /countries:
     get:
       tags:
@@ -871,6 +909,12 @@ components:
           type: integer
           format: int64
           example: 5
+        name:
+          type: string
+          example: Horror
+    GenreRequest:
+      type: object
+      properties:
         name:
           type: string
           example: Horror

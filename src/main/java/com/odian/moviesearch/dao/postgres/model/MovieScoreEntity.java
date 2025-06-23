@@ -11,7 +11,7 @@ public class MovieScoreEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id")
     private MovieEntity movie;
     private Float score;

@@ -7,4 +7,5 @@ import java.util.Set;
 
 public interface GenreDao {
     List<Genre> findAll();
+    Genre create (Genre genre);
 }

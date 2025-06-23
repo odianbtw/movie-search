@@ -23,9 +23,9 @@ public interface MovieDTOMapper {
     @Mapping(target = "genres", source = "genreIds")
     @Mapping(target = "companies", source = "companyIds")
     @Mapping(target = "medias", expression = "java(mapMedia(request.coverUrl(), request.trailerUrl()))")
-    Movie to (MovieRequest movie);
+    default Movie to (MovieRequest movie){return null;}
 
-    MovieDTO to (Movie movie);
+    default MovieDTO to (Movie movie){return null;}
 
-    PagedResponseDTO<MovieDTO> to (PagedResponse<Movie> movie);
+    default PagedResponseDTO<MovieDTO> to (PagedResponse<Movie> movie){return null;}
 }

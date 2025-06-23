@@ -1,11 +1,12 @@
 package com.odian.moviesearch.dao.postgres.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PageableMapper {
 
     default Pageable to (com.odian.moviesearch.core.model.utils.Pageable pageable) {

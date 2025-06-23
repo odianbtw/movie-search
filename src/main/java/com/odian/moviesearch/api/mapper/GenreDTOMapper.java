@@ -11,5 +11,4 @@ import java.util.List;
 public interface GenreDTOMapper {
     GenreDTO to(Genre source);
     List<GenreDTO> to(List<Genre> genres);
-
 }
