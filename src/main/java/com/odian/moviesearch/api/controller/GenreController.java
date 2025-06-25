@@ -25,7 +25,4 @@ public class GenreController {
         return mapper.to(genreService.findAll());
     }
 
-//    public GenreDTO create (@Valid @RequestBody GenreDTO genre) {
-//
-//    }
 }

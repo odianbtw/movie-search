@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface PeopleSpecificationMapper {
     default Specification<PersonEntity> to (List<Parameter> parameterList) {
         return (root, query, criteriaBuilder) -> {

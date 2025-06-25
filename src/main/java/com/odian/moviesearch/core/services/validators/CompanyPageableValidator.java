@@ -10,11 +10,11 @@ public class CompanyPageableValidator extends PageableValidator{
 
     @Override
     public Set<String> getValidSortBy() {
-        return Set.of("name", "score.score", "releaseDate");
+        return Set.of("name");
     }
 
     @Override
     public Set<String> getValidParameterNames() {
-        return Set.of("name", "genreId", "countryId", "scoreFrom", "scoreTo", "yearFrom", "yearTo");
+        return Set.of("name", "countryId");
     }
 }

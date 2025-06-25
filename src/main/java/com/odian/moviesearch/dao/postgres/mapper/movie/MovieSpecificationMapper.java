@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface MovieSpecificationMapper {
     default Specification<MovieEntity> to (List<Parameter> parameterList) {
         return (root, query, criteriaBuilder) -> {

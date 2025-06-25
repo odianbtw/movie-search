@@ -9,5 +9,4 @@ import java.util.Set;
 public interface CountryDao {
     List<Country> findAll ();
     Optional<Country> findById(Integer id);
-    Set<Country> findAllByIds (Set<Integer> ids);
 }

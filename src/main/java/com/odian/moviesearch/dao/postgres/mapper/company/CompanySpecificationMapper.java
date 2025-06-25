@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CompanySpecificationMapper {
 
     default Specification<CompanyEntity> to (List<Parameter> parameters) {
@@ -18,7 +18,7 @@ public interface CompanySpecificationMapper {
             List<Predicate> predicateList = new ArrayList<>();
             for (var parameter : parameters) {
                 if (parameter.name().equals("name")) {
-                    var name = criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), parameter.value() + "%");
+                    var name = criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), parameter.value().toLowerCase() + "%");
                     predicateList.add(name);
                 } else {
                     throw new IllegalArgumentException("Unknown field");

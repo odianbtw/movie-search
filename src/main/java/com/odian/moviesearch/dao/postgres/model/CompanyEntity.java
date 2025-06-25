@@ -24,7 +24,7 @@ public class CompanyEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private CountryEntity country;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "logo_id")
     private MediaEntity logo;
     @ManyToMany(mappedBy = "companies", fetch = FetchType.LAZY)

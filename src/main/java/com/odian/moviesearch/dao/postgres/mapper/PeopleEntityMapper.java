@@ -6,7 +6,7 @@ import com.odian.moviesearch.dao.postgres.model.PersonEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PeopleEntityMapper {
     PersonEntity to (Person person);
     Person to (PersonEntity person);

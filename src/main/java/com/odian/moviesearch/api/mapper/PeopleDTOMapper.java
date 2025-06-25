@@ -8,7 +8,7 @@ import com.odian.moviesearch.core.model.PagedResponse;
 import com.odian.moviesearch.core.model.Person;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface PeopleDTOMapper {
     Person to (PersonRequest person);
     PersonDTO to (Person person);

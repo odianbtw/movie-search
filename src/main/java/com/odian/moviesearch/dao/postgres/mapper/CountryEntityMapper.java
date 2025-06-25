@@ -11,4 +11,5 @@ import java.util.List;
 public interface CountryEntityMapper {
     Country to (CountryEntity country);
     List<Country> to (List<CountryEntity> countries);
+    CountryEntity to (Country country);
 }

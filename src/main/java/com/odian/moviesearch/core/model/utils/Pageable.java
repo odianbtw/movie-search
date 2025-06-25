@@ -10,8 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Pageable {
-    private int pageSize;
-    private int currentPage;
-    private Sortable sortable;
+    private int pageSize = 20;
+    private int currentPage = 0;
+    private Sortable sortable = new Sortable();
     private List<Parameter> parameters;
 }

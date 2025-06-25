@@ -11,9 +11,11 @@ import com.odian.moviesearch.dao.postgres.mapper.people.PeopleSpecificationMappe
 import com.odian.moviesearch.dao.postgres.repositories.spring.CountryRepository;
 import com.odian.moviesearch.dao.postgres.repositories.spring.PeopleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 @RequiredArgsConstructor
 public class DefaultPeopleDao implements PeopleDao {
 

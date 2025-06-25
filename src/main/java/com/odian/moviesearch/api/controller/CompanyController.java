@@ -2,10 +2,7 @@ package com.odian.moviesearch.api.controller;
 
 
 import com.odian.moviesearch.api.mapper.CompanyDTOMapper;
-import com.odian.moviesearch.api.model.CompanyDTO;
-import com.odian.moviesearch.api.model.CompanyItemDTO;
-import com.odian.moviesearch.api.model.CompanyRequest;
-import com.odian.moviesearch.api.model.PagedResponseDTO;
+import com.odian.moviesearch.api.model.*;
 import com.odian.moviesearch.api.utils.PageableBinder;
 import com.odian.moviesearch.core.services.CompanyService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,7 +35,7 @@ public class CompanyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CompanyDTO> update (@PathVariable Long id, @Valid @RequestBody CompanyDTO companyDTO) {
+    public ResponseEntity<CompanyDTO> update (@PathVariable Long id, @Valid @RequestBody CompanyUpdateDTO companyDTO) {
         if (!Objects.equals(id, companyDTO.id()))
             throw new IllegalArgumentException("Id in the path should be equal to id in the request body");
         var updatedCompany = service.update(mapper.to(companyDTO));
