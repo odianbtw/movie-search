@@ -3,10 +3,12 @@ package com.odian.moviesearch.api.model;
 import com.odian.moviesearch.core.model.enums.MovieRating;
 import com.odian.moviesearch.core.model.enums.MovieType;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Builder
 public record MovieRequest(
         @NotNull String name,
         String slogan,

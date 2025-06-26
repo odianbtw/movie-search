@@ -51,11 +51,11 @@ public class MovieEntity {
         joinColumns = @JoinColumn(name = "movie_id"),
         inverseJoinColumns = @JoinColumn(name = "company_id"))
     private List<CompanyEntity> companies;
-    @OneToOne(mappedBy = "movie")
+    @OneToOne(mappedBy = "movie", cascade = CascadeType.PERSIST)
     private MovieScoreEntity score;
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private List<MovieCreditEntity> movieCredits;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "movie_media",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "media_id"))
@@ -67,12 +67,16 @@ public class MovieEntity {
 
 
     @PrePersist
-    private void setCreationTime () {
+    private void prePersist () {
         this.createdAt = Instant.now();
         this.updatedAt = Instant.now();
+        MovieScoreEntity movieScoreEntity = new MovieScoreEntity();
+        movieScoreEntity.setScore(0.0f);
+        movieScoreEntity.setMovie(this);
+        this.score = movieScoreEntity;
     }
     @PreUpdate
-    private void setUpdateTime () {
+    private void preUpdate () {
         this.updatedAt = Instant.now();
     }
 }

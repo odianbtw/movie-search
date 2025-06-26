@@ -31,7 +31,7 @@ public class MovieController {
     }
 
     @GetMapping("/{id}")
-    public MovieDTO findById (Long id) {
+    public MovieDTO findById (@PathVariable Long id) {
         return mapper.to(service.findById(id));
     }
 

@@ -45,7 +45,7 @@ public class CompanyController {
     }
 
     @GetMapping("/{id}")
-    public CompanyDTO findById (Long id) {
+    public CompanyDTO findById (@PathVariable Long id) {
         return mapper.to(service.findById(id));
     }
 
