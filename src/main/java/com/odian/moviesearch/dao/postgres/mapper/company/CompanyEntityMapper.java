@@ -20,5 +20,6 @@ public interface CompanyEntityMapper {
     CompanyEntity to (Company company);
     @InheritInverseConfiguration
     Company to (CompanyEntity company);
+
     List<Company> to (List<CompanyEntity> companies);
 }
