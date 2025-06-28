@@ -76,5 +76,25 @@ public interface MovieDTOMapper {
                 .build();
     }
 
-    default PagedResponseDTO<MovieDTO> to (PagedResponse<Movie> movie){return null;}
+    default MovieItemDTO mapToItem (Movie movie) {
+        return new MovieItemDTO(
+                movie.getId(),
+                movie.getName(),
+                movie.getMedias().stream().filter(t -> Objects.equals(t.getMediaType(), MediaType.COVER)).map(Media::getUrl).findAny().orElse(null),
+                movie.getReleaseDate(),
+                movie.getScore(),
+                movie.getDurationTime(),
+                movie.getMovieRating()
+        );
+    }
+
+    default PagedResponseDTO<MovieItemDTO> to (PagedResponse<Movie> movie){
+        var list = movie.items().stream().map(this::mapToItem).toList();
+        return new PagedResponseDTO<>(movie.totalItems(),
+                movie.totalPages(),
+                movie.currentPage(),
+                movie.pageSize(),
+                list
+        );
+    }
 }

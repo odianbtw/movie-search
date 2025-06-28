@@ -52,4 +52,10 @@ public interface MovieEntityMapper {
     }
     @Mapping(target = "score", source = "score.score")
     Movie to (MovieEntity movie);
+
+    @Mapping(target = "genres", ignore = true)
+    @Mapping(target = "countries", ignore = true)
+    @Mapping(target = "companies", ignore = true)
+    @Mapping(target = "score", source = "score.score")
+    Movie map (MovieEntity movie);
 }

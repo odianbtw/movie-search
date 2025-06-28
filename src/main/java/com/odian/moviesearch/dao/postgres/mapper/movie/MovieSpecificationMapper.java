@@ -37,7 +37,7 @@ public interface MovieSpecificationMapper {
                         predicateList.add(countryPredicate);
                     }
                     case "scoreFrom" -> {
-                        Join<MovieEntity, MovieScoreEntity> scoreJoin = root.join("movieScore");
+                        Join<MovieEntity, MovieScoreEntity> scoreJoin = root.join("score");
                         Predicate scorePredicate = criteriaBuilder.greaterThanOrEqualTo(
                                 scoreJoin.get("score"),
                                 Float.valueOf(param.value())
@@ -45,7 +45,7 @@ public interface MovieSpecificationMapper {
                         predicateList.add(scorePredicate);
                     }
                     case "scoreTo" -> {
-                        Join<MovieEntity, MovieScoreEntity> scoreJoin = root.join("movieScore");
+                        Join<MovieEntity, MovieScoreEntity> scoreJoin = root.join("score");
                         Predicate scorePredicate = criteriaBuilder.lessThanOrEqualTo(
                                 scoreJoin.get("score"),
                                 Float.valueOf(param.value())

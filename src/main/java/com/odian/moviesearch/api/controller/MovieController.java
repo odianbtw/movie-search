@@ -2,6 +2,7 @@ package com.odian.moviesearch.api.controller;
 
 import com.odian.moviesearch.api.mapper.MovieDTOMapper;
 import com.odian.moviesearch.api.model.MovieDTO;
+import com.odian.moviesearch.api.model.MovieItemDTO;
 import com.odian.moviesearch.api.model.MovieRequest;
 import com.odian.moviesearch.api.model.PagedResponseDTO;
 import com.odian.moviesearch.api.utils.PageableBinder;
@@ -36,7 +37,7 @@ public class MovieController {
     }
 
     @GetMapping
-    public PagedResponseDTO<MovieDTO> findAll (HttpServletRequest request) {
+    public PagedResponseDTO<MovieItemDTO> findAll (HttpServletRequest request) {
         var pageable = binder.pageableFromRequest(request);
         return mapper.to(service.findAll(pageable));
     }

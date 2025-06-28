@@ -6,6 +6,7 @@ import com.odian.moviesearch.core.exceptions.NotFoundException;
 import com.odian.moviesearch.core.model.Movie;
 import com.odian.moviesearch.core.model.PagedResponse;
 import com.odian.moviesearch.core.model.utils.Pageable;
+import com.odian.moviesearch.core.services.validators.MoviePageableValidator;
 import com.odian.moviesearch.core.services.validators.PageableValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class DefaultMovieService implements MovieService {
 
     private final MovieDao movieDao;
-    private final PageableValidator pageableValidator;
+    private final MoviePageableValidator pageableValidator;
 
     @Transactional
     @Override

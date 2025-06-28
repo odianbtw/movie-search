@@ -7,6 +7,7 @@ import com.odian.moviesearch.core.model.Person;
 import com.odian.moviesearch.core.model.enums.MediaType;
 import com.odian.moviesearch.core.model.utils.Pageable;
 import com.odian.moviesearch.core.services.validators.PageableValidator;
+import com.odian.moviesearch.core.services.validators.PeoplePageableValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DefaultPeopleService implements PeopleService {
 
     private final PeopleDao peopleDao;
-    private final PageableValidator pageableValidator;
+    private final PeoplePageableValidator pageableValidator;
 
     @Transactional
     @Override

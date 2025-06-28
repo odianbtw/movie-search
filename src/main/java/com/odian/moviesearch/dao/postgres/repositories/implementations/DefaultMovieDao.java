@@ -61,7 +61,7 @@ public class DefaultMovieDao implements MovieDao {
                 result.getTotalPages(),
                 pageable.getCurrentPage(),
                 pageable.getPageSize(),
-                result.get().map(mapper::to).toList()
+                result.get().map(mapper::map).toList()
         );
     }
 }
