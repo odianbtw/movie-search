@@ -8,6 +8,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -17,5 +19,6 @@ public interface MovieRepository extends JpaRepository<MovieEntity, Long>, JpaSp
     Optional<MovieEntity> findById(Long id);
     @EntityGraph(attributePaths = {"medias", "score"})
     Page<MovieEntity> findAll(Specification<MovieEntity> spec, Pageable pageable);
-
+    @Query("from MovieEntity m where m.id = :id")
+    Optional<MovieEntity> findByIdNotFull (@Param("id") Long id);
 }

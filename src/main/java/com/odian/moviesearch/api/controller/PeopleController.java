@@ -32,7 +32,7 @@ public class PeopleController {
     }
 
     @GetMapping("/{id}")
-    public PersonDTO findById (Long id) {
+    public PersonDTO findById (@PathVariable Long id) {
         return mapper.to(peopleService.findById(id));
     }
 

@@ -50,7 +50,7 @@ public class DefaultPeopleDao implements PeopleDao {
                 result.getTotalPages(),
                 pageable.getCurrentPage(),
                 pageable.getPageSize(),
-                result.get().map(mapper::to).toList()
+                result.get().map(mapper::map).toList()
         );
     }
 }

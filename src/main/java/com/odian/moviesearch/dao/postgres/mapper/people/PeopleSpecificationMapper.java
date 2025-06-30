@@ -19,7 +19,7 @@ public interface PeopleSpecificationMapper {
             for (var param : parameterList) {
                 switch (param.name()) {
                     case "name" -> {
-                        var name = criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), param.value());
+                        var name = criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), param.value() + "%");
                         predicateList.add(name);
                     }
                     case "countryId" -> {

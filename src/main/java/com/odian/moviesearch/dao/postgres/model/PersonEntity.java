@@ -30,7 +30,7 @@ public class PersonEntity {
     private LocalDate birthDate;
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     private List<MovieCreditEntity> movieCredits;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "photo_id")
     private MediaEntity photo;
 

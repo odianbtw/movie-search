@@ -8,4 +8,5 @@ public interface MovieService {
     Movie create (Movie movie);
     Movie findById (Long id);
     PagedResponse<Movie> findAll (Pageable pageable);
+
 }

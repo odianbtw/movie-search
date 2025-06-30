@@ -2,11 +2,17 @@ package com.odian.moviesearch.dao.postgres.model;
 
 import com.odian.moviesearch.core.model.enums.MovieRole;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
 @Entity
 @Table(name = "movie_credits")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MovieCreditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

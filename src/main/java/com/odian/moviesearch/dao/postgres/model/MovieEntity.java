@@ -53,7 +53,7 @@ public class MovieEntity {
     private List<CompanyEntity> companies;
     @OneToOne(mappedBy = "movie", cascade = CascadeType.PERSIST)
     private MovieScoreEntity score;
-    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<MovieCreditEntity> movieCredits;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "movie_media",

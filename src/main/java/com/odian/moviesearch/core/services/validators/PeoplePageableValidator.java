@@ -8,11 +8,11 @@ import java.util.Set;
 public class PeoplePageableValidator extends PageableValidator {
     @Override
     public Set<String> getValidSortBy() {
-        return Set.of();
+        return Set.of("name");
     }
 
     @Override
     public Set<String> getValidParameterNames() {
-        return Set.of();
+        return Set.of("name", "countryId");
     }
 }
