@@ -154,129 +154,93 @@ CREATE TABLE IF NOT EXISTS people_awards (
 
 
 
+create sequence country_id_seq start with 1 increment by 1 cache 20;
 
--- create table if not exists awards (
---     id int auto_increment primary key,
---     name varchar(64) not null unique,
---     description varchar(255) default '',
---     awarded_at date not null,
---     movie_id bigint,
---     created_at timestamp not null default current_timestamp,
---     updated_at timestamp not null default current_timestamp,
---     foreign key (movie_id) references movies(id) on delete cascade,
---     index idx_awards_movie_id (movie_id)
--- );
---
--- create table if not exists users (
---     id bigint auto_increment primary key,
---     name varchar(64) not null,
---     username varchar(64) not null unique,
---     email varchar(64) not null unique,
---     password varchar(64) not null,
---     created_at timestamp not null default current_timestamp,
---     updated_at timestamp not null default current_timestamp
--- );
---
--- create table if not exists reviews (
---     id bigint auto_increment primary key,
---     score float not null default 0.0,
---     message varchar(1028) default '',
---     user_id bigint not null,
---     movie_id bigint not null,
---     status ENUM('NEW', 'OLD') not null default 'NEW',
---     created_at timestamp not null default current_timestamp,
---     updated_at timestamp not null default current_timestamp,
---     foreign key (user_id) references users(id) on delete cascade,
---     foreign key (movie_id) references movies(id) on delete cascade,
---     index idx_reviews_movie (movie_id),
---     index idx_reviews_user (user_id)
--- );
---
--- create table if not exists movie_scores (
---     id bigint auto_increment primary key,
---     movie_id bigint not null unique,
---     score float not null default 0.0,
---     created_at timestamp not null default current_timestamp,
---     updated_at timestamp not null default current_timestamp,
---     foreign key (movie_id) references movies(id),
---     index idx_movie_scores_movie (movie_id)
--- );
---
--- create table if not exists movie_genre (
---     movie_id bigint not null,
---     genre_id int not null,
---     primary key (movie_id, genre_id),
---     index idx_mg_movie (movie_id),
---     index idx_mg_genre (genre_id),
---     foreign key (movie_id) references movies(id) on delete cascade,
---     foreign key (genre_id) references genres(id) on delete cascade
--- );
---
--- create table if not exists production_studio_movie (
---     movie_id bigint not null,
---     production_studio_id int not null,
---     primary key (movie_id, production_studio_id),
---     index idx_psm_movie (movie_id),
---     index idx_psm_studio (production_studio_id),
---     foreign key (movie_id) references movies(id) on delete cascade,
---     foreign key (production_studio_id) references production_studios(id) on delete cascade
--- );
---
--- create table if not exists country_movie (
---     movie_id bigint not null,
---     country_id int not null,
---     primary key (movie_id, country_id),
---     index idx_cm_movie (movie_id),
---     index idx_cm_country (country_id),
---     foreign key (movie_id) references movies(id) on delete cascade,
---     foreign key (country_id) references countries(id) on delete cascade
--- );
---
--- create table if not exists movie_credits (
---     id bigint auto_increment primary key,
---     person_id bigint not null,
---     movie_id bigint not null,
---     role enum('ACTOR', 'DIRECTOR', 'WRITER', 'COMPOSER', 'PRODUCER', 'CINEMATOGRAPHER', 'EDITOR') not null,
---     created_at timestamp not null default current_timestamp,
---     updated_at timestamp not null default current_timestamp,
---     index idx_mc_movie (movie_id),
---     index idx_mc_person (person_id),
---     foreign key (person_id) references persons(id) on delete cascade,
---     foreign key (movie_id) references movies(id) on delete cascade,
---     unique key unique_movie_credit (person_id, movie_id, role)
--- );
---
--- create table if not exists movie_media (
---     movie_id bigint not null,
---     media_id bigint not null,
---     primary key (movie_id, media_id),
---     index idx_mm_movie (movie_id),
---     index idx_mm_media (media_id),
---     foreign key (movie_id) references movies(id) on delete cascade,
---     foreign key (media_id) references medias(id) on delete cascade
--- );
---
--- create table if not exists person_media (
---     person_id bigint not null,
---     media_id bigint not null,
---     primary key (person_id, media_id),
---     index idx_pm_person (person_id),
---     index idx_pm_media (media_id),
---     foreign key (person_id) references persons(id) on delete cascade,
---     foreign key (media_id) references medias(id) on delete cascade
--- );
---
---
---
---
---
---
---
---
---
---
---
---
+create table if not exists countries (
+    id int primary key default nextval('country_id_seq'),
+    name varchar(128) unique not null,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
+    updated_at timestamp not null default CURRENT_TIMESTAMP
+);
+
+create sequence genre_id_seq start with 1 increment by 1 cache 20;
+
+create table if not exists genres (
+    id int primary key default nextval('genre_id_seq'),
+    name varchar(64) unique not null,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
+    updated_at timestamp not null default CURRENT_TIMESTAMP
+);
+
+create sequence companies_id_seq start with 1 increment by 1 cache 20;
+
+create table if not exists production_companies (
+    id int primary key default nextval('companies_id_seq'),
+    name varchar(64) unique not null,
+    description text default 'No information given',
+    country_id int not null,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
+    updated_at timestamp not null default CURRENT_TIMESTAMP,
+    foreign key (country_id) references countries(id) on delete cascade
+);
+
+create sequence media_id_seq start with 1 increment by 1 cache 20;
+create type media_type_enum as enum ('LOGO', 'PORTRAIT', 'COVER', 'PHOTO', 'TRAILER');
+
+create table if not exists medias (
+    id bigint primary key default nextval('media_id_seq'),
+    uri varchar(128) not null,
+    media_type media_type_enum not null default 'LOGO',
+    created_at timestamp not null default CURRENT_TIMESTAMP,
+    updated_at timestamp not null default CURRENT_TIMESTAMP
+);
+
+create table if not exists production_company_media (
+    company_id int not null,
+    media_id bigint not null ,
+    primary key (company_id, media_id),
+    foreign key (company_id) references companies(id) on delete cascade,
+    foreign key (media_id) references medias(id) on delete cascade
+);
+
+create sequence titles_id_seq start with 1 increment by 1 cache 20;
+create type title_type_enum as enum ('MOVIE', 'SERIES');
+
+create table if not exists titles (
+    id bigint primary key default nextval('titles_id_seq'),
+    imdb_id varchar(32) unique,
+    title varchar(128) not null,
+    title_type title_type_enum not null default 'MOVIE',
+    unique (imdb_id, title)
+);
+
+create table if not exists title_media (
+
+)
+
+create type age_rating_enum as enum ('G', 'PG', 'PG-13', 'R', 'NC_17', 'UNRATED');
+
+create table if not exists movies_info (
+    movie_id bigint primary key,
+    slogan varchar(255) default 'No slogan given',
+    description text default 'No description given',
+    age_rating age_rating_enum not null default 'UNRATED',
+    budget int,
+    revenue int,
+    release_date date not null,
+    duration_minutes int,
+    foreign key (movie_id) references titles(id) on delete cascade
+);
+
+create table if not exists series_info (
+    series_id bigint primary key,
+    slogan varchar(255) default 'No slogan given',
+    description text default 'No description given',
+    age_rating age_rating_enum not null default 'UNRATED',
+    budget int,
+    revenue int,
+    foreign key (series_id) references titles(id) on delete cascade
+);
 
 
 
