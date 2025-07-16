@@ -1,159 +1,3 @@
-CREATE TABLE IF NOT EXISTS countries (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(64) NOT NULL UNIQUE,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TYPE rating_enum AS ENUM ('G', 'PG', 'PG-13', 'R', 'NC-17', 'UNRATED');
-CREATE TYPE movie_type_enum AS ENUM ('movie', 'series');
-
-CREATE TABLE IF NOT EXISTS movies (
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(128) NOT NULL,
-    slogan TEXT DEFAULT '',
-    description TEXT DEFAULT '',
-    release_date DATE,
-    duration_time INT,
-    budget BIGINT,
-    revenue BIGINT,
-    rating rating_enum NOT NULL DEFAULT 'UNRATED',
-    movie_type movie_type_enum NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT unique_movie UNIQUE (name, slogan, release_date)
-);
-
-CREATE TABLE IF NOT EXISTS genres (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(64) NOT NULL UNIQUE,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TYPE media_type_enum AS ENUM ('logo', 'cover', 'photo', 'trailer');
-
-CREATE TABLE IF NOT EXISTS medias (
-    id BIGSERIAL PRIMARY KEY,
-    url VARCHAR(255) NOT NULL,
-    media_type media_type_enum NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS companies (
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(64) NOT NULL UNIQUE,
-    country_id INT NOT NULL,
-    logo_id BIGINT NOT NULL,
-    description TEXT DEFAULT '',
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_company_country FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE,
-    CONSTRAINT fk_company_media FOREIGN KEY (logo_id) REFERENCES medias(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS people (
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(64) NOT NULL,
-    biography TEXT DEFAULT '',
-    country_id INT NOT NULL,
-    photo_id BIGINT,
-    birth_date DATE,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (photo_id) REFERENCES medias(id) ON DELETE SET NULL,
-    FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS movie_genre (
-    movie_id BIGINT NOT NULL,
-    genre_id INT NOT NULL,
-    PRIMARY KEY (movie_id, genre_id),
-    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
-    FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS movie_country (
-    movie_id BIGINT NOT NULL,
-    country_id INT NOT NULL,
-    PRIMARY KEY (movie_id, country_id),
-    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
-    FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS movie_company (
-    movie_id BIGINT NOT NULL,
-    company_id BIGINT NOT NULL,
-    PRIMARY KEY (movie_id, company_id),
-    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
-    FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS movie_scores (
-    id BIGSERIAL PRIMARY KEY,
-    movie_id BIGINT NOT NULL,
-    score FLOAT DEFAULT 0.0,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE
-);
-
-CREATE TYPE movie_role AS ENUM ('actor', 'director', 'writer', 'composer', 'producer', 'cinematographer', 'editor');
-
-CREATE TABLE IF NOT EXISTS movie_credits (
-    id BIGINT PRIMARY KEY,
-    person_id BIGINT NOT NULL,
-    movie_id BIGINT NOT NULL,
-    role movie_role NOT NULL DEFAULT 'actor',
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
-    FOREIGN KEY (person_id) REFERENCES people(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS movie_media (
-    movie_id BIGINT NOT NULL,
-    media_id BIGINT NOT NULL,
-    PRIMARY KEY (movie_id, media_id),
-    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
-    FOREIGN KEY (media_id) REFERENCES medias(id) ON DELETE CASCADE
-);
-
-
-CREATE TYPE award_status AS ENUM ('winner', 'nominee');
-
-CREATE TABLE IF NOT EXISTS movie_awards (
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(128) NOT NULL,
-    description TEXT DEFAULT '',
-    movie_id BIGINT NOT NULL,
-    result award_status NOT NULL DEFAULT 'winner',
-    awarded_at DATE NOT NULL,
-    logo_id BIGINT,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE,
-    FOREIGN KEY (logo_id) REFERENCES medias(id) ON DELETE SET NULL
-);
-
-CREATE TABLE IF NOT EXISTS people_awards (
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(128) NOT NULL,
-    description TEXT DEFAULT '',
-    person_id BIGINT NOT NULL,
-    result award_status NOT NULL DEFAULT 'winner',
-    awarded_at DATE NOT NULL,
-    logo_id BIGINT,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (person_id) REFERENCES people(id) ON DELETE CASCADE,
-    FOREIGN KEY (logo_id) REFERENCES medias(id) ON DELETE SET NULL
-);
-
-
-
-
 create sequence country_id_seq start with 1 increment by 1 cache 20;
 
 create table if not exists countries (
@@ -211,12 +55,18 @@ create table if not exists titles (
     imdb_id varchar(32) unique,
     title varchar(128) not null,
     title_type title_type_enum not null default 'MOVIE',
+    created_at timestamp not null default CURRENT_TIMESTAMP,
+    updated_at timestamp not null default CURRENT_TIMESTAMP,
     unique (imdb_id, title)
 );
 
 create table if not exists title_media (
-
-)
+    title_id int not null,
+    media_id bigint not null ,
+    primary key (title_id, media_id),
+    foreign key (title_id) references titles(id) on delete cascade,
+    foreign key (media_id) references medias(id) on delete cascade
+);
 
 create type age_rating_enum as enum ('G', 'PG', 'PG-13', 'R', 'NC_17', 'UNRATED');
 
@@ -239,11 +89,72 @@ create table if not exists series_info (
     age_rating age_rating_enum not null default 'UNRATED',
     budget int,
     revenue int,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
+    updated_at timestamp not null default CURRENT_TIMESTAMP,
     foreign key (series_id) references titles(id) on delete cascade
 );
 
+create sequence series_content_id_seq start with 1 increment by 1 cache 20;
 
 
+create table if not exists series_content (
+    id bigint primary key default nextval('series_content_id_seq'),
+    imdb_id varchar(32) unique,
+    series_id bigint not null,
+    season_number tinyint not null default 1,
+    episode_number tinyint not null default 1,
+    episode_name varchar(128) not null default '',
+    release_date date not null,
+    duration_minutes int,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
+    updated_at timestamp not null default CURRENT_TIMESTAMP,
+    unique (series_id, season_number, episode_number),
+    foreign key (series_id) references titles(id) on delete cascade
+);
+
+create table if not exists series_content_media (
+    series_content_id bigint not null,
+    media_id bigint not null,
+    primary key (series_content_id, media_id),
+    foreign key (series_content_id) references series_content(id),
+    foreign key (media_id) references medias(id)
+);
+
+
+create sequence people_id_seq start with 1 increment by 1 cache 20;
+
+create table if not exists people (
+    id bigint primary key default nextval('people_id_seq'),
+    imdb_id varchar(32) unique,
+    name varchar(64) not null,
+    biography text not null default 'No information given',
+    country_id int not null,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
+    updated_at timestamp not null default CURRENT_TIMESTAMP,
+    unique (imdb_id, name),
+    foreign key (country_id) references countries(id)
+);
+
+
+create type title_role_enum as enum ('ACTOR', 'DIRECTOR', 'WRITER', 'COMPOSER', 'PRODUCER', 'CINEMATOGRAPHER', 'EDITOR');
+
+create table if not exists movie_cast (
+    movie_id bigint not null,
+    person_id bigint not null,
+    role title_role_enum not null default 'ACTOR',
+    primary key (movie_id, person_id),
+    foreign key (movie_id) references titles(id),
+    foreign key (person_id) references people(id)
+);
+
+create table if not exists series_cast (
+    episode_id bigint not null,
+    person_id bigint not null,
+    role title_role_enum not null default 'ACTOR',
+    primary key (episode_id, person_id),
+    foreign key (episode_id) references series_content(id),
+    foreign key (person_id) references people(id)
+);
 
 
 
