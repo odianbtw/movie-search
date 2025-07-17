@@ -1,7 +1,8 @@
 package com.odian.moviesearch.core.application.port.in;
 
 
-import com.moviesearch.core.domain.model.Country;
+
+import com.odian.moviesearch.core.domain.model.Country;
 
 import java.util.Set;
 

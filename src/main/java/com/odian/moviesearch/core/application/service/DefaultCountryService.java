@@ -1,8 +1,9 @@
 package com.odian.moviesearch.core.application.service;
 
-import com.moviesearch.core.application.port.in.CountryService;
-import com.moviesearch.core.application.port.out.CountryRepository;
-import com.moviesearch.core.domain.model.Country;
+
+import com.odian.moviesearch.core.application.port.in.CountryService;
+import com.odian.moviesearch.core.application.port.out.CountryRepository;
+import com.odian.moviesearch.core.domain.model.Country;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Set;

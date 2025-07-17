@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import javax.sound.sampled.Control;
 
 
-//todo: work on movie pageable validation
+//todo: create score for title and for episode
+// and figure out the way to operate with it
 
 @SpringBootApplication
 public class MovieSearchApplication {
