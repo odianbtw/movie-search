@@ -29,6 +29,9 @@ public abstract class TitleEntity {
 
     private String title;
 
+    @OneToOne(mappedBy = "title")
+    private TitleScoreEntity score;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "title_type", nullable = false, columnDefinition = "title_type_enum")
     private TitleType titleType;

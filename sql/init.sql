@@ -62,6 +62,13 @@ create table if not exists titles (
 
 create index idx_titles on titles(title);
 
+create table if not exists title_scores (
+    title_id bigint primary key,
+    score decimal(2,2) not null default 0.0,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
+    updated_at timestamp not null default CURRENT_TIMESTAMP,
+    foreign key (title_id) references titles(id)
+);
 
 create table if not exists title_genre (
     title_id int not null,
@@ -138,6 +145,15 @@ create table if not exists series_content (
     updated_at timestamp not null default CURRENT_TIMESTAMP,
     unique (series_id, season_number, episode_number),
     foreign key (series_id) references titles(id) on delete cascade
+);
+
+
+create table if not exists episode_scores (
+    episode_id bigint primary key,
+    score decimal(2,2) not null default 0.0,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
+    updated_at timestamp not null default CURRENT_TIMESTAMP,
+    foreign key (episode_id) references series_content(id)
 );
 
 create table if not exists series_content_media (

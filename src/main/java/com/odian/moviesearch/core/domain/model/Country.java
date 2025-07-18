@@ -11,6 +11,6 @@ public class Country implements Comparable<Country> {
 
     @Override
     public int compareTo(Country o) {
-        return name.compareTo(o.name);
+        return this.name.compareToIgnoreCase(o.name);
     }
 }
