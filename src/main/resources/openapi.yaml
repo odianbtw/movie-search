@@ -56,10 +56,6 @@ paths:
       responses:
         '201':
           description: Successfully created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Genre'
         '400':
           description: Invalid request body
           content:
@@ -101,6 +97,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - Countries
+      summary: Create new country.
+      description: Create new country.
+      operationId: createCountry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CountryRequest'
+      responses:
+        '201':
+          description: Successfully created
+        '400':
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Country with this name already exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /companies:
     get:
       tags:
@@ -928,6 +958,12 @@ components:
         name:
           type: string
           example: Germany
+    CountryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Columbia
     Error:
       type: object
       properties:

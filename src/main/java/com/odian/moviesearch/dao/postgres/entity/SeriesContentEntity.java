@@ -16,13 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class SeriesContentEntity {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "series_content_seq_gen")
-    @SequenceGenerator(
-            name = "series_content_seq_gen",
-            sequenceName = "series_content_id_seq",
-            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "imdb_id")

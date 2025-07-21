@@ -16,13 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class PersonEntity {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "people_seq_gen")
-    @SequenceGenerator(
-            name = "people_seq_gen",
-            sequenceName = "people_id_seq",
-            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "imdb_id")

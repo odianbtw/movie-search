@@ -14,13 +14,7 @@ import java.time.Instant;
 @NoArgsConstructor
 public class CountryEntity {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "country_seq_gen")
-    @SequenceGenerator(
-            name = "country_seq_gen",
-            sequenceName = "country_id_seq",
-            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;

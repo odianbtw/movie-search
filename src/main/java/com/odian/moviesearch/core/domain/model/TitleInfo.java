@@ -1,11 +1,13 @@
 package com.odian.moviesearch.core.domain.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Optional;
 import java.util.Set;
 
 @Data
+@Builder
 public class TitleInfo {
     private String slogan;
     private String description;

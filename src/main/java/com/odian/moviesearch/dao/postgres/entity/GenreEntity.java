@@ -15,13 +15,7 @@ import java.time.Instant;
 @NoArgsConstructor
 public class GenreEntity {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "genre_seq_gen")
-    @SequenceGenerator(
-            name = "genre_seq_gen",
-            sequenceName = "genre_id_seq",
-            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;

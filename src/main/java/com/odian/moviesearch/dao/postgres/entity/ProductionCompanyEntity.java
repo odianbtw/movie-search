@@ -15,13 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class ProductionCompanyEntity {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "companies_seq_gen")
-    @SequenceGenerator(
-            name = "companies_seq_gen",
-            sequenceName = "companies_id_seq",
-            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
@@ -32,7 +26,7 @@ public class ProductionCompanyEntity {
     @JoinColumn(name = "country_id")
     private CountryEntity country;
     //todo: think about cascade.persist
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "production_company_media",
         joinColumns = @JoinColumn(name = "company_id"),
         inverseJoinColumns = @JoinColumn(name = "media_id"))

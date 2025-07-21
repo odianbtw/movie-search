@@ -14,18 +14,6 @@ services:
       - pgdata:/var/lib/postgresql/data
 
 
-  postgresql_test:
-    image: postgres
-    container_name: database_test
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: Test1234_
-      POSTGRES_DB: movie_search_db_test
-    ports:
-      - "7652:7652"
-    volumes:
-      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
 
 volumes:
   pgdata:

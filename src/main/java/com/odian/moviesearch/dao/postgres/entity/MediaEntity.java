@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.time.Instant;
 
@@ -15,19 +17,14 @@ import java.time.Instant;
 @NoArgsConstructor
 public class MediaEntity {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "medias_seq_gen")
-    @SequenceGenerator(
-            name = "medias_seq_gen",
-            sequenceName = "media_id_seq",
-            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String url;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "media_type")
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     private MediaType mediaType;
 
     @Column(name = "created_at", nullable = false, updatable = false)
