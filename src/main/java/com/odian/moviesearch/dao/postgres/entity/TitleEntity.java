@@ -2,9 +2,11 @@ package com.odian.moviesearch.dao.postgres.entity;
 
 import com.odian.moviesearch.core.domain.model.TitleType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.time.Instant;
 import java.util.Set;
@@ -13,7 +15,7 @@ import java.util.Set;
 @Table(name = "titles")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
-@AllArgsConstructor
+@SuperBuilder
 @NoArgsConstructor
 public abstract class TitleEntity {
     @Id
@@ -25,26 +27,27 @@ public abstract class TitleEntity {
 
     private String title;
 
-    @OneToOne(mappedBy = "title")
+    @OneToOne(mappedBy = "title", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, optional = false)
     private TitleScoreEntity score;
 
     @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(name = "title_type", nullable = false, columnDefinition = "title_type_enum")
     private TitleType titleType;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinTable(name = "title_genre",
         joinColumns = @JoinColumn(name = "title_id"),
-        inverseJoinColumns = @JoinColumn(name = "country_id"))
+        inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<GenreEntity> genres;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinTable(name = "title_country",
             joinColumns = @JoinColumn(name = "title_id"),
             inverseJoinColumns = @JoinColumn(name = "country_id"))
     private Set<CountryEntity> countries;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinTable(name = "title_company",
             joinColumns = @JoinColumn(name = "title_id"),
             inverseJoinColumns = @JoinColumn(name = "company_id"))
@@ -56,7 +59,7 @@ public abstract class TitleEntity {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "title_media",
             joinColumns = @JoinColumn(name = "title_id"),
             inverseJoinColumns = @JoinColumn(name = "media_id"))
@@ -65,6 +68,9 @@ public abstract class TitleEntity {
     @PrePersist
     protected void onCreate() {
         createdAt = updatedAt = Instant.now();
+        score = new TitleScoreEntity();
+        score.setTitle(this);
+        score.setScore(0.0f);
     }
     @PreUpdate
     protected void onUpdate() {

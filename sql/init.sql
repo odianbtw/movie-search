@@ -97,7 +97,7 @@ create table if not exists title_media (
 
 
 
-create type age_rating_enum as enum ('G', 'PG', 'PG-13', 'R', 'NC_17', 'UNRATED');
+create type age_rating_enum as enum ('G', 'PG', 'PG_13', 'R', 'NC_17', 'UNRATED');
 
 create table if not exists movies_info (
     movie_id bigint primary key,

@@ -1,7 +1,6 @@
 package com.odian.moviesearch.core.domain.model;
 
 
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

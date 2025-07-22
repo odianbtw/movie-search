@@ -11,7 +11,6 @@ public abstract class Title {
     private Float score;
 
     public Title(Id titleId, String title, TitleInfo titleInfo, Float score) {
-        if (score < 0.0f) throw new IllegalArgumentException("Movie score must greater than 0");
         this.titleId = titleId;
         this.title = title;
         this.titleInfo = titleInfo;

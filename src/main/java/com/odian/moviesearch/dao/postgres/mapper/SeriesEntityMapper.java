@@ -1,54 +1,48 @@
 package com.odian.moviesearch.dao.postgres.mapper;
 
-
-import com.odian.moviesearch.core.domain.model.Id;
-import com.odian.moviesearch.core.domain.model.Movie;
-import com.odian.moviesearch.core.domain.model.TitleInfo;
-import com.odian.moviesearch.core.domain.model.TitleType;
+import com.odian.moviesearch.core.domain.model.*;
 import com.odian.moviesearch.dao.postgres.entity.MovieInfoEntity;
+import com.odian.moviesearch.dao.postgres.entity.SeriesInfoEntity;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
-public abstract class MovieEntityMapper {
+public abstract class SeriesEntityMapper {
 
     @Autowired protected GenreEntityMapper genreEntityMapper;
     @Autowired protected CountryEntityMapper countryEntityMapper;
     @Autowired protected ProductionCompanyEntityMapper companyEntityMapper;
     @Autowired protected MediaEntityMapper mediaEntityMapper;
 
-    public MovieInfoEntity domainToEntity(Movie movie) {
-        if (movie == null) return null;
-        return MovieInfoEntity.builder()
-                .imdbId(movie.getTitleId().imdbId())
-                .title(movie.getTitle())
-                .titleType(TitleType.MOVIE)
-                .genres(movie.getTitleInfo().getGenres().stream()
+    public SeriesInfoEntity domainToEntity(Series series) {
+        if (series == null) return null;
+        return SeriesInfoEntity.builder()
+                .imdbId(series.getTitleId().imdbId())
+                .title(series.getTitle())
+                .titleType(TitleType.SERIES)
+                .genres(series.getTitleInfo().getGenres().stream()
                         .map(genreEntityMapper::domainToEntity)
                         .collect(Collectors.toSet()))
-                .slogan(movie.getTitleInfo().getSlogan())
-                .description(movie.getTitleInfo().getDescription())
-                .releaseDate(movie.getReleaseDate())
-                .durationMinutes(movie.getDurationMinutes())
-                .ageRating(movie.getTitleInfo().getAgeRating())
-                .budget(movie.getTitleInfo().getBudget())
-                .revenue(movie.getTitleInfo().getRevenue())
-                .countries(movie.getTitleInfo().getCountries().stream()
+                .slogan(series.getTitleInfo().getSlogan())
+                .description(series.getTitleInfo().getDescription())
+                .ageRating(series.getTitleInfo().getAgeRating())
+                .budget(series.getTitleInfo().getBudget())
+                .revenue(series.getTitleInfo().getRevenue())
+                .countries(series.getTitleInfo().getCountries().stream()
                         .map(countryEntityMapper::domainToEntity)
                         .collect(Collectors.toSet()))
-                .companies(movie.getTitleInfo().getProductionCompanies().stream()
+                .companies(series.getTitleInfo().getProductionCompanies().stream()
                         .map(companyEntityMapper::domainToEntity)
                         .collect(Collectors.toSet()))
-                .medias(movie.getTitleInfo().getMedias().stream()
+                .medias(series.getTitleInfo().getMedias().stream()
                         .map(mediaEntityMapper::domainToEntity)
                         .collect(Collectors.toSet()))
                 .build();
     }
 
-
-    public Movie entityToDomain (MovieInfoEntity entity) {
+    public Series entityToDomain (SeriesInfoEntity entity) {
         if (entity == null) return null;
         Id id = new Id(entity.getId(), entity.getImdbId());
         TitleInfo info = TitleInfo.builder()
@@ -70,13 +64,11 @@ public abstract class MovieEntityMapper {
                         .map(mediaEntityMapper::entityToDomain)
                         .collect(Collectors.toSet()))
                 .build();
-        return new Movie(
+        return new Series(
                 id,
                 entity.getTitle(),
                 info,
-                entity.getScore().getScore(),
-                entity.getDurationMinutes(),
-                entity.getReleaseDate()
+                entity.getScore().getScore()
         );
     }
 }
