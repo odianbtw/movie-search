@@ -31,6 +31,8 @@ public abstract class SeriesDTOMapper {
                 .countries(seriesRequest.countryIds().stream().map(i -> new Country(i, null)).collect(Collectors.toSet()))
                 .productionCompanies(seriesRequest.productionCompanyIds().stream().map(i -> new ProductionCompany(i, null, null, null, null)).collect(Collectors.toSet()))
                 .ageRating(seriesRequest.ageRating())
+                .budget(seriesRequest.budget())
+                .revenue(seriesRequest.revenue())
                 .medias(medias).build();
 
         return new Series(

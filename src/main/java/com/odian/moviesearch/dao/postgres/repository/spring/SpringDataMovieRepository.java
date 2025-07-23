@@ -1,6 +1,5 @@
 package com.odian.moviesearch.dao.postgres.repository.spring;
 
-import com.odian.moviesearch.core.domain.model.TitleType;
 import com.odian.moviesearch.dao.postgres.entity.MovieInfoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,9 +16,8 @@ public interface SpringDataMovieRepository extends JpaRepository<MovieInfoEntity
             left join fetch m.companies 
             left join fetch m.score 
             left join fetch m.medias 
-            where m.titleType = :titleType and
-            m.id = :id
+            where m.id = :id
             """
     )
-    Optional<MovieInfoEntity> findById(@Param("id") Long id, @Param("titleType") TitleType titleType);
+    Optional<MovieInfoEntity> findById(@Param("id") Long id);
 }

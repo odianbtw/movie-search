@@ -27,7 +27,7 @@ public class DefaultMovieRepository implements MovieRepository {
 
     @Override
     public Optional<Movie> findById(Long id) {
-        var entity = movieRepository.findById(id, TitleType.MOVIE).orElse(null);
+        var entity = movieRepository.findById(id).orElse(null);
         return Optional.ofNullable(movieMapper.entityToDomain(entity));
     }
 }

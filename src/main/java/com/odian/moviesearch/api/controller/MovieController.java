@@ -7,9 +7,10 @@ import com.odian.moviesearch.api.model.MovieRequestDTO;
 import com.odian.moviesearch.core.application.port.in.MovieService;
 import com.odian.moviesearch.core.domain.model.Movie;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/movies")
@@ -25,10 +26,11 @@ public class MovieController {
     }
 
     @PostMapping
-    public ResponseEntity<MovieDTO> create (@RequestBody MovieRequestDTO movieRequest) {
+    public ResponseEntity<Void> create (@RequestBody MovieRequestDTO movieRequest) {
         var movie = movieService.create(mapper.dtoToDomain(movieRequest));
+        URI location = URI.create("/movies/" + movie.getTitleId().id());
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(mapper.domainToDto((Movie) movie));
+                .created(location)
+                .build();
     }
 }

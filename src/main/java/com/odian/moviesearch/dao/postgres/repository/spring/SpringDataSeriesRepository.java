@@ -18,9 +18,8 @@ public interface SpringDataSeriesRepository extends JpaRepository<SeriesInfoEnti
             left join fetch s.companies 
             left join fetch s.score 
             left join fetch s.medias 
-            where s.titleType = :titleType and
-            s.id = :id
+            where s.id = :id
             """
     )
-    Optional<SeriesInfoEntity> findById(@Param("id") Long id, @Param("titleType") TitleType titleType);
+    Optional<SeriesInfoEntity> findById(@Param("id") Long id);
 }
