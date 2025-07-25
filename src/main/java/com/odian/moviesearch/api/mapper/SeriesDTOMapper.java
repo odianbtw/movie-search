@@ -1,8 +1,6 @@
 package com.odian.moviesearch.api.mapper;
 
-import com.odian.moviesearch.api.model.MovieDTO;
-import com.odian.moviesearch.api.model.SeriesDTO;
-import com.odian.moviesearch.api.model.SeriesRequestDTO;
+import com.odian.moviesearch.api.model.*;
 import com.odian.moviesearch.core.domain.model.*;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +70,39 @@ public abstract class SeriesDTOMapper {
                         .findFirst().orElse(null))
                 .budget(series.getTitleInfo().getBudget())
                 .revenue(series.getTitleInfo().getRevenue())
+                .build();
+    }
+
+    public Episode dtoRequestToDomain (EpisodeRequest request) {
+        if(request == null) return null;
+        Id id = new Id(null, request.imdbId());
+
+        return new Episode(
+                id,
+                request.seasonNumber(),
+                request.episodeNumber(),
+                request.title(),
+                request.description(),
+                request.releaseDate(),
+                request.durationMinutes(),
+                null,
+                Set.of(new Media(null, request.coverUrl(), MediaType.COVER))
+        );
+    }
+
+    public EpisodeDTO domainToDto (Episode episode) {
+        return EpisodeDTO.builder()
+                .id(episode.getId().id())
+                .imdbId(episode.getId().imdbId())
+                .seasonNumber(episode.getSeasonNumber())
+                .episodeNumber(episode.getEpisodeNumber())
+                .title(episode.getTitle())
+                .description(episode.getDescription())
+                .releaseDate(episode.getReleaseDate())
+                .durationMinutes(episode.getDurationMinutes())
+                .coverUrl(episode.getMedias().stream()
+                        .filter(t -> Objects.equals(t.getMediaType(), MediaType.COVER))
+                        .map(Media::getMediaUri).findFirst().orElse(null))
                 .build();
     }
 }

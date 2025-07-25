@@ -3,9 +3,13 @@ package com.odian.moviesearch.api.controller;
 
 import com.odian.moviesearch.api.mapper.MovieDTOMapper;
 import com.odian.moviesearch.api.model.MovieDTO;
+import com.odian.moviesearch.api.model.MovieItemDTO;
 import com.odian.moviesearch.api.model.MovieRequestDTO;
+import com.odian.moviesearch.api.util.PageableBuilder;
+import com.odian.moviesearch.core.application.model.PagedResponse;
 import com.odian.moviesearch.core.application.port.in.MovieService;
 import com.odian.moviesearch.core.domain.model.Movie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +36,11 @@ public class MovieController {
         return ResponseEntity
                 .created(location)
                 .build();
+    }
+
+    @GetMapping
+    public PagedResponse<MovieItemDTO> findAll (HttpServletRequest request) {
+        var pageable = PageableBuilder.fromHttpRequest(request);
+        return null;
     }
 }

@@ -1,5 +1,7 @@
 package com.odian.moviesearch.dao.postgres.service;
 
+import com.odian.moviesearch.core.application.model.Pageable;
+import com.odian.moviesearch.core.application.model.PagedResponse;
 import com.odian.moviesearch.core.application.port.out.MovieRepository;
 import com.odian.moviesearch.core.domain.model.Movie;
 import com.odian.moviesearch.core.domain.model.TitleType;
@@ -27,7 +29,12 @@ public class DefaultMovieRepository implements MovieRepository {
 
     @Override
     public Optional<Movie> findById(Long id) {
-        var entity = movieRepository.findById(id).orElse(null);
+        var entity = movieRepository.findByIdWithDetails(id).orElse(null);
         return Optional.ofNullable(movieMapper.entityToDomain(entity));
+    }
+
+    @Override
+    public PagedResponse<Movie> findAll(Pageable pageable) {
+        return null;
     }
 }

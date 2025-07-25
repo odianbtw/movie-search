@@ -2,10 +2,15 @@ package com.odian.moviesearch.dao.postgres.mapper;
 
 import com.odian.moviesearch.core.domain.model.*;
 import com.odian.moviesearch.dao.postgres.entity.MovieInfoEntity;
+import com.odian.moviesearch.dao.postgres.entity.SeriesContentEntity;
 import com.odian.moviesearch.dao.postgres.entity.SeriesInfoEntity;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
@@ -70,5 +75,46 @@ public abstract class SeriesEntityMapper {
                 info,
                 entity.getScore().getScore()
         );
+    }
+
+    public SeriesContentEntity domainToEntity (Episode episode) {
+        if (episode == null) return null;
+        return SeriesContentEntity.builder()
+                .episodeName(episode.getTitle())
+                .description(episode.getDescription())
+                .imdbId(episode.getId().imdbId())
+                .seasonNumber(episode.getSeasonNumber())
+                .episodeNumber(episode.getEpisodeNumber())
+                .releaseDate(episode.getReleaseDate())
+                .durationMinutes(episode.getDurationMinutes())
+                .medias(episode.getMedias().stream()
+                        .map(mediaEntityMapper::domainToEntity)
+                        .collect(Collectors.toSet()))
+                .build();
+    }
+
+
+    public Episode entityToDomain (SeriesContentEntity seriesContent) {
+        if (seriesContent == null) return null;
+        Id id = new Id(seriesContent.getId(), seriesContent.getEpisodeName());
+        return Episode.builder()
+                .id(id)
+                .seasonNumber(seriesContent.getSeasonNumber())
+                .episodeNumber(seriesContent.getEpisodeNumber())
+                .title(seriesContent.getEpisodeName())
+                .description(seriesContent.getDescription())
+                .releaseDate(seriesContent.getReleaseDate())
+                .durationMinutes(seriesContent.getDurationMinutes())
+                .score(seriesContent.getScore().getScore())
+                .medias(seriesContent.getMedias().stream()
+                        .map(mediaEntityMapper::entityToDomain)
+                        .collect(Collectors.toSet()))
+                .build();
+    }
+
+    public Set<Episode> entityToDomain (List<SeriesContentEntity> episodes) {
+        return episodes.stream()
+                .map(this::entityToDomain)
+                .collect(Collectors.toCollection(TreeSet::new));
     }
 }

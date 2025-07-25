@@ -131,6 +131,7 @@ create table if not exists series_content (
     season_number smallint not null default 1,
     episode_number smallint not null default 1,
     episode_name varchar(128) not null default '',
+    description text not null default 'No description given.',
     release_date date not null,
     duration_minutes int,
     created_at timestamp not null default CURRENT_TIMESTAMP,

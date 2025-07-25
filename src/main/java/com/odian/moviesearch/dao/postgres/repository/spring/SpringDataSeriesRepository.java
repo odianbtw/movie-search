@@ -21,5 +21,5 @@ public interface SpringDataSeriesRepository extends JpaRepository<SeriesInfoEnti
             where s.id = :id
             """
     )
-    Optional<SeriesInfoEntity> findById(@Param("id") Long id);
+    Optional<SeriesInfoEntity> findByIdWithDetails(@Param("id") Long id);
 }
