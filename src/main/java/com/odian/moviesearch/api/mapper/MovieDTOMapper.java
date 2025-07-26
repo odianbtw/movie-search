@@ -2,6 +2,7 @@ package com.odian.moviesearch.api.mapper;
 
 
 import com.odian.moviesearch.api.model.MovieDTO;
+import com.odian.moviesearch.api.model.MovieItemDTO;
 import com.odian.moviesearch.api.model.MovieRequestDTO;
 import com.odian.moviesearch.core.domain.model.*;
 import org.mapstruct.Mapper;
@@ -78,5 +79,21 @@ public abstract class MovieDTOMapper {
                 .durationMinutes(movie.getDurationMinutes())
                 .releaseDate(movie.getReleaseDate())
                 .build();
+    }
+
+    public MovieItemDTO domainToItemDto (Movie movie) {
+        if (movie == null) return null;
+        return new MovieItemDTO (
+                movie.getTitleId().id(),
+                movie.getTitle(),
+                movie.getTitleInfo().getMedias().stream()
+                        .filter(media -> Objects.equals(media.getMediaType(), MediaType.COVER))
+                        .map(Media::getMediaUri)
+                        .findFirst().orElse(null),
+                movie.getReleaseDate(),
+                movie.getScore(),
+                movie.getDurationMinutes(),
+                movie.getTitleInfo().getAgeRating()
+        );
     }
 }

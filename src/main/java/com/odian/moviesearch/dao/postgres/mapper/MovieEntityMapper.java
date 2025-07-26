@@ -79,4 +79,27 @@ public abstract class MovieEntityMapper {
                 entity.getReleaseDate()
         );
     }
+
+    public Movie entityToDomainItem (MovieInfoEntity entity) {
+        if (entity == null) return null;
+        Id id = new Id(entity.getId(), entity.getImdbId());
+        TitleInfo info = TitleInfo.builder()
+                .slogan(entity.getSlogan())
+                .description(entity.getDescription())
+                .ageRating(entity.getAgeRating())
+                .budget(entity.getBudget())
+                .revenue(entity.getRevenue())
+                .medias(entity.getMedias().stream()
+                        .map(mediaEntityMapper::entityToDomain)
+                        .collect(Collectors.toSet()))
+                .build();
+        return new Movie(
+                id,
+                entity.getTitle(),
+                info,
+                entity.getScore().getScore(),
+                entity.getDurationMinutes(),
+                entity.getReleaseDate()
+        );
+    }
 }

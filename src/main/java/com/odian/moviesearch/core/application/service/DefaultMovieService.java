@@ -32,6 +32,6 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     public PagedResponse<Movie> findAll(Pageable pageable) {
-        return null;
+        return movieRepository.findAll(pageable);
     }
 }

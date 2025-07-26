@@ -1,20 +1,17 @@
 package com.odian.moviesearch.dao.postgres.service.util;
 
 import com.odian.moviesearch.core.application.model.Pageable;
-import com.odian.moviesearch.dao.postgres.entity.CountryEntity;
-import com.odian.moviesearch.dao.postgres.entity.GenreEntity;
 import com.odian.moviesearch.dao.postgres.entity.MovieInfoEntity;
-import com.odian.moviesearch.dao.postgres.entity.TitleScoreEntity;
-import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.SetJoin;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class MovieSpecification {
 
 

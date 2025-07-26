@@ -6,6 +6,7 @@ import com.odian.moviesearch.api.model.MovieDTO;
 import com.odian.moviesearch.api.model.MovieItemDTO;
 import com.odian.moviesearch.api.model.MovieRequestDTO;
 import com.odian.moviesearch.api.util.PageableBuilder;
+import com.odian.moviesearch.api.util.validator.MoviePageableValidator;
 import com.odian.moviesearch.core.application.model.PagedResponse;
 import com.odian.moviesearch.core.application.port.in.MovieService;
 import com.odian.moviesearch.core.domain.model.Movie;
@@ -22,7 +23,7 @@ import java.net.URI;
 public class MovieController {
     private final MovieService movieService;
     private final MovieDTOMapper mapper;
-
+    private final MoviePageableValidator moviePageableValidator;
 
     @GetMapping("/{id}")
     public MovieDTO findById (@PathVariable Long id) {
@@ -41,6 +42,14 @@ public class MovieController {
     @GetMapping
     public PagedResponse<MovieItemDTO> findAll (HttpServletRequest request) {
         var pageable = PageableBuilder.fromHttpRequest(request);
-        return null;
+        moviePageableValidator.validate(pageable);
+        var res = movieService.findAll(pageable);
+        return new PagedResponse<>(
+                res.totalItems(),
+                res.totalPages(),
+                res.currentPage(),
+                res.pageSize(),
+                res.items().stream().map(mapper::domainToItemDto).toList()
+        );
     }
 }
