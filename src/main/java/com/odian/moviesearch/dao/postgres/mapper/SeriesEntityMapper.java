@@ -117,4 +117,25 @@ public abstract class SeriesEntityMapper {
                 .map(this::entityToDomain)
                 .collect(Collectors.toCollection(TreeSet::new));
     }
+
+    public Series entityToDomainItem (SeriesInfoEntity entity) {
+        if (entity == null) return null;
+        Id id = new Id(entity.getId(), entity.getImdbId());
+        TitleInfo info = TitleInfo.builder()
+                .slogan(entity.getSlogan())
+                .description(entity.getDescription())
+                .ageRating(entity.getAgeRating())
+                .budget(entity.getBudget())
+                .revenue(entity.getRevenue())
+                .medias(entity.getMedias().stream()
+                        .map(mediaEntityMapper::entityToDomain)
+                        .collect(Collectors.toSet()))
+                .build();
+        return new Series(
+                id,
+                entity.getTitle(),
+                info,
+                entity.getScore().getScore()
+        );
+    }
 }

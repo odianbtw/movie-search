@@ -17,7 +17,7 @@ import java.util.Set;
 public class PersonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "imdb_id")
     private String imdbId;
@@ -25,9 +25,15 @@ public class PersonEntity {
     private String name;
     private String biography;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "country_id")
     private CountryEntity country;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @JoinTable(name = "people_media",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "media_id"))
+    private Set<MediaEntity> medias;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
@@ -35,11 +41,6 @@ public class PersonEntity {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
-    @ManyToMany
-    @JoinTable(name = "people_media",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "media_id"))
-    private Set<MediaEntity> medias;
 
     @PrePersist
     protected void onCreate() {

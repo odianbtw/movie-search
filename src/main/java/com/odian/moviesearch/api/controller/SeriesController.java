@@ -3,9 +3,12 @@ package com.odian.moviesearch.api.controller;
 
 import com.odian.moviesearch.api.mapper.SeriesDTOMapper;
 import com.odian.moviesearch.api.model.*;
+import com.odian.moviesearch.api.util.PageableBuilder;
+import com.odian.moviesearch.api.util.validator.SeriesPageableValidator;
+import com.odian.moviesearch.core.application.model.PagedResponse;
 import com.odian.moviesearch.core.application.port.in.SeriesService;
 import com.odian.moviesearch.core.domain.model.Series;
-import jakarta.websocket.server.PathParam;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,21 @@ public class SeriesController {
 
     private final SeriesService seriesService;
     private final SeriesDTOMapper seriesDTOMapper;
+    private final SeriesPageableValidator seriesPageableValidator;
+
+    @GetMapping
+    public PagedResponse<SeriesItemDTO> findAll (HttpServletRequest request) {
+        var pageable = PageableBuilder.fromHttpRequest(request);
+        seriesPageableValidator.validate(pageable);
+        var res = seriesService.findAll(pageable);
+        return new PagedResponse<>(
+                res.totalItems(),
+                res.totalPages(),
+                res.currentPage(),
+                res.pageSize(),
+                res.items().stream().map(seriesDTOMapper::domainToItemDto).toList()
+        );
+    }
 
     @GetMapping("/{id}")
     public SeriesDTO findById (@PathVariable Long id) {
@@ -66,4 +84,6 @@ public class SeriesController {
         var episode = seriesService.findEpisodeById(id);
         return seriesDTOMapper.domainToDto(episode);
     }
+
+
 }

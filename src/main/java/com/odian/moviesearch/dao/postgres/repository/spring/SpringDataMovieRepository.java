@@ -1,6 +1,5 @@
 package com.odian.moviesearch.dao.postgres.repository.spring;
 
-import com.odian.moviesearch.dao.postgres.entity.MediaEntity;
 import com.odian.moviesearch.dao.postgres.entity.MovieInfoEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

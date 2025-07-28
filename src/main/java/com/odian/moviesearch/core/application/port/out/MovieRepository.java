@@ -3,6 +3,7 @@ package com.odian.moviesearch.core.application.port.out;
 import com.odian.moviesearch.core.application.model.Pageable;
 import com.odian.moviesearch.core.application.model.PagedResponse;
 import com.odian.moviesearch.core.domain.model.Movie;
+import com.odian.moviesearch.core.domain.model.TitleCredit;
 
 import java.util.Optional;
 

@@ -7,6 +7,7 @@ import com.odian.moviesearch.core.application.port.in.MovieService;
 import com.odian.moviesearch.core.application.port.out.MovieRepository;
 import com.odian.moviesearch.core.domain.model.Movie;
 import com.odian.moviesearch.core.domain.model.Title;
+import com.odian.moviesearch.core.domain.model.TitleCredit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,4 +35,5 @@ public class DefaultMovieService implements MovieService {
     public PagedResponse<Movie> findAll(Pageable pageable) {
         return movieRepository.findAll(pageable);
     }
+
 }

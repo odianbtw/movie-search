@@ -105,4 +105,18 @@ public abstract class SeriesDTOMapper {
                         .map(Media::getMediaUri).findFirst().orElse(null))
                 .build();
     }
+
+    public SeriesItemDTO domainToItemDto (Series movie) {
+        if (movie == null) return null;
+        return new SeriesItemDTO (
+                movie.getTitleId().id(),
+                movie.getTitle(),
+                movie.getTitleInfo().getMedias().stream()
+                        .filter(media -> Objects.equals(media.getMediaType(), MediaType.COVER))
+                        .map(Media::getMediaUri)
+                        .findFirst().orElse(null),
+                movie.getScore(),
+                movie.getTitleInfo().getAgeRating()
+        );
+    }
 }

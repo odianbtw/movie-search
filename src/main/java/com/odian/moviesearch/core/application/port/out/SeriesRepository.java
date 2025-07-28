@@ -1,5 +1,7 @@
 package com.odian.moviesearch.core.application.port.out;
 
+import com.odian.moviesearch.core.application.model.Pageable;
+import com.odian.moviesearch.core.application.model.PagedResponse;
 import com.odian.moviesearch.core.domain.model.Episode;
 import com.odian.moviesearch.core.domain.model.Season;
 import com.odian.moviesearch.core.domain.model.Series;
@@ -14,4 +16,6 @@ public interface SeriesRepository {
     Optional<Episode> findEpisodeById (Long id);
     Set<Episode> findSeasonBySeriesId (Long id, Integer seasonNumber);
     Set<Integer> findSeasonNumbersBySeriesId (Long id);
+    PagedResponse<Series> findAll (Pageable pageable);
+
 }
