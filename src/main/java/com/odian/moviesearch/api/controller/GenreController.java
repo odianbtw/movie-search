@@ -1,9 +1,6 @@
 package com.odian.moviesearch.api.controller;
 
 
-import com.odian.moviesearch.api.mapper.GenreDTOMapper;
-import com.odian.moviesearch.api.model.GenreDTO;
-import com.odian.moviesearch.core.application.port.in.GenreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

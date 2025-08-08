@@ -7,8 +7,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class Media {
+public class ProductionStudio {
     private final UUID id;
-    private String url;
-    private MediaType mediaType;
+    private String name;
 }

@@ -1,13 +1,9 @@
 package com.odian.moviesearch.api.controller;
 
 
-import com.odian.moviesearch.api.mapper.SeriesDTOMapper;
-import com.odian.moviesearch.api.model.*;
 import com.odian.moviesearch.api.util.PageableBuilder;
 import com.odian.moviesearch.api.util.validator.SeriesPageableValidator;
 import com.odian.moviesearch.core.application.model.PagedResponse;
-import com.odian.moviesearch.core.application.port.in.SeriesService;
-import com.odian.moviesearch.core.domain.model.Series;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

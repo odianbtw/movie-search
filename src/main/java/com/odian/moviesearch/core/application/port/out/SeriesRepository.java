@@ -2,9 +2,6 @@ package com.odian.moviesearch.core.application.port.out;
 
 import com.odian.moviesearch.core.application.model.Pageable;
 import com.odian.moviesearch.core.application.model.PagedResponse;
-import com.odian.moviesearch.core.domain.model.Episode;
-import com.odian.moviesearch.core.domain.model.Season;
-import com.odian.moviesearch.core.domain.model.Series;
 
 import java.util.Optional;
 import java.util.Set;

@@ -1,17 +1,9 @@
 package com.odian.moviesearch.api.controller;
 
 
-import com.odian.moviesearch.api.mapper.MovieDTOMapper;
-import com.odian.moviesearch.api.mapper.TitleCrewDTOMapper;
-import com.odian.moviesearch.api.model.MovieDTO;
-import com.odian.moviesearch.api.model.MovieItemDTO;
-import com.odian.moviesearch.api.model.MovieRequestDTO;
-import com.odian.moviesearch.api.model.TitleCreditRequest;
 import com.odian.moviesearch.api.util.PageableBuilder;
 import com.odian.moviesearch.api.util.validator.MoviePageableValidator;
 import com.odian.moviesearch.core.application.model.PagedResponse;
-import com.odian.moviesearch.core.application.port.in.MovieService;
-import com.odian.moviesearch.core.domain.model.Movie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

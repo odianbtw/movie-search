@@ -1,8 +1,5 @@
 package com.odian.moviesearch.api.controller;
 
-import com.odian.moviesearch.api.mapper.CountryDTOMapper;
-import com.odian.moviesearch.api.model.CountryDTO;
-import com.odian.moviesearch.core.application.port.in.CountryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

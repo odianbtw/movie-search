@@ -1,7 +1,6 @@
 package com.odian.moviesearch.core.application.service;
 
 import com.odian.moviesearch.core.application.exception.NotFoundException;
-import com.odian.moviesearch.core.application.port.in.PeopleService;
 import com.odian.moviesearch.core.application.port.out.PeopleRepository;
 import com.odian.moviesearch.core.domain.model.Person;
 import lombok.RequiredArgsConstructor;

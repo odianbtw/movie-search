@@ -1,7 +1,6 @@
 package com.odian.moviesearch.dao.postgres.service;
 
 import com.odian.moviesearch.core.application.port.out.TitleCreditRepository;
-import com.odian.moviesearch.core.domain.model.TitleCredit;
 import com.odian.moviesearch.dao.postgres.mapper.TitleCreditEntityMapper;
 import com.odian.moviesearch.dao.postgres.repository.spring.SpringDataMovieCreditsRepository;
 import lombok.RequiredArgsConstructor;

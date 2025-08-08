@@ -1,10 +1,6 @@
 package com.odian.moviesearch.dao.postgres.mapper;
 
 
-import com.odian.moviesearch.core.domain.model.Id;
-import com.odian.moviesearch.core.domain.model.Movie;
-import com.odian.moviesearch.core.domain.model.TitleInfo;
-import com.odian.moviesearch.core.domain.model.TitleType;
 import com.odian.moviesearch.dao.postgres.entity.MovieInfoEntity;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;

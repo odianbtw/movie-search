@@ -1,6 +1,5 @@
 package com.odian.moviesearch.dao.postgres.repository.spring;
 
-import com.odian.moviesearch.core.domain.model.TitleType;
 import com.odian.moviesearch.dao.postgres.entity.SeriesContentEntity;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

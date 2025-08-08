@@ -1,7 +1,6 @@
 package com.odian.moviesearch.dao.postgres.service;
 
 import com.odian.moviesearch.core.application.port.out.ProductionCompanyRepository;
-import com.odian.moviesearch.core.domain.model.ProductionCompany;
 import com.odian.moviesearch.dao.postgres.mapper.ProductionCompanyEntityMapper;
 import com.odian.moviesearch.dao.postgres.repository.spring.SpringDataProductionCompanyRepository;
 import lombok.RequiredArgsConstructor;

@@ -2,8 +2,16 @@ package com.odian.moviesearch.core.domain.model;
 
 public enum MediaType {
     LOGO,
-    COVER,
+    PROFILE,
+    POSTER,
     PHOTO,
-    PORTRAIT,
-    TRAILER
+    TRAILER,
+    BACKDROP,
+    BANNER,
+    TEASER,
+    FEATURETTE,
+    CLIP,
+    BLOOPER,
+    INTERVIEW,
+    AVATAR
 }

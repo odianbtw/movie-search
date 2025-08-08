@@ -1,10 +1,6 @@
 package com.odian.moviesearch.api.controller;
 
 
-import com.odian.moviesearch.api.mapper.PeopleDTOMapper;
-import com.odian.moviesearch.api.model.PersonDTO;
-import com.odian.moviesearch.api.model.PersonRequest;
-import com.odian.moviesearch.core.application.port.in.PeopleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

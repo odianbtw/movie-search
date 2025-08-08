@@ -7,6 +7,7 @@ info:
 servers:
   - url: 'https://localhost/api/v1'
 tags:
+  - name: Films
   - name: Genres
     description: Access to all existing genres
   - name: Countries
@@ -19,11 +20,65 @@ tags:
     description: Access to all people connected with movie industry
 
 paths:
+
+  /films/{id}:
+    get:
+      tags:
+        - Films
+      summary: Get details about a film by ID
+      operationId: getFilmDetails
+      parameters:
+        - name: id
+          in: path
+          description: UUID of the film.
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+
+
+  /films/{id}/contributions/{contributorId}:
+    get:
+      tags:
+        - Films
+      summary: Get contributor of a film by ID
+      operationId: getFilmContributor
+      parameters:
+        - name: id
+          in: path
+          description: UUID of the film.
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: contributorId
+          in: path
+          description: UUID of the contributor.
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contributor'
+
   /genres:
     get:
       tags:
         - Genres
       summary: Get all existing genres.
+
       description: Get all existing genres.
       operationId: getGenres
       responses:
@@ -932,16 +987,6 @@ paths:
 
 components:
   schemas:
-    Genre:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 5
-        name:
-          type: string
-          example: Horror
     GenreRequest:
       type: object
       properties:
@@ -1072,7 +1117,7 @@ components:
           type: string
           example: Fight Club
         slogan:
-          type: string 
+          type: string
           example: You do not talk about Fight Club
         description:
           type: string
@@ -1103,7 +1148,7 @@ components:
           type: string
           format: uri
           example: https://youtu.be/BdJKm16Co6M?si=sY0RzPY-_H4wNSPE
-        releaseDate: 
+        releaseDate:
           type: string
           format: date
           example: "2025-06-11"
@@ -1180,7 +1225,262 @@ components:
             - UNRATED
           example: R
 
+    Genre:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 5
+        name:
+          type: string
+          example: Horror
 
+    Film:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: af242f62-9cf7-4f54-a437-25710fc5090c
+        slug:
+          type: string
+          example: the-shawshank-redemption-af242f62
+        name:
+          type: string
+          example: The Shawshank Redemption
+        externalUrls:
+          type: object
+          properties:
+            imdb:
+              type: string
+              format: uri
+              example: https://www.imdb.com/title/tt0111161/
+            tmdb:
+              type: string
+              format: uri
+              example: https://www.themoviedb.org/movie/1061474
+        tagline:
+          type: string
+          example: Fear can hold you prisoner. Hope can set you free.
+        description:
+          type: string
+          example: Imprisoned in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life at the Shawshank prison, where he puts his accounting skills to work for an amoral warden. During his long stretch in prison, Dufresne comes to be admired by the other inmates -- including an older prisoner named Red -- for his integrity and unquenchable sense of hope.
+        releaseDate:
+          type: string
+          format: date
+          example: "1995-09-23"
+        runtime:
+          type: integer
+          format: int32
+          example: 144
+        rating:
+          type: number
+          format: float
+          example: 7.3
+        amountOfReviews:
+          type: integer
+          format: int32
+          example: 512315
+        popularity:
+          type: number
+          format: float
+          example: 8.3
+        posterUrl:
+          type: string
+          format: url
+          example: https://movify.media/poster/the-shawshank-redemption-af242f62.jpg
+        backdropUrl:
+          type: string
+          format: url
+          example: https://movify.media/poster/the-shawshank-redemption-backdrop-af242f62.jpg
+        trailerUrl:
+          type: string
+          format: url
+          example: https://movify.media/trailer/the-shawshank-redemption-backdrop-af242f62
+        directors:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonNamedItem'
+        genres:
+          type: array
+          items:
+            $ref: '#/components/schemas/Genre'
+        countries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Country'
+        studios:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudioNamedItem'
+        languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Language'
+        keywords:
+          type: array
+          items:
+            type: string
+          example:
+            - "prison"
+            - "police brutality"
+            - "friendship"
+            - "redemption"
+
+    PersonNamedItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: af242f62-9cf7-4f54-a437-25710fc5090c
+        name:
+          type: string
+          example: Frank Darabont
+
+    StudioNamedItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: af242f62-9cf7-4f54-a437-25710fc5090c
+        name:
+          type: string
+          example: Warner Brothers
+    Language:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 5
+        name:
+          type: string
+          example: English
+
+    Contributions:
+      type: object
+      properties:
+        crew:
+          type: array
+          items:
+            $ref: '#/components/schemas/CrewContributorSummary'
+        cast:
+          type: array
+          items:
+            $ref: '#/components/schemas/CastContributorSummary'
+
+    Contributor:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: af242f62-9cf7-4f54-a437-d2g2dxa23cc3
+        personId:
+          type: string
+          format: uuid
+          example: af242f62-9cf7-4f54-a437-25710fc5090c
+        name:
+          type: string
+          example: Frank Darabont
+        contributorType:
+          type: string
+          enum:
+            - Director
+            - CoDirector
+            - Producer
+            - Writer
+            - OriginalWriter
+            - Story
+            - Casting
+            - Editor
+            - Cinematography
+            - AssistantDirector
+            - AdditionalDirecting
+            - ExecutiveProducer
+            - Lighting
+            - CameraOperator
+            - AdditionalPhotography
+            - ProductionDesign
+            - ArtDirection
+            - SetDecoration
+            - SpecialEffects
+            - VisualEffects
+            - TitleDesign
+            - Stunts
+            - Choreography
+            - Composer
+            - Songs
+            - Sound
+            - Costumes
+            - Creator
+            - MakeUp
+            - Hairstyling
+            - Studio
+          example: Director
+
+    CrewContributorSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: af242f62-9cf7-4f54-a437-25710fc5090c
+        name:
+          type: string
+          example: Frank Darabont
+        contributorType:
+          type: string
+          enum:
+            - Director
+            - CoDirector
+            - Producer
+            - Writer
+            - OriginalWriter
+            - Story
+            - Casting
+            - Editor
+            - Cinematography
+            - AssistantDirector
+            - AdditionalDirecting
+            - ExecutiveProducer
+            - Lighting
+            - CameraOperator
+            - AdditionalPhotography
+            - ProductionDesign
+            - ArtDirection
+            - SetDecoration
+            - SpecialEffects
+            - VisualEffects
+            - TitleDesign
+            - Stunts
+            - Choreography
+            - Composer
+            - Songs
+            - Sound
+            - Costumes
+            - Creator
+            - MakeUp
+            - Hairstyling
+            - Studio
+          example: Director
+
+    CastContributorSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: af242f62-9cf7-4f54-a437-25710fc5090c
+        name:
+          type: string
+          example: Morgan Freeman
+        characterName:
+          type: string
+          example: Batman
 
     MovieRequest:
       type: object
@@ -1619,7 +1919,7 @@ components:
         default: 20
         minimum: 1
         maximum: 100
-#      explode: true
+    #      explode: true
     PageParam:
       name: page
       in: query

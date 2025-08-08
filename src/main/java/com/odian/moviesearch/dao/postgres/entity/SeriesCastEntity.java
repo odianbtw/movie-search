@@ -1,7 +1,6 @@
 package com.odian.moviesearch.dao.postgres.entity;
 
 
-import com.odian.moviesearch.core.domain.model.TitleRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

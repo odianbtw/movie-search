@@ -3,8 +3,6 @@ package com.odian.moviesearch.dao.postgres.service;
 import com.odian.moviesearch.core.application.model.Pageable;
 import com.odian.moviesearch.core.application.model.PagedResponse;
 import com.odian.moviesearch.core.application.port.out.SeriesRepository;
-import com.odian.moviesearch.core.domain.model.Episode;
-import com.odian.moviesearch.core.domain.model.Series;
 import com.odian.moviesearch.dao.postgres.entity.SeriesInfoEntity;
 import com.odian.moviesearch.dao.postgres.mapper.PageableMapper;
 import com.odian.moviesearch.dao.postgres.mapper.SeriesEntityMapper;

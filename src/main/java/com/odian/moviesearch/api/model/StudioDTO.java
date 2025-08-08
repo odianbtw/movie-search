@@ -1,7 +1,9 @@
 package com.odian.moviesearch.api.model;
 
-public record CountryDTO(
-        Integer id,
+import java.util.UUID;
+
+public record StudioDTO(
+        UUID id,
         String name
 ) {
 }

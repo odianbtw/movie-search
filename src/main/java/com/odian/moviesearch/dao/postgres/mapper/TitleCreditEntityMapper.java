@@ -1,6 +1,5 @@
 package com.odian.moviesearch.dao.postgres.mapper;
 
-import com.odian.moviesearch.core.domain.model.TitleCredit;
 import com.odian.moviesearch.dao.postgres.entity.MovieCastEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
