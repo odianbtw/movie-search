@@ -1,32 +1,24 @@
 package com.odian.moviesearch.dao.postgres.entity;
 
-import com.odian.moviesearch.core.domain.model.MediaType;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcType;
-import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Entity
-@Table(name = "medias")
+@Table(name = "languages")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MediaEntity {
+public class LanguageEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    private String url;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "media_type")
-    @JdbcType(PostgreSQLEnumJdbcType.class)
-    private MediaType mediaType;
+    private String name;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;

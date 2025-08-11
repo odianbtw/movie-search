@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "people")
@@ -16,24 +17,23 @@ import java.util.Set;
 @NoArgsConstructor
 public class PersonEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-    @Column(name = "imdb_id")
-    private String imdbId;
+    private String slug;
 
     private String name;
     private String biography;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    @JoinColumn(name = "country_id")
-    private CountryEntity country;
+    @ManyToOne
+    @JoinColumn(name = "profile_photo_id")
+    private MediaEntity mediaEntity;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
-    @JoinTable(name = "people_media",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "media_id"))
-    private Set<MediaEntity> medias;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "people_keyword",
+        joinColumns = @JoinColumn(name = "person_id"),
+        inverseJoinColumns = @JoinColumn(name = "keyword_id"))
+    private Set<KeywordEntity> keywords;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;

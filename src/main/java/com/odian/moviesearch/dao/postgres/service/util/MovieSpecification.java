@@ -1,7 +1,6 @@
 package com.odian.moviesearch.dao.postgres.service.util;
 
 import com.odian.moviesearch.core.application.model.Pageable;
-import com.odian.moviesearch.dao.postgres.entity.MovieInfoEntity;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;

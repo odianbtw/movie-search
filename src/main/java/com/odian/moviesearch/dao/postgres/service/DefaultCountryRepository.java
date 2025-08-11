@@ -2,8 +2,6 @@ package com.odian.moviesearch.dao.postgres.service;
 
 import com.odian.moviesearch.core.application.port.out.CountryRepository;
 import com.odian.moviesearch.core.domain.model.Country;
-import com.odian.moviesearch.dao.postgres.mapper.CountryEntityMapper;
-import com.odian.moviesearch.dao.postgres.repository.spring.SpringDataCountryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

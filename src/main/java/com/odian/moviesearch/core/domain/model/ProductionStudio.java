@@ -8,6 +8,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class ProductionStudio {
-    private final UUID id;
+    private UUID id;
+    private String slug;
     private String name;
 }

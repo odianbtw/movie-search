@@ -1,13 +1,11 @@
 package com.odian.moviesearch.dao.postgres.service.util;
 
 import com.odian.moviesearch.core.application.model.Pageable;
-import com.odian.moviesearch.dao.postgres.entity.SeriesInfoEntity;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

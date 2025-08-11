@@ -21,6 +21,7 @@ create table if not exists languages (
 
 create table if not exists production_studios (
     id uuid primary key,
+    slug varchar(128) unique not null,
     name varchar(64) unique not null,
     created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default CURRENT_TIMESTAMP
@@ -223,7 +224,11 @@ create table if not exists film_contributions (
         (contributor_type = 'ACTOR' and character_name is not null)
             or
         (contributor_type <> 'ACTOR' and character_name is null)
-    )
+    ),
+    created_at timestamp not null default CURRENT_TIMESTAMP,
+    updated_at timestamp not null default CURRENT_TIMESTAMP,
+    foreign key (person_id) references people(id) on delete cascade,
+    foreign key (film_id) references films(id) on delete cascade
 );
 
 create type user_role_enum as enum (

@@ -1,19 +1,17 @@
 package com.odian.moviesearch.api.mapper;
 
-import com.odian.moviesearch.api.model.ExternalLinksDTO;
-import com.odian.moviesearch.api.model.FilmDTO;
-import com.odian.moviesearch.core.domain.model.Film;
-import com.odian.moviesearch.core.domain.model.Media;
-import com.odian.moviesearch.core.domain.model.MediaType;
+import com.odian.moviesearch.api.model.*;
+import com.odian.moviesearch.core.domain.model.*;
 import org.mapstruct.Mapper;
 
-import java.util.Objects;
+import java.util.stream.Collectors;
+
 
 @Mapper(componentModel = "spring")
 public abstract class FilmDTOMapper {
 
-    FilmDTO domainToDto (Film film) {
-        FilmDTO.builder()
+    public FilmDTO domainToDto(Film film) {
+        return FilmDTO.builder()
                 .id(film.getId())
                 .slug(film.getSlug())
                 .name(film.getName())
@@ -21,7 +19,7 @@ public abstract class FilmDTOMapper {
                 .externalUrls(
                         new ExternalLinksDTO(
                                 film.getExternalLinks().getImdbUrl(),
-                                film.getExternalLinks().getImdbUrl()
+                                film.getExternalLinks().getTmdbUrl()
                         )
                 )
                 .tagline(film.getDetails().getTagline())
@@ -32,23 +30,76 @@ public abstract class FilmDTOMapper {
                 .amountOfReviews(film.getDetails().getStatistics().getAmountOfReviews())
                 .popularity(film.getDetails().getStatistics().getPopularity())
                 .trending(film.getDetails().getStatistics().getTrending())
-                .posterUrl(film.getDetails().getMedias()
-                        .stream()
-                        .filter(t -> Objects.equals(t.getMediaType(), MediaType.POSTER))
-                        .map(Media::getUrl)
-                        .findFirst().orElse(null)
+                .posterUrl(
+                        film.getDetails().getPoster()
+                                .map(Media::getUrl)
+                                .orElse(null)
                 )
-                .backdropUrl(film.getDetails().getMedias()
-                        .stream()
-                        .filter(t -> Objects.equals(t.getMediaType(), MediaType.BACKDROP))
-                        .map(Media::getUrl)
-                        .findFirst().orElse(null)
+                .backdropUrl(
+                        film.getDetails().getBackdropImage()
+                                .map(Media::getUrl)
+                                .orElse(null)
                 )
-                .trailerUrl(film.getDetails().getMedias()
-                        .stream()
-                        .filter(t -> Objects.equals(t.getMediaType(), MediaType.TRAILER))
-                        .map(Media::getUrl)
-                        .findFirst().orElse(null)
+                .trailerUrl(
+                        film.getDetails().getTrailer()
+                                .map(Media::getUrl)
+                                .orElse(null)
                 )
+                .directors(
+                        film.getDetails().getDirectors().stream()
+                                .map(this::mapPersonToNamedPersonItemDTO)
+                                .collect(Collectors.toSet())
+                )
+                .genres(
+                        film.getDetails().getGenres().stream()
+                                .map(this::mapGenreToDTO)
+                                .collect(Collectors.toSet())
+                )
+                .countries(
+                        film.getDetails().getCountries().stream()
+                                .map(this::mapCountryToDTO)
+                                .collect(Collectors.toSet())
+                )
+                .studios(
+                        film.getDetails().getStudios().stream()
+                                .map(this::mapStudioToDTO)
+                                .collect(Collectors.toSet())
+                )
+                .languages(
+                        film.getDetails().getLanguages().stream()
+                                .map(this::mapLanguageToDTO)
+                                .collect(Collectors.toSet())
+                )
+                .keywords(
+                        film.getDetails().getKeywords().stream()
+                                .map(this::mapKeywordToDTO)
+                                .collect(Collectors.toSet())
+                )
+                .build();
+    }
+
+    // --- Helper mapping methods ---
+    protected NamedPersonItemDTO mapPersonToNamedPersonItemDTO(Person person) {
+        return new NamedPersonItemDTO(person.getId(), person.getName());
+    }
+
+    protected GenreDTO mapGenreToDTO(Genre genre) {
+        return new GenreDTO(genre.getId(), genre.getName());
+    }
+
+    protected CountryDTO mapCountryToDTO(Country country) {
+        return new CountryDTO(country.getId(), country.getName());
+    }
+
+    protected StudioDTO mapStudioToDTO(ProductionStudio studio) {
+        return new StudioDTO(studio.getId(), studio.getName());
+    }
+
+    protected LanguageDTO mapLanguageToDTO(Language language) {
+        return new LanguageDTO(language.getId(), language.getName());
+    }
+
+    protected KeywordDTO mapKeywordToDTO(Keyword keyword) {
+        return new KeywordDTO(keyword.getId(), keyword.getName());
     }
 }

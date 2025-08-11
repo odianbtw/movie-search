@@ -1,28 +1,29 @@
 package com.odian.moviesearch.dao.postgres.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.Instant;
+import java.util.UUID;
+
 
 @Entity
-@Table(name = "episode_scores")
-@Data
+@Table(name = "production_studios")
 @AllArgsConstructor
 @NoArgsConstructor
-public class EpisodeScoreEntity {
+@Getter
+@Setter
+public class ProductionStudioEntity {
     @Id
-    private Long episodeId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
-    @JoinColumn(name = "episode_id")
-    private SeriesContentEntity episode;
+    private String slug;
 
-    private Float score;
+    private String name;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
@@ -32,10 +33,13 @@ public class EpisodeScoreEntity {
 
     @PrePersist
     protected void onCreate() {
-        createdAt = updatedAt = Instant.now();
+        this.createdAt = this.updatedAt = Instant.now();
     }
+
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
+
+
 }

@@ -2,7 +2,6 @@ package com.odian.moviesearch.unit.dao.postgres.repository.spring;
 
 
 import com.odian.moviesearch.dao.postgres.entity.CountryEntity;
-import com.odian.moviesearch.dao.postgres.repository.spring.SpringDataCountryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
