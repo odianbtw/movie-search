@@ -18,7 +18,7 @@ public class FilmDTOMapperTest {
 
     @Test
     public void testDomainToDtoMapping () {
-        Film film = FilmUtils.createFilm();
+        Film film = FilmUtils.getFilm();
         FilmDTO expected = FilmUtils.createDto(film);
         assertEquals(expected, subject.domainToDto(film));
     }

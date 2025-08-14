@@ -22,6 +22,7 @@ public class DefaultFilmRepository implements FilmRepository {
     public Optional<Film> findById(UUID id) {
         var film = filmRepository.findById(id)
                 .orElse(null);
+
         return Optional.ofNullable(filmEntityMapper.entityToDomain(film));
     }
 }

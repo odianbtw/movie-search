@@ -2,13 +2,26 @@ package com.odian.moviesearch.api.mapper;
 
 import com.odian.moviesearch.api.model.*;
 import com.odian.moviesearch.core.domain.model.*;
+import lombok.RequiredArgsConstructor;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
 import java.util.stream.Collectors;
 
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+    uses = {GenreDTOMapper.class, CountryDTOMapper.class,
+        ProductionStudioDTOMapper.class, LanguageDTOMapper.class,
+        KeywordDTOMapper.class},
+    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@RequiredArgsConstructor
 public abstract class FilmDTOMapper {
+
+    private final GenreDTOMapper genreDTOMapper;
+    private final CountryDTOMapper countryDTOMapper;
+    private final ProductionStudioDTOMapper productionStudioDTOMapper;
+    private final LanguageDTOMapper languageDTOMapper;
+    private final KeywordDTOMapper keywordDTOMapper;
 
     public FilmDTO domainToDto(Film film) {
         return FilmDTO.builder()
@@ -52,54 +65,34 @@ public abstract class FilmDTOMapper {
                 )
                 .genres(
                         film.getDetails().getGenres().stream()
-                                .map(this::mapGenreToDTO)
+                                .map(genreDTOMapper::domainToDto)
                                 .collect(Collectors.toSet())
                 )
                 .countries(
                         film.getDetails().getCountries().stream()
-                                .map(this::mapCountryToDTO)
+                                .map(countryDTOMapper::domainToDto)
                                 .collect(Collectors.toSet())
                 )
                 .studios(
                         film.getDetails().getStudios().stream()
-                                .map(this::mapStudioToDTO)
+                                .map(productionStudioDTOMapper::domainToDto)
                                 .collect(Collectors.toSet())
                 )
                 .languages(
                         film.getDetails().getLanguages().stream()
-                                .map(this::mapLanguageToDTO)
+                                .map(languageDTOMapper::domainToDto)
                                 .collect(Collectors.toSet())
                 )
                 .keywords(
                         film.getDetails().getKeywords().stream()
-                                .map(this::mapKeywordToDTO)
+                                .map(keywordDTOMapper::domainToDto)
                                 .collect(Collectors.toSet())
                 )
                 .build();
     }
 
-    // --- Helper mapping methods ---
-    protected NamedPersonItemDTO mapPersonToNamedPersonItemDTO(Person person) {
+    private NamedPersonItemDTO mapPersonToNamedPersonItemDTO(Person person) {
         return new NamedPersonItemDTO(person.getId(), person.getName());
     }
 
-    protected GenreDTO mapGenreToDTO(Genre genre) {
-        return new GenreDTO(genre.getId(), genre.getName());
-    }
-
-    protected CountryDTO mapCountryToDTO(Country country) {
-        return new CountryDTO(country.getId(), country.getName());
-    }
-
-    protected StudioDTO mapStudioToDTO(ProductionStudio studio) {
-        return new StudioDTO(studio.getId(), studio.getName());
-    }
-
-    protected LanguageDTO mapLanguageToDTO(Language language) {
-        return new LanguageDTO(language.getId(), language.getName());
-    }
-
-    protected KeywordDTO mapKeywordToDTO(Keyword keyword) {
-        return new KeywordDTO(keyword.getId(), keyword.getName());
-    }
 }

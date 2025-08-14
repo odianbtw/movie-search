@@ -2,71 +2,26 @@ package com.odian.moviesearch.unit.util;
 
 import com.odian.moviesearch.api.model.*;
 import com.odian.moviesearch.core.domain.model.*;
-import com.odian.moviesearch.dao.postgres.entity.FilmEntity;
+import com.odian.moviesearch.dao.postgres.entity.*;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
 public class FilmUtils {
 
-    public static Film createFilm () {
-        UUID filmUUID = UUID.randomUUID();
-        ExternalLinks externalLinks = new ExternalLinks(
-                "https://imdb.com/fight-club",
-                "https://tmdb.com/fight-club32344"
-        );
-        FilmDetails details = FilmDetails.builder()
-                .tagline("We are the same person")
-                .description("Something")
-                .releaseDate(LocalDate.of(1999, 3,10))
-                .runtime(144)
-                .statistics(
-                        new Statistics(
-                                9.3f,
-                                423_234,
-                                83.3f,
-                                51.5f
-                        )
-                )
-                .medias(Set.of(
-                        new Media(UUID.randomUUID(), "some.png", MediaType.POSTER),
-                        new Media(UUID.randomUUID(), "some.png", MediaType.BACKDROP),
-                        new Media(UUID.randomUUID(), "some.png", MediaType.TRAILER)
-                ))
-                .directors(Set.of(new Person(
-                        UUID.randomUUID(),
-                        "david-fincher",
-                        "David Fincher",
-                        null,
-                        null,
-                        null
-                )))
-                .genres(Set.of(
-                        new Genre(2, "Thriller")
-                ))
-                .countries(
-                        Set.of(
-                                new Country(23, "USA")
-                        )
-                )
-                .languages(
-                        Set.of(new Language(1, "English"))
-                )
-                .studios(Set.of(
-                        new ProductionStudio(UUID.randomUUID(), "warner-brothers-23dsf","Warner Brothers")
-                ))
-                .keywords(Set.of(
-                        new Keyword(UUID.randomUUID(), "madness")
-                ))
-                .build();
+    public static Film getFilm () {
         return new Film(
-                filmUUID,
+                UUID.randomUUID(),
                 "fight-club-1999-ads24d",
                 "Fight Club",
                 "Fight Club",
-                externalLinks,
-                details
+                new ExternalLinks(
+                        "https://imdb.com/fight-club",
+                        "https://tmdb.com/fight-club32344"
+                ),
+                getFilmDetails()
         );
     }
 
@@ -140,6 +95,83 @@ public class FilmUtils {
                         )
                 ))
                 .build();
+    }
+
+    public static FilmEntity getFilmEntity() {
+        FilmEntity film = FilmEntity.builder()
+                .id(UUID.randomUUID())
+                .slug("random")
+                .originalName("Random")
+                .imdbId("imdb.com")
+                .tmdbId("tmdb.com")
+                .tagline("Something")
+                .description("Some")
+                .releaseDate(LocalDate.of(2000,1,1))
+                .runtime(144)
+                .genres(Set.of(GenreUtils.getGenreEntity()))
+                .countries(Set.of(CountryUtils.getCountryEntity()))
+                .studios(Set.of(ProductionStudioUtils.getStudioEntity()))
+                .languages(Set.of(LanguageUtils.getLanguageEntity()))
+                .keywords(Set.of(KeywordUtils.getKeywordEntity()))
+                .build();
+
+        film.setEssentialMedia(MediaUtils.getEssentialMediaEntity(film));
+        film.setRatings(getFilmRatingEntity(film));
+        film.setPopularity(getFilmPopularityEntity(film));
+        film.setTrending(getFilmTrendingEntity(film));
+        film.setFilmContributions(Set.of(FilmContributionUtils.getFilmContributionEntity(film, PersonUtils.getPersonEntity())));
+        return film;
+    }
+
+    public static FilmDetails getFilmDetails () {
+        return FilmDetails.builder()
+                .tagline("We are the same person")
+                .description("Something")
+                .releaseDate(LocalDate.of(1999, 3,10))
+                .runtime(144)
+                .statistics(
+                        new Statistics(
+                                9.3f,
+                                423_234,
+                                83.3f,
+                                51.5f
+                        )
+                )
+                .medias(Set.of(MediaUtils.getMedia()))
+                .directors(Set.of(PersonUtils.getPerson()))
+                .genres(Set.of(GenreUtils.getGenre()))
+                .countries(Set.of(CountryUtils.getCountry()))
+                .languages(Set.of(LanguageUtils.getLanguage()))
+                .studios(Set.of(ProductionStudioUtils.getStudio()))
+                .keywords(Set.of(KeywordUtils.getKeyword()))
+                .build();
+    }
+
+    private static FilmRatingsEntity getFilmRatingEntity (FilmEntity film) {
+        return new FilmRatingsEntity(
+                UUID.randomUUID(),
+                film,
+                9.6,
+                323_321
+        );
+    }
+
+    private static FilmPopularityEntity getFilmPopularityEntity (FilmEntity film) {
+        return new FilmPopularityEntity(
+               UUID.randomUUID(),
+               film,
+               63.2f,
+               Instant.now()
+        );
+    }
+
+    private static FilmTrendingEntity getFilmTrendingEntity (FilmEntity film) {
+        return new FilmTrendingEntity(
+                UUID.randomUUID(),
+                film,
+                63.2f,
+                Instant.now()
+        );
     }
 
 }

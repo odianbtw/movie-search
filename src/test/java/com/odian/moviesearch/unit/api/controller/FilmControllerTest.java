@@ -26,7 +26,7 @@ public class FilmControllerTest {
 
     @Test
     public void testSuccessfulFindFilmById () {
-        Film film = FilmUtils.createFilm();
+        Film film = FilmUtils.getFilm();
         FilmDTO expected = FilmUtils.createDto(film);
         when(filmService.findById(any(UUID.class))).thenReturn(film);
         when(filmDTOMapper.domainToDto(any(Film.class))).thenReturn(expected);

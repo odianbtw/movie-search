@@ -7,4 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface GenreDTOMapper {
     GenreDTO domainToDto (Genre genre);
+    Genre dtoToDomain (GenreDTO genre);
 }

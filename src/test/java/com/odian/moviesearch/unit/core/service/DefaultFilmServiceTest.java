@@ -23,7 +23,7 @@ public class DefaultFilmServiceTest {
 
     @Test
     public void testSuccessfulFindFilmById () {
-        Film expected = FilmUtils.createFilm();
+        Film expected = FilmUtils.getFilm();
         when(filmRepository.findById(any(UUID.class))).thenReturn(Optional.of(expected));
         assertEquals(expected, subject.findById(UUID.randomUUID()));
     }

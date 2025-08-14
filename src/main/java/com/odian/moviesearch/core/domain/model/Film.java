@@ -8,7 +8,6 @@ import java.util.UUID;
 
 
 @Data
-@Builder
 @AllArgsConstructor
 public class Film {
     private final UUID id;

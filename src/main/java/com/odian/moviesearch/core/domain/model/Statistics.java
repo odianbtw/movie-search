@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Statistics {
-    private Float rating;
+    private Double rating;
     private Integer amountOfReviews;
     private Float popularity;
     private Float trending;
