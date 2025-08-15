@@ -1,6 +1,5 @@
 package com.odian.moviesearch.unit.api.controller;
 
-import com.odian.moviesearch.api.controller.ExceptionHandlerController;
 import com.odian.moviesearch.core.application.exception.NotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

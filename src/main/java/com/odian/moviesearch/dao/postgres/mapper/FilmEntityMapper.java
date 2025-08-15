@@ -19,6 +19,9 @@ public abstract class FilmEntityMapper {
     private final PersonEntityMapper personEntityMapper;
     private final GenreEntityMapper genreEntityMapper;
     private final CountryEntityMapper countryEntityMapper;
+    private final ProductionStudioEntityMapper productionStudioEntityMapper;
+    private final LanguageEntityMapper languageEntityMapper;
+    private final KeywordEntityMapper keywordEntityMapper;
 
     public Film entityToDomain (FilmEntity entity) {
         FilmDetails details = FilmDetails
@@ -48,7 +51,18 @@ public abstract class FilmEntityMapper {
                 .genres(entity.getGenres().stream()
                         .map(genreEntityMapper::entityToDomain)
                         .collect(Collectors.toSet()))
-                .countries(entity)
+                .countries(entity.getCountries().stream()
+                        .map(countryEntityMapper::entityToDomain)
+                        .collect(Collectors.toSet()))
+                .studios(entity.getStudios().stream()
+                        .map(productionStudioEntityMapper::entityToDomain)
+                        .collect(Collectors.toSet()))
+                .languages(entity.getLanguages().stream()
+                        .map(languageEntityMapper::entityToDomain)
+                        .collect(Collectors.toSet()))
+                .keywords(entity.getKeywords().stream()
+                        .map(keywordEntityMapper::entityToDomain)
+                        .collect(Collectors.toSet()))
                 .build();
         return new Film(
                 entity.getId(),

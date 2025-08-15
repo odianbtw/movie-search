@@ -26,6 +26,7 @@ public class FilmDetails {
     private Set<ProductionStudio> studios;
     private Set<Keyword> keywords;
 
+
     public Optional<Media> getPoster () {
         return medias.stream()
                 .filter(t -> Objects.equals(t.getMediaType(), MediaType.POSTER))
