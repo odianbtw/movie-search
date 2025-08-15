@@ -20,9 +20,8 @@ public class DefaultFilmRepository implements FilmRepository {
 
     @Override
     public Optional<Film> findById(UUID id) {
-        var film = filmRepository.findById(id)
+        var film = filmRepository.findByIdWithAllData(id)
                 .orElse(null);
-
         return Optional.ofNullable(filmEntityMapper.entityToDomain(film));
     }
 }

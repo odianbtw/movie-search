@@ -25,7 +25,7 @@ public class DefaultFilmRepositoryTest {
     @Test
     public void testFindById () {
         Film expected = FilmUtils.getFilm();
-        when(filmRepository.findById(any(UUID.class))).thenReturn(Optional.of(FilmUtils.getFilmEntity()));
+        when(filmRepository.findByIdWithAllData(any(UUID.class))).thenReturn(Optional.of(FilmUtils.getFilmEntity()));
         when(filmMapper.entityToDomain(any(FilmEntity.class))).thenReturn(expected);
         var result = subject.findById(UUID.randomUUID());
         assertTrue(result.isPresent());

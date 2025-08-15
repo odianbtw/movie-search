@@ -3,15 +3,15 @@ package com.odian.moviesearch.unit.dao.postgres.mapper;
 import com.odian.moviesearch.core.domain.model.Genre;
 import com.odian.moviesearch.dao.postgres.entity.GenreEntity;
 import com.odian.moviesearch.dao.postgres.mapper.GenreEntityMapper;
+import com.odian.moviesearch.dao.postgres.mapper.GenreEntityMapperImpl;
 import com.odian.moviesearch.unit.util.GenreUtils;
-import org.junit.Test;
-import org.mapstruct.factory.Mappers;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GenreEntityMapperTest {
 
-    private static final GenreEntityMapper subject = Mappers.getMapper(GenreEntityMapper.class);
+    private static final GenreEntityMapper subject = new GenreEntityMapperImpl();
 
     @Test
     public void testEntityToDomain () {

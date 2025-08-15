@@ -131,7 +131,7 @@ public class FilmUtils {
                 .runtime(144)
                 .statistics(
                         new Statistics(
-                                9.3f,
+                                9.3,
                                 423_234,
                                 83.3f,
                                 51.5f

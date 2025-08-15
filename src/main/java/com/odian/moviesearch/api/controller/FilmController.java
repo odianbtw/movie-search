@@ -2,13 +2,12 @@ package com.odian.moviesearch.api.controller;
 
 
 import com.odian.moviesearch.api.mapper.FilmDTOMapper;
+import com.odian.moviesearch.api.model.FilmCreateRequest;
 import com.odian.moviesearch.api.model.FilmDTO;
 import com.odian.moviesearch.core.application.port.in.FilmService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -24,5 +23,12 @@ public class FilmController {
     public FilmDTO findById (@PathVariable UUID id) {
         return filmDTOMapper
                 .domainToDto(filmService.findById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<?> create (@RequestBody FilmCreateRequest filmCreateRequest) {
+
+        filmDTOMapper
+
     }
 }

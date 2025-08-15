@@ -17,7 +17,7 @@ public record FilmDTO(
         String description,
         LocalDate releaseDate,
         Integer runtime,
-        Float rating,
+        Double rating,
         Integer amountOfReviews,
         Float popularity,
         Float trending,

@@ -2,10 +2,12 @@ package com.odian.moviesearch.api.mapper;
 
 import com.odian.moviesearch.api.model.*;
 import com.odian.moviesearch.core.domain.model.*;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -14,14 +16,15 @@ import java.util.stream.Collectors;
         ProductionStudioDTOMapper.class, LanguageDTOMapper.class,
         KeywordDTOMapper.class},
     injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class FilmDTOMapper {
 
-    private final GenreDTOMapper genreDTOMapper;
-    private final CountryDTOMapper countryDTOMapper;
-    private final ProductionStudioDTOMapper productionStudioDTOMapper;
-    private final LanguageDTOMapper languageDTOMapper;
-    private final KeywordDTOMapper keywordDTOMapper;
+    private GenreDTOMapper genreDTOMapper;
+    private CountryDTOMapper countryDTOMapper;
+    private ProductionStudioDTOMapper productionStudioDTOMapper;
+    private LanguageDTOMapper languageDTOMapper;
+    private KeywordDTOMapper keywordDTOMapper;
 
     public FilmDTO domainToDto(Film film) {
         return FilmDTO.builder()
@@ -90,6 +93,26 @@ public abstract class FilmDTOMapper {
                 )
                 .build();
     }
+
+    public Film dtoCreateToDomain (FilmCreateRequest dto) {
+        FilmDetails.builder()
+                .tagline(dto.tagline())
+                .description(dto.description())
+                .releaseDate(dto.releaseDate())
+                .runtime(dto.runtime())
+                .medias(
+                        Set.of(
+                                new Media(null, dto.posterUrl(), MediaType.POSTER),
+                                new Media(null, dto.backdropUrl(), MediaType.BACKDROP),
+                                new Media(null, dto.trailerUrl(), MediaType.TRAILER)
+                        )
+                )
+//                .directors(dto.directors().stream().)
+                .build();
+        return null;
+    }
+
+
 
     private NamedPersonItemDTO mapPersonToNamedPersonItemDTO(Person person) {
         return new NamedPersonItemDTO(person.getId(), person.getName());
