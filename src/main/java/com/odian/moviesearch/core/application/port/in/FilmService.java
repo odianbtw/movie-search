@@ -6,4 +6,5 @@ import java.util.UUID;
 
 public interface FilmService {
     Film findById (UUID id);
+    Film create (Film film);
 }

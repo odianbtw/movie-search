@@ -3,11 +3,11 @@ package com.odian.moviesearch.api.mapper;
 import com.odian.moviesearch.api.model.*;
 import com.odian.moviesearch.core.domain.model.*;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
         KeywordDTOMapper.class},
     injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 @AllArgsConstructor
-@NoArgsConstructor
 public abstract class FilmDTOMapper {
 
     private GenreDTOMapper genreDTOMapper;
@@ -95,11 +94,12 @@ public abstract class FilmDTOMapper {
     }
 
     public Film dtoCreateToDomain (FilmCreateRequest dto) {
-        FilmDetails.builder()
+        var details = FilmDetails.builder()
                 .tagline(dto.tagline())
                 .description(dto.description())
                 .releaseDate(dto.releaseDate())
                 .runtime(dto.runtime())
+                .statistics(new Statistics(null,null,null,null))
                 .medias(
                         Set.of(
                                 new Media(null, dto.posterUrl(), MediaType.POSTER),
@@ -107,15 +107,53 @@ public abstract class FilmDTOMapper {
                                 new Media(null, dto.trailerUrl(), MediaType.TRAILER)
                         )
                 )
-//                .directors(dto.directors().stream().)
+                .directors(dto.directorIds().stream()
+                        .map(this::mapIdToPerson)
+                        .collect(Collectors.toSet()))
+                .genres(dto.genreIds().stream()
+                        .map(genreDTOMapper::idToGenre)
+                        .collect(Collectors.toSet()))
+                .countries(dto.countryIds().stream()
+                        .map(countryDTOMapper::idToDomain)
+                        .collect(Collectors.toSet()))
+                .languages(dto.languageIds().stream()
+                        .map(languageDTOMapper::idToDomain)
+                        .collect(Collectors.toSet()))
+                .studios(dto.studioIds().stream()
+                        .map(productionStudioDTOMapper::idToDomain)
+                        .collect(Collectors.toSet()))
+                .keywords(dto.keywords().stream()
+                        .map(keywordDTOMapper::dtoToDomain)
+                        .collect(Collectors.toSet()))
                 .build();
-        return null;
+        return new Film(
+                null,
+                null,
+                dto.name(),
+                dto.originalName(),
+                new ExternalLinks(
+                        dto.externalLinks().imdb(),
+                        dto.externalLinks().tmdb()
+                ),
+                details
+        );
     }
 
 
 
     private NamedPersonItemDTO mapPersonToNamedPersonItemDTO(Person person) {
         return new NamedPersonItemDTO(person.getId(), person.getName());
+    }
+
+    private Person mapIdToPerson (UUID id) {
+        return new Person(
+                id,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
     }
 
 }

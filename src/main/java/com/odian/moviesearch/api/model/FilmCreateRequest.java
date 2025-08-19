@@ -1,12 +1,15 @@
 package com.odian.moviesearch.api.model;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
 public record FilmCreateRequest(
         String name,
-        ExternalLinksDTO externalLinks,
+        String originalName,
+        @NotNull ExternalLinksDTO externalLinks,
         String tagline,
         String description,
         LocalDate releaseDate,
@@ -15,7 +18,7 @@ public record FilmCreateRequest(
         Set<Integer> countryIds,
         Set<Integer> languageIds,
         Set<UUID> studioIds,
-        Set<NamedPersonItemDTO> directors,
+        Set<UUID> directorIds,
         Set<KeywordDTO> keywords,
         String posterUrl,
         String backdropUrl,

@@ -8,4 +8,5 @@ import org.mapstruct.Mapper;
 public interface CountryDTOMapper {
     CountryDTO domainToDto (Country country);
     Country dtoToDomain (CountryDTO country);
+    Country idToDomain (Integer id);
 }

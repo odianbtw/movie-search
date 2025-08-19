@@ -9,4 +9,5 @@ import org.mapstruct.Mapper;
 public interface KeywordDTOMapper {
 
     KeywordDTO domainToDto (Keyword keyword);
+    Keyword dtoToDomain (KeywordDTO keywordDTO);
 }
