@@ -27,6 +27,7 @@ public class FilmController {
 
     @PostMapping
     public ResponseEntity<?> create (@RequestBody FilmCreateRequest filmCreateRequest) {
-        filmDTOMapper.dtoCreateToDomain(filmCreateRequest);
+        filmService.create(filmDTOMapper.dtoToDomain(filmCreateRequest));
+        return null;
     }
 }

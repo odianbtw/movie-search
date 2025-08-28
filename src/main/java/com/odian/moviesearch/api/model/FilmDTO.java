@@ -13,22 +13,6 @@ public record FilmDTO(
         String name,
         String originalName,
         ExternalLinksDTO externalUrls,
-        String tagline,
-        String description,
-        LocalDate releaseDate,
-        Integer runtime,
-        Double rating,
-        Integer amountOfReviews,
-        Float popularity,
-        Float trending,
-        String posterUrl,
-        String backdropUrl,
-        String trailerUrl,
-        Set<NamedPersonItemDTO> directors,
-        Set<GenreDTO> genres,
-        Set<CountryDTO> countries,
-        Set<StudioDTO> studios,
-        Set<LanguageDTO> languages,
-        Set<KeywordDTO> keywords
+        FilmDetailsDTO details
 ) {
 }

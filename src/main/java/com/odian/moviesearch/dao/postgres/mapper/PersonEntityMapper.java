@@ -6,8 +6,11 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.Set;
+
 @Mapper(componentModel = "spring", uses = MediaEntityMapper.class, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface PersonEntityMapper {
     @Mapping(source = "mediaEntity", target = "profilePhoto")
     Person entityToDomain (PersonEntity entity);
+    Set<Person> entityToDomain (Set<PersonEntity> entities);
 }

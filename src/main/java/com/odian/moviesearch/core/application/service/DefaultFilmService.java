@@ -20,4 +20,9 @@ public class DefaultFilmService implements FilmService {
         return filmRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Film with this id not found"));
     }
+
+    @Override
+    public Film create(Film film) {
+        return null;
+    }
 }

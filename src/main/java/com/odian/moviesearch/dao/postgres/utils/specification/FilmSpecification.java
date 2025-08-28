@@ -10,7 +10,7 @@ import java.util.UUID;
 public class FilmSpecification {
 
 
-    public Specification<FilmEntity> findByIdSpecification(UUID filmId) {
+    public Specification<FilmEntity> findById (UUID filmId) {
         return (root, query, criteriaBuilder) -> {
             root.fetch("essentialMedia", JoinType.LEFT);
             root.fetch("genres", JoinType.LEFT);
