@@ -1,11 +1,13 @@
 package com.odian.moviesearch.api.model;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
+@Builder
 public record FilmCreateRequest(
         String name,
         String originalName,

@@ -16,12 +16,25 @@ spring:
     properties:
 
       hibernate:
+        order_inserts: true
+        order_updates: true
+        jdbc:
+          batch_size: 50
+          batch_versioned_data: true
         show_sql: true
         format_sql: true
-        default_batch_fetch_size: 16
 
 
 logging:
   level:
-    org.hibernate.sql: DEBUG
-    org.hibernate.orm.jdbc.bind: TRACE
+    org:
+      hibernate:
+        sql: DEBUG
+        orm:
+          jdbc:
+            bind: TRACE
+        engine:
+          jdbc:
+            batch:
+              internal:
+                BatchingBatch: DEBUG

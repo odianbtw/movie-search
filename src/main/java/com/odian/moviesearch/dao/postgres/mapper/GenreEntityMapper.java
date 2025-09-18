@@ -10,4 +10,5 @@ import java.util.Set;
 public interface GenreEntityMapper {
     Genre entityToDomain (GenreEntity entity);
     Set<Genre> entityToDomain (Set<GenreEntity> entities);
+    GenreEntity domainToEntity (Genre genre);
 }

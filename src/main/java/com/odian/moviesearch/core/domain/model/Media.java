@@ -8,7 +8,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class Media {
-    private final UUID id;
+    private UUID id;
     private String url;
     private MediaType mediaType;
 }

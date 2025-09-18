@@ -25,39 +25,47 @@ public class FilmUtils {
         );
     }
 
-    public static FilmEntity createEntity (Film film) {
-        FilmEntity.builder()
-                .id(film.getId())
-                .slug(film.getSlug())
-                .name(film.getName())
-                .originalName(film.getOriginalName())
-                .imdbId(film.getExternalLinks().getImdbUrl())
-                .tmdbId(film.getExternalLinks().getTmdbUrl())
-                .tagline(film.getDetails().getTagline());
-        return null;
+    public static FilmCreateRequest getFilmCreateRequest () {
+        return FilmCreateRequest
+                .builder()
+                .name("Some")
+                .originalName("Some")
+                .externalLinks(
+                        new ExternalLinksDTO("imdb.com", "tmdb.com")
+                )
+                .tagline("s")
+                .description("s")
+                .releaseDate(LocalDate.MIN)
+                .runtime(122)
+                .genreIds(Set.of(1))
+                .countryIds(Set.of(1))
+                .languageIds(Set.of(1))
+                .studioIds(Set.of(UUID.randomUUID()))
+                .directorIds(Set.of(UUID.randomUUID()))
+                .keywords(Set.of(new KeywordDTO(UUID.randomUUID(), "prison")))
+                .posterUrl("some")
+                .backdropUrl("some")
+                .trailerUrl("some")
+                .build();
     }
 
     public static FilmDTO createDto(Film film) {
-        return FilmDTO.builder()
-                .id(film.getId())
-                .slug(film.getSlug())
-                .name(film.getName())
-                .originalName(film.getOriginalName())
-                .externalUrls(new ExternalLinksDTO(
-                        film.getExternalLinks().getImdbUrl(),
-                        film.getExternalLinks().getTmdbUrl()
-                ))
+        var details = FilmDetailsDTO.builder()
                 .tagline(film.getDetails().getTagline())
                 .description(film.getDetails().getDescription())
                 .releaseDate(film.getDetails().getReleaseDate())
                 .runtime(film.getDetails().getRuntime())
-                .rating(film.getDetails().getStatistics().getRating())
-                .amountOfReviews(film.getDetails().getStatistics().getAmountOfReviews())
-                .popularity(film.getDetails().getStatistics().getPopularity())
-                .trending(film.getDetails().getStatistics().getTrending())
-                .posterUrl(film.getDetails().getPoster().map(Media::getUrl).orElse(null))
-                .backdropUrl(film.getDetails().getBackdropImage().map(Media::getUrl).orElse(null))
-                .trailerUrl(film.getDetails().getTrailer().map(Media::getUrl).orElse(null))
+                .statistics(new StatisticsDTO(
+                        film.getDetails().getStatistics().getRating(),
+                        film.getDetails().getStatistics().getAmountOfReviews(),
+                        film.getDetails().getStatistics().getPopularity(),
+                        film.getDetails().getStatistics().getTrending()
+                ))
+                .filmMedia(new EssentialFilmMediaDTO(
+                        film.getDetails().getPoster().toString(),
+                        film.getDetails().getBackdropImage().toString(),
+                        film.getDetails().getTrailer().toString()
+                ))
                 .directors(Set.of(
                         new NamedPersonItemDTO(
                                 film.getDetails().getDirectors().iterator().next().getId(),
@@ -79,6 +87,7 @@ public class FilmUtils {
                 .studios(Set.of(
                         new StudioDTO(
                                 film.getDetails().getStudios().iterator().next().getId(),
+                                film.getDetails().getStudios().iterator().next().getSlug(),
                                 film.getDetails().getStudios().iterator().next().getName()
                         )
                 ))
@@ -95,6 +104,18 @@ public class FilmUtils {
                         )
                 ))
                 .build();
+        return new FilmDTO(
+                film.getId(),
+                film.getSlug(),
+                film.getName(),
+                film.getOriginalName(),
+                new ExternalLinksDTO(
+                        film.getExternalLinks().getImdbUrl(),
+                        film.getExternalLinks().getTmdbUrl()
+                ),
+                details
+        );
+
     }
 
     public static FilmEntity getFilmEntity() {
@@ -102,8 +123,8 @@ public class FilmUtils {
                 .id(UUID.randomUUID())
                 .slug("random")
                 .originalName("Random")
-                .imdbId("imdb.com")
-                .tmdbId("tmdb.com")
+                .imdbUrl("imdb.com")
+                .tmdbUrl("tmdb.com")
                 .tagline("Something")
                 .description("Some")
                 .releaseDate(LocalDate.of(2000,1,1))
@@ -129,14 +150,7 @@ public class FilmUtils {
                 .description("Something")
                 .releaseDate(LocalDate.of(1999, 3,10))
                 .runtime(144)
-                .statistics(
-                        new Statistics(
-                                9.3,
-                                423_234,
-                                83.3f,
-                                51.5f
-                        )
-                )
+                .statistics(getStatistics())
                 .medias(Set.of(MediaUtils.getMedia()))
                 .directors(Set.of(PersonUtils.getPerson()))
                 .genres(Set.of(GenreUtils.getGenre()))
@@ -145,6 +159,56 @@ public class FilmUtils {
                 .studios(Set.of(ProductionStudioUtils.getStudio()))
                 .keywords(Set.of(KeywordUtils.getKeyword()))
                 .build();
+    }
+
+    public static Statistics getStatistics () {
+        return new Statistics(
+                9.3,
+                423_234,
+                83.3f,
+                51.5f
+        );
+    }
+
+    public static FilmDetailsDTO getFilmDetailsDto (FilmDetails filmDetails) {
+        return FilmDetailsDTO.builder()
+                .tagline(filmDetails.getTagline())
+                .description(filmDetails.getDescription())
+                .releaseDate(filmDetails.getReleaseDate())
+                .runtime(filmDetails.getRuntime())
+                .statistics(getStatisticsDtoFromDomain(filmDetails.getStatistics()))
+                .filmMedia(MediaUtils.getEssentialFilmMediaDTO(filmDetails))
+                .directors(PersonUtils.getNamedPersonsItemDto(filmDetails.getDirectors()))
+                .genres(GenreUtils.getGenresDto(filmDetails.getGenres()))
+                .countries(null)
+                .studios(null)
+                .languages(null)
+                .keywords(null)
+                .build();
+    }
+
+
+    public static ExternalLinks getExternalLinks () {
+        return new ExternalLinks(
+                "imdb.com",
+                "tmdb.com"
+        );
+    }
+
+    public static ExternalLinksDTO getExternalLinksDto (ExternalLinks links) {
+        return new ExternalLinksDTO(
+                links.getImdbUrl(),
+                links.getImdbUrl()
+        );
+    }
+
+    public static StatisticsDTO getStatisticsDtoFromDomain(Statistics stats) {
+        return new StatisticsDTO(
+                stats.getRating(),
+                stats.getAmountOfReviews(),
+                stats.getPopularity(),
+                stats.getTrending()
+        );
     }
 
     private static FilmRatingsEntity getFilmRatingEntity (FilmEntity film) {

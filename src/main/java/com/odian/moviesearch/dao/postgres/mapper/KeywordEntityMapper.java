@@ -10,4 +10,6 @@ import java.util.Set;
 public interface KeywordEntityMapper {
     Keyword entityToDomain (KeywordEntity entity);
     Set<Keyword> entityToDomain (Set<KeywordEntity> entities);
+    Set<KeywordEntity> domainToEntity (Set<Keyword> keywords);
+    KeywordEntity domainToEntity (Keyword keyword);
 }

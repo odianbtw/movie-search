@@ -14,7 +14,6 @@ import java.time.Instant;
 @NoArgsConstructor
 public class CountryEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;

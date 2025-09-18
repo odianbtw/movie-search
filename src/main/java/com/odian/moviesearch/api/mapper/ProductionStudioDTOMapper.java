@@ -11,5 +11,11 @@ public interface ProductionStudioDTOMapper {
 
     StudioDTO domainToDto (ProductionStudio productionStudio);
 
-    ProductionStudio idToDomain (UUID id);
+    static ProductionStudio createById (UUID id) {
+        return new ProductionStudio(
+                id,
+                null,
+                null
+        );
+    }
 }

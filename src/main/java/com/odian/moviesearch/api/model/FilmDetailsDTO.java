@@ -1,8 +1,11 @@
 package com.odian.moviesearch.api.model;
 
+import lombok.Builder;
+
 import java.time.LocalDate;
 import java.util.Set;
 
+@Builder
 public record FilmDetailsDTO(
         String tagline,
         String description,

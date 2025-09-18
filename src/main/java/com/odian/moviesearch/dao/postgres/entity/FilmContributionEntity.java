@@ -5,7 +5,10 @@ import com.odian.moviesearch.core.domain.model.ContributorType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -17,18 +20,21 @@ import java.util.UUID;
 @NoArgsConstructor
 public class FilmContributionEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "film_id")
+    @EqualsAndHashCode.Exclude
     private FilmEntity film;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
+    @EqualsAndHashCode.Exclude
     private PersonEntity person;
 
     @Column(name = "contributor_type")
+    @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     private ContributorType contributorType;
 
     @Column(name = "billing_order")

@@ -15,7 +15,6 @@ import java.time.Instant;
 @NoArgsConstructor
 public class LanguageEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;

@@ -1,6 +1,12 @@
 package com.odian.moviesearch.core.application.model;
 
-import java.util.List;
+import java.util.Set;
 
-public record PagedResponse<T>(long totalItems, int totalPages, int currentPage, int pageSize, List<T> items) {
+public record PagedResponse<T>(
+        Long totalItems,
+        Integer totalPages,
+        Integer currentPage,
+        Integer pageSize,
+        Set<T> items
+) {
 }

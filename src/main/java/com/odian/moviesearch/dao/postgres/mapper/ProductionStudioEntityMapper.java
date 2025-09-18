@@ -10,4 +10,5 @@ import java.util.Set;
 public interface ProductionStudioEntityMapper {
     ProductionStudio entityToDomain (ProductionStudioEntity entity);
     Set<ProductionStudio> entityToDomain (Set<ProductionStudioEntity> entities);
+    ProductionStudioEntity domainToEntity (ProductionStudio productionStudio);
 }

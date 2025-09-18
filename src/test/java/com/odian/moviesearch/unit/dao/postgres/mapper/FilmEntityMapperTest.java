@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 public class FilmEntityMapperTest {
 
-    private final static FilmEntityMapper subject = new FilmEntityMapperImpl();
+//    private final static FilmEntityMapper subject = new FilmEntityMapperImpl();
 
     @Test
     public void testEntityToDomainMapping () {

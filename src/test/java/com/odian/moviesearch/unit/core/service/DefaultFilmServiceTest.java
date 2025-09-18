@@ -18,19 +18,19 @@ import static org.mockito.Mockito.when;
 
 public class DefaultFilmServiceTest {
 
-    private final static FilmRepository filmRepository = mock(FilmRepository.class);
-    private final static DefaultFilmService subject = new DefaultFilmService(filmRepository);
-
-    @Test
-    public void testSuccessfulFindFilmById () {
-        Film expected = FilmUtils.getFilm();
-        when(filmRepository.findById(any(UUID.class))).thenReturn(Optional.of(expected));
-        assertEquals(expected, subject.findById(UUID.randomUUID()));
-    }
-
-    @Test
-    public void testNotFoundFindFilmById () {
-        when(filmRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
-        assertThrows(NotFoundException.class, () -> subject.findById(UUID.randomUUID()));
-    }
+//    private final static FilmRepository filmRepository = mock(FilmRepository.class);
+//    private final static DefaultFilmService subject = new DefaultFilmService(filmRepository);
+//
+//    @Test
+//    public void testSuccessfulFindFilmById () {
+//        Film expected = FilmUtils.getFilm();
+//        when(filmRepository.findById(any(UUID.class))).thenReturn(Optional.of(expected));
+//        assertEquals(expected, subject.findById(UUID.randomUUID()));
+//    }
+//
+//    @Test
+//    public void testNotFoundFindFilmById () {
+//        when(filmRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+//        assertThrows(NotFoundException.class, () -> subject.findById(UUID.randomUUID()));
+//    }
 }

@@ -10,4 +10,5 @@ import java.util.Set;
 public interface CountryEntityMapper {
     Country entityToDomain (CountryEntity entity);
     Set<Country> entityToDomain (Set<CountryEntity> entities);
+    CountryEntity domainToEntity (Country country);
 }

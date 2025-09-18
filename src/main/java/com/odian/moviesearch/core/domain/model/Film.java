@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class Film {
-    private final UUID id;
+    private UUID id;
     private String slug;
     private String name;
     private String originalName;

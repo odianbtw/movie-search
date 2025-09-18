@@ -8,6 +8,6 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class Keyword {
-    private final UUID id;
+    private UUID id;
     private String name;
 }

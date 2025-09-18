@@ -4,6 +4,7 @@ package com.odian.moviesearch.dao.postgres.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
@@ -22,15 +23,17 @@ public class FilmPopularityEntity {
     @MapsId
     @OneToOne
     @JoinColumn(name = "film_id")
+    @EqualsAndHashCode.Exclude
     private FilmEntity film;
 
-    private Float rating;
+    @Column(name = "popularity")
+    private Float rating = 0.0f;
 
     @Column(name = "updated_at")
-    private Instant updatedAt;
+    private Instant updatedAt = Instant.now();
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = Instant.now();
+    public FilmPopularityEntity (FilmEntity film) {
+        this.filmId = film.getId();
+        this.film = film;
     }
 }

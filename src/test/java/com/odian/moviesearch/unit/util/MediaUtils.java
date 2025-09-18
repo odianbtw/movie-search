@@ -1,5 +1,8 @@
 package com.odian.moviesearch.unit.util;
 
+import com.odian.moviesearch.api.model.EssentialFilmMediaDTO;
+import com.odian.moviesearch.core.domain.model.Film;
+import com.odian.moviesearch.core.domain.model.FilmDetails;
 import com.odian.moviesearch.core.domain.model.Media;
 import com.odian.moviesearch.core.domain.model.MediaType;
 import com.odian.moviesearch.dao.postgres.entity.EssentialFilmMediaEntity;
@@ -28,6 +31,14 @@ public class MediaUtils {
                 getMediaEntity(),
                 getMediaEntity(),
                 getMediaEntity()
+        );
+    }
+
+    public static EssentialFilmMediaDTO getEssentialFilmMediaDTO (FilmDetails film) {
+        return new EssentialFilmMediaDTO(
+                film.getPoster().toString(),
+                film.getBackdropImage().toString(),
+                film.getTrailer().toString()
         );
     }
 

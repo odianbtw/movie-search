@@ -9,5 +9,7 @@ import org.mapstruct.Mapping;
 public interface GenreDTOMapper {
     GenreDTO domainToDto (Genre genre);
     Genre dtoToDomain (GenreDTO genre);
-    Genre idToGenre (Integer id);
+    static Genre createById (Integer id) {
+        return new Genre (id, null);
+    }
 }

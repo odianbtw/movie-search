@@ -12,7 +12,7 @@ public record FilmDTO(
         String slug,
         String name,
         String originalName,
-        ExternalLinksDTO externalUrls,
+        ExternalLinksDTO externalLinks,
         FilmDetailsDTO details
 ) {
 }

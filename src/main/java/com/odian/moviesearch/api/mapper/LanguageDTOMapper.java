@@ -7,5 +7,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface LanguageDTOMapper {
     LanguageDTO domainToDto (Language language);
-    Language idToDomain (Integer id);
+    static Language createById (Integer id) {
+        return new Language(id, null);
+    }
 }

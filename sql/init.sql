@@ -5,6 +5,8 @@ create table if not exists countries (
     updated_at timestamp not null default CURRENT_TIMESTAMP
 );
 
+create index idx_countries_name on countries (name);
+
 create table if not exists genres (
     id serial primary key,
     name varchar(64) unique not null,
@@ -12,12 +14,17 @@ create table if not exists genres (
     updated_at timestamp not null default CURRENT_TIMESTAMP
 );
 
+create index idx_genres_name on genres (name);
+
+
 create table if not exists languages (
     id serial primary key,
     name varchar(64) unique not null,
     created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default CURRENT_TIMESTAMP
 );
+
+create index idx_languages_name on languages (name);
 
 create table if not exists production_studios (
     id uuid primary key,
@@ -27,12 +34,17 @@ create table if not exists production_studios (
     updated_at timestamp not null default CURRENT_TIMESTAMP
 );
 
+create index idx_production_studios_slug on production_studios (slug);
+
 create table if not exists keywords (
     id uuid primary key,
     name varchar(64) unique not null,
     created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default CURRENT_TIMESTAMP
 );
+
+create index idx_keywords_name on keywords (name);
+
 
 create type media_type_enum as enum (
     'LOGO',
@@ -73,6 +85,9 @@ create table if not exists films (
     updated_at timestamp not null default CURRENT_TIMESTAMP
 );
 
+create index idx_films_name on films (name);
+create index idx_films_release_date on films (release_date);
+
 create table if not exists film_media (
    film_id uuid not null,
    media_id uuid not null ,
@@ -80,6 +95,10 @@ create table if not exists film_media (
    foreign key (film_id) references films(id) on delete cascade,
    foreign key (media_id) references medias(id) on delete cascade
 );
+
+create index idx_film_media_film on film_media (film_id);
+create index idx_film_media_media on film_media (media_id);
+
 
 create table if not exists essential_film_media (
     film_id uuid not null primary key,
@@ -100,6 +119,9 @@ create table if not exists film_genre (
     foreign key (genre_id) references genres(id) on delete cascade
 );
 
+create index idx_film_genre_film on film_genre (film_id);
+create index idx_film_genre_genre on film_genre (genre_id);
+
 create table if not exists film_country (
     film_id uuid not null,
     country_id int not null,
@@ -107,6 +129,9 @@ create table if not exists film_country (
     foreign key (film_id) references films(id) on delete cascade,
     foreign key (country_id) references countries(id) on delete cascade
 );
+
+create index idx_film_country_film on film_country (film_id);
+create index idx_film_country_country on film_country (country_id);
 
 create table if not exists film_studio (
     film_id uuid not null,
@@ -116,6 +141,9 @@ create table if not exists film_studio (
     foreign key (studio_id) references production_studios(id) on delete cascade
 );
 
+create index idx_film_studio_film on film_studio (film_id);
+create index idx_film_studio_studio on film_studio (studio_id);
+
 create table if not exists film_language (
     film_id uuid not null,
     language_id int not null,
@@ -123,6 +151,9 @@ create table if not exists film_language (
     foreign key (film_id) references films(id) on delete cascade,
     foreign key (language_id) references languages(id) on delete cascade
 );
+
+create index idx_film_language_film on film_language (film_id);
+create index idx_film_language_lang on film_language (language_id);
 
 create table if not exists film_keyword (
     film_id uuid not null,
@@ -132,9 +163,11 @@ create table if not exists film_keyword (
     foreign key (keyword_id) references keywords(id) on delete cascade
 );
 
--- todo: consider about adding popularity to this table
+create index idx_film_keyword_film on film_keyword (film_id);
+create index idx_film_keyword_keyword on film_keyword (keyword_id);
+
 create table if not exists film_ratings (
-    film_id uuid not null primary key,
+    film_id uuid primary key,
     rating decimal(2,2) not null default 0.0 check ( rating <= 10.0 and rating >= 0.0),
     amount_of_ratings int not null default 0,
     foreign key (film_id) references films(id) on delete cascade
@@ -165,6 +198,8 @@ create table if not exists people (
     foreign key (profile_photo_id) references medias(id) on delete set null
 );
 
+create index idx_people_name on people (name);
+
 create table if not exists people_keyword (
     person_id uuid not null,
     keyword_id uuid not null,
@@ -172,6 +207,9 @@ create table if not exists people_keyword (
     foreign key (person_id) references people(id) on delete cascade,
     foreign key (keyword_id) references keywords(id) on delete cascade
 );
+
+create index idx_people_keyword_person on people_keyword (person_id);
+create index idx_people_keyword_keyword on people_keyword (keyword_id);
 
 create type contributor_type_enum as enum (
     'ACTOR',
@@ -231,6 +269,21 @@ create table if not exists film_contributions (
     foreign key (film_id) references films(id) on delete cascade
 );
 
+create index idx_contributions_film on film_contributions (film_id);
+create index idx_contributions_person on film_contributions (person_id);
+
+create table if not exists film_directors (
+    film_id uuid not null,
+    director_id uuid not null,
+    primary key (film_id, director_id),
+    foreign key (film_id) references films(id) on delete cascade,
+    foreign key (director_id) references film_contributions(id) on delete cascade
+);
+
+create index idx_directors_film on film_directors (film_id);
+create index idx_directors_director on film_directors (director_id);
+
+-- no indexes below
 create type user_role_enum as enum (
     'ADMIN',
     'USER'

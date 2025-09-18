@@ -1,5 +1,6 @@
 package com.odian.moviesearch.unit.util;
 
+import com.odian.moviesearch.api.model.NamedPersonItemDTO;
 import com.odian.moviesearch.core.domain.model.ContributorType;
 import com.odian.moviesearch.core.domain.model.Person;
 import com.odian.moviesearch.dao.postgres.entity.PersonEntity;
@@ -7,6 +8,7 @@ import com.odian.moviesearch.dao.postgres.entity.PersonEntity;
 import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class PersonUtils {
     public static PersonEntity getPersonEntity () {
@@ -32,5 +34,18 @@ public class PersonUtils {
                 MediaUtils.getMedia(),
                 Set.of(KeywordUtils.getKeyword())
         );
+    }
+
+    public static NamedPersonItemDTO getNamedPersonItemDto (Person person) {
+        return new NamedPersonItemDTO(
+                person.getId(),
+                person.getName()
+        );
+    }
+
+    public static Set<NamedPersonItemDTO> getNamedPersonsItemDto (Set<Person> personSet) {
+        return personSet.stream()
+                .map(PersonUtils::getNamedPersonItemDto)
+                .collect(Collectors.toSet());
     }
 }

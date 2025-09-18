@@ -10,4 +10,5 @@ import java.util.Set;
 public interface LanguageEntityMapper {
     Language entityToDomain (LanguageEntity entity);
     Set<Language> entityToDomain (Set<LanguageEntity> entities);
+    LanguageEntity domainToEntity (Language language);
 }

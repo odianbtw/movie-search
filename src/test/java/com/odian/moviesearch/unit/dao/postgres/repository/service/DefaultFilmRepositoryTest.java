@@ -20,7 +20,7 @@ public class DefaultFilmRepositoryTest {
 
     private static final SpringDataFilmRepository filmRepository = mock(SpringDataFilmRepository.class);
     private static final FilmEntityMapper filmMapper = mock(FilmEntityMapper.class);
-    private static final DefaultFilmRepository subject = new DefaultFilmRepository(filmRepository, filmMapper);
+    private static final DefaultFilmRepository subject = new DefaultFilmRepository(filmRepository, filmMapper, null);
 
     @Test
     public void testFindById () {
